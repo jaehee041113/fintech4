@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>1~15: 기본적인 print() 사용</title>
+<style>
+:root{
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --accent: #2563eb;
+  --accent-soft: #eff6ff;
+  --code-bg: #0b1220;
+  --code-text: #e5e7eb;
+}
+
+*{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+}
+
+.container{
+  width: min(1000px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.header{
+  background: linear-gradient(180deg, var(--accent-soft), var(--bg));
+  border-bottom: 1px solid var(--border);
+  padding: 24px 0 18px;
+}
+
+.title{
+  margin: 0 0 6px;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+}
+
+.subtitle{
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.toc{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.toc a{
+  display: inline-block;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: 10px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.toc a:hover{
+  border-color: #c7d2fe;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+}
+
+.section{
+  padding: 18px 0;
+}
+
+.section h2{
+  margin: 0 0 10px;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+
+.section h3{
+  margin: 16px 0 8px;
+  font-size: 16px;
+}
+
+.card{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 16px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+}
+
+.list{
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.table{
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.table th, .table td{
+  border: 1px solid var(--border);
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.table thead th{
+  background: #f9fafb;
+}
+
+pre{
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 12px;
+  overflow: auto;
+  background: var(--code-bg);
+  color: var(--code-text);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+code{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.95em;
+}
+
+.note{
+  margin-top: 12px;
+  padding: 12px;
+  background: #fbfdff;
+  border: 1px dashed #c7d2fe;
+  border-radius: 12px;
+}
+
+.note strong{
+  color: #1d4ed8;
+}
+
+.foot{
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.footer{
+  margin-top: 10px;
+  padding: 18px 0 26px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+details{
+  margin-top: 10px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+}
+
+summary{
+  cursor: pointer;
+  list-style: none;
+  padding: 10px 12px;
+  font-weight: 600;
+  background: #f9fafb;
+  border-bottom: 1px solid var(--border);
+}
+
+details > summary::-webkit-details-marker{ display:none; }
+
+details .details-body{
+  padding: 12px;
+}
+
+details.hint summary{
+  background: var(--accent-soft);
+}
+
+details.answer summary{
+  background: #fff7ed;
+}
+
+@media print{
+  header.header, nav.toc, .footer{ display:none !important; }
+  details.answer{ display:none !important; } /* 정답은 프린트 시 자동 숨김 */
+  body{ background:#fff; }
+  .card{ box-shadow:none; }
+}
+
+  </style>
+</head>
+<body>
+<header class="header">
+<div class="container">
+<h1 class="title">1~15: 기본적인 print() 사용</h1>
+<p class="subtitle">문제-힌트-정답(풀이) 3단 구조로 정리한 문서이다. 정답은 기본 닫힘이며, 프린트 시 자동으로 숨김 처리된다.</p>
+<nav aria-label="목차" class="toc">
+<a href="#q01">1번</a>
+<a href="#q02">2번</a>
+<a href="#q03">3번</a>
+<a href="#q04">4번</a>
+<a href="#q05">5번</a>
+<a href="#q06">6번</a>
+<a href="#q07">7번</a>
+<a href="#q08">8번</a>
+<a href="#q09">9번</a>
+<a href="#q10">10번</a>
+<a href="#q11">11번</a>
+<a href="#q12">12번</a>
+<a href="#q13">13번</a>
+<a href="#q14">14번</a>
+<a href="#q15">15번</a>
+<a href="#q16">16번</a>
+<a href="#q17">17번</a>
+<a href="#q18">18번</a>
+<a href="#q19">19번</a>
+<a href="#q20">20번</a>
+<a href="#q21">21번</a>
+<a href="#q22">22번</a>
+<a href="#q23">23번</a>
+<a href="#q24">24번</a>
+<a href="#q25">25번</a>
+<a href="#q26">26번</a>
+<a href="#q27">27번</a>
+<a href="#q28">28번</a>
+<a href="#q29">29번</a>
+<a href="#q30">30번</a>
+<a href="#q31">31번</a>
+<a href="#q32">32번</a>
+<a href="#q33">33번</a>
+<a href="#q34">34번</a>
+<a href="#q35">35번</a>
+<a href="#q36">36번</a>
+<a href="#q37">37번</a>
+<a href="#q38">38번</a>
+<a href="#q39">39번</a>
+<a href="#q40">40번</a>
+<a href="#q41">41번</a>
+<a href="#q42">42번</a>
+<a href="#q43">43번</a>
+<a href="#q44">44번</a>
+<a href="#q45">45번</a>
+<a href="#q46">46번</a>
+<a href="#q47">47번</a>
+<a href="#q48">48번</a>
+<a href="#q49">49번</a>
+<a href="#q50">50번</a>
+<a href="#q51">51번</a>
+<a href="#q52">52번</a>
+<a href="#q53">53번</a>
+<a href="#q54">54번</a>
+<a href="#q55">55번</a>
+<a href="#q56">56번</a>
+<a href="#q57">57번</a>
+<a href="#q58">58번</a>
+</nav>
+</div>
+</header>
+<main class="container" id="content">
+<section class="section">
+<div class="card" id="q01">
+<h3>1번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>1.문제: print()를 사용하여 숫자 100을 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>100</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print(100)</code></pre>
+<pre><code>100
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q02">
+<h3>2번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>2.문제: print()를 사용하여 <strong>문자열 &amp;quot;Hello Python&amp;quot;</strong>을 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>"Hello Python"</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print('"Hello Python"')</code></pre>
+<pre><code>"Hello Python"
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q03">
+<h3>3번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>3.문제: print()를 사용하여 10과 20을 한 줄에 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>10 20</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print(10, 20)</code></pre>
+<pre><code>10 20
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q04">
+<h3>4번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>4.문제: print()를 사용하여 10, 20, 30을 한 줄에 공백 없이 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>102030</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print(10, 20 ,30, sep="")</code></pre>
+<pre><code>102030
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q05">
+<h3>5번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>5.문제: print()를 사용하여 10, 20, 30을 -로 구분하여 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>10-20-30</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print(10, 20, 30, sep="-")</code></pre>
+<pre><code>10-20-30
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q06">
+<h3>6번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>6.문제: 두 개의 print() 문을 사용하되, 한 줄에 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>Hello Python</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print("Hello", end=" ")
+print("Python")</code></pre>
+<pre><code>Hello Python
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q07">
+<h3>7번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>7.문제: print()를 사용하여 3 + 5의 결과를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>3 + 5: 8</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print("3 + 5:", 3+5)</code></pre>
+<pre><code>3 + 5: 8
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q08">
+<h3>8번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>8.문제: print()를 사용하여 50 - 15의 결과를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>50 - 15:35</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print("50 - 15:", 50-15, sep="")</code></pre>
+<pre><code>50 - 15:35
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q09">
+<h3>9번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>9.문제: print()를 사용하여 4 × 6의 결과를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>4 × 6: 24</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print("4 x 6:", 4*6)</code></pre>
+<pre><code>4 x 6: 24
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q10">
+<h3>10번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>10.문제: print()를 사용하여 20을 4로 나눈 결과를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>5.0</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print(20/4)</code></pre>
+<pre><code>5.0
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q11">
+<h3>11번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>11.문제: print()를 사용하여 20 을 3으로 나눈 몫을 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>6</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print(20//3)</code></pre>
+<pre><code>6
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q12">
+<h3>12번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>12.문제: print()를 사용하여 20을 3으로 나눈 나머지를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>2</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print(20%3)</code></pre>
+<pre><code>2
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q13">
+<h3>13번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>13.문제: print()를 사용하여 2의 5제곱 결과를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>32</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print(2**5)</code></pre>
+<pre><code>32
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q14">
+<h3>14번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>14.문제: print()를 사용하여 5 + 3 × 2의 결과를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>11</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print(5+3*2)</code></pre>
+<pre><code>11
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q15">
+<h3>15번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>15.문제: print()를 사용하여 (5 + 3) × 2의 결과를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>16</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print((5+3)*2)</code></pre>
+<pre><code>16
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q16">
+<h3>16번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>16.문제: print()의 sep 매개변수를 사용하여 "apple-banana-cherry"를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>apple-banana-cherry</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print("apple", "banaba", "cherry", sep="-")</code></pre>
+<pre><code>apple-banaba-cherry
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q17">
+<h3>17번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>17.문제: print()의 end 매개변수를 사용하여 "Hello"와 "World"를 공백 없이 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>HelloWorld</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print("Hello", end="")
+print("World")</code></pre>
+<pre><code>HelloWorld
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q18">
+<h3>18번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>18.문제: print()를 사용하여 변수 a = 10, b = 20을 선언하고 a + b를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>a + b: 30</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>a =10
+b= 20
+print("a + b:", a+b)</code></pre>
+<pre><code>a + b: 30
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q19">
+<h3>19번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>19.문제: print()를 사용하여 100을 3으로 나눈 결과를 정수형으로 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>33</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print(int(100/3))</code></pre>
+<pre><code>33
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q20">
+<h3>20번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>20.문제: print()를 사용하여 5개의 숫자를 한 줄에 공백(" ")으로 구분하여 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>1 2 3 4 5</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print(1, 2,3,4,5)</code></pre>
+<pre><code>1 2 3 4 5
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q21">
+<h3>21번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>21.문제: print()를 사용하여 1부터 10까지의 합을 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>55</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print(1+2+3+4+5+6+7+8+9+10)</code></pre>
+<pre><code>55
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q22">
+<h3>22번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>22.문제: print()를 사용하여 1부터 5까지의 곱을 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>120</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print(1*2*3*4*5)</code></pre>
+<pre><code>120
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q23">
+<h3>23번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>23.문제: print()를 사용하여 "Python"을 3번 반복하여 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>PythonPythonPython</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print("Python"*3)</code></pre>
+<pre><code>PythonPythonPython
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q24">
+<h3>24번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>24.문제: print()를 사용하여 숫자 10을 문자열과 함께 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>The number is 10</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print("The number is", 10)</code></pre>
+<pre><code>The number is 10
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q25">
+<h3>25번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>25.문제: 두개의 print()를 사용하여 <br/>"Hello", <br/>"world"를 출력하되 결과가 "Hello world" 가 되도록 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>Hello world</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print("Hello", end=" ")
+print("World")</code></pre>
+<pre><code>Hello World
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q26">
+<h3>26번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>26.문제: 변수 a에 정수 10을 저장하고 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>10</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>a = 10
+print(a)</code></pre>
+<pre><code>10
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q27">
+<h3>27번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>27.문제: 변수 b에 실수 3.14를 저장하고 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>3.14</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>b = 3.14
+print(b)</code></pre>
+<pre><code>3.14
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q28">
+<h3>28번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>28.문제: 변수 c에 문자열 "Python"을 저장하고 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>Python</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>c = "Python"
+print(c)</code></pre>
+<pre><code>Python
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q29">
+<h3>29번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>29.문제: 변수 d에 True 값을 저장하고 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>True</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>d = True
+print(d)</code></pre>
+<pre><code>True
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q30">
+<h3>30번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>30.문제: type() 함수를 사용하여 변수 b의 자료형을 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>&lt;class 'float'&gt;</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print(type(b))</code></pre>
+<pre><code>&lt;class 'float'&gt;
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q31">
+<h3>31번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>31.문제: len() 함수를 사용하여 문자열 "Hello World"의 길이를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>11</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>len("Hello World")</code></pre>
+<pre><code>11</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q32">
+<h3>32번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>32.문제: 문자열 "Python"에서 첫 번째 문자를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>P</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>"Python"[0]</code></pre>
+<pre><code>'P'</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q33">
+<h3>33번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>33.문제: 문자열 "Python"에서 마지막 문자를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>n</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>p[-1]</code></pre>
+<pre><code>'n'</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q34">
+<h3>34번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>34.문제: 문자열 "Python Programming"에서 "Programming"만 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>Programming</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>len("Python Programming")</code></pre>
+<pre><code>18</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q35">
+<h3>35번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>35.문제: 문자열 "Python"을 3번 반복하여 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>PythonPythonPython</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>print("python"*3)</code></pre>
+<pre><code>pythonpythonpython
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q36">
+<h3>36번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>36.문제: 리스트 numbers = [1, 2, 3, 4, 5]를 생성하고 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>[1, 2, 3, 4, 5]</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>numbers = [1, 2, 3, 4, 5]
+print(numbers)</code></pre>
+<pre><code>[1, 2, 3, 4, 5]
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q37">
+<h3>37번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>37.문제: 리스트 numbers의 첫 번째 요소를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>1</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>numbers[0]</code></pre>
+<pre><code>1</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q38">
+<h3>38번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>38.문제: 리스트 numbers의 마지막 요소를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>5</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>numbers[-1]</code></pre>
+<pre><code>5</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q39">
+<h3>39번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>39.문제: 리스트 numbers의 길이를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>5</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>len(numbers)</code></pre>
+<pre><code>5</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q40">
+<h3>40번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>40.문제: 리스트 numbers에 숫자 6을 추가하고 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>[1, 2, 3, 4, 5, 6]</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>numbers.append(6)
+print(numbers)</code></pre>
+<pre><code>[1, 2, 3, 4, 5, 6]
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q41">
+<h3>41번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>41.문제: 중첩 리스트 nested_list = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]를 생성하고 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>[[1, 2, 3], [4, 5, 6], [7, 8, 9]]</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>nested_list = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+print(nested_list)</code></pre>
+<pre><code>[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q42">
+<h3>42번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>42.문제: nested_list에서 두 번째 리스트의 첫 번째 요소를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>4</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>nested_list[1][0]</code></pre>
+<pre><code>4</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q43">
+<h3>43번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>43.문제: nested_list에서 세 번째 리스트의 마지막 요소를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>9</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>nested_list[2][2]</code></pre>
+<pre><code>9</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q44">
+<h3>44번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>44.문제: 중첩 튜플 nested_tuple = ((1, 2), (3, 4, 5), (6, 7, 8, 9))을 생성하고 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>((1, 2), (3, 4, 5), (6, 7, 8, 9))</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>nested_tutple = ((1,2), (3,4,5), (6,7,8,9))
+print(nested_tutple)</code></pre>
+<pre><code>((1, 2), (3, 4, 5), (6, 7, 8, 9))
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q45">
+<h3>45번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>45.문제: nested_tuple에서 두 번째 튜플의 두 번째 요소를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>4</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>nested_tutple[1][1]</code></pre>
+<pre><code>4</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q46">
+<h3>46번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>46.문제: person = {"name": "Alice", "info": {"age": 25, "city": "Seoul"}}을 생성하고 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>{'name': 'Alice', 'info': {'age': 25, 'city': 'Seoul'}}</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>person = {"name":"Alice", "info": {"age" : 25, "city":"Seoul"}}
+print(person)</code></pre>
+<pre><code>{'name': 'Alice', 'info': {'age': 25, 'city': 'Seoul'}}
+</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q47">
+<h3>47번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>47.문제: person 딕셔너리에서 "age" 값을 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>25</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>person['info']['age']</code></pre>
+<pre><code>25</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q48">
+<h3>48번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>48.문제: 복합 자료 구조 data를 생성하고 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>{'info': [{'name': 'Alice', 'scores': (95, 88, 92)},
+  {'name': 'Bob', 'scores': (78, 85, 89)}],
+ 'extra': {'hobbies': ['reading', 'coding'], 'location': ('Seoul', 'Busan')}}</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>data = {'info' : [{'name': 'Alice', 'scores' : (95, 88, 92)},
+                  {'name': 'Bob', 'scores' : (78, 85, 89)}],
+        'extra': {'hobbies' : ['leading', 'coding'],
+                  'location' : ('Seoul', 'Busan')}
+       }</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q49">
+<h3>49번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>49.문제: data에서 "Alice"의 첫 번째 점수를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>95</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>data['info'][0]['scores'][0]</code></pre>
+<pre><code>95</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q50">
+<h3>50번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>50.문제: data에서 "Bob"의 마지막 점수를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>89</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>data['info'][1]['scores'][2]</code></pre>
+<pre><code>89</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q51">
+<h3>51번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>51.문제: data에서 "coding"을 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>"coding"</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>data['extra']['hobbies'][1]</code></pre>
+<pre><code>'coding'</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q52">
+<h3>52번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>52.문제: data에서 "Busan"을 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>"Busan"</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>data['extra']['location'][1]</code></pre>
+<pre><code>'Busan'</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q53">
+<h3>53번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>53.문제: data에서 "Alice"의 전체 점수를 리스트로 변환하여 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>[95, 88, 92]</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>list(data['info'][0]['scores'])</code></pre>
+<pre><code>[95, 88, 92]</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q54">
+<h3>54번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>54.문제: data에서 "Bob"의 평균 점수를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>84.0</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>bob_scores = data['info'][1]['scores']</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q55">
+<h3>55번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>55.문제: data에 새로운 키 "school": "XYZ High"를 추가하고 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>{'info': [...], 'extra': {...}, 'school': 'XYZ High'}</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>data['school'] = 'XYZ High'
+data</code></pre>
+<pre><code>{'info': [{'name': 'Alice', 'scores': (95, 88, 92)},
+  {'name': 'Bob', 'scores': (78, 85, 89)}],
+ 'extra': {'hobbies': ['leading', 'coding'], 'location': ('Seoul', 'Busan')},
+ 'school': 'XYZ High'}</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q56">
+<h3>56번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>56.문제: data["extra"]["hobbies"]에 "gaming"을 추가하고 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>['reading', 'coding', 'gaming']</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>data['extra']['hobbies'].append('gaming')</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q57">
+<h3>57번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>57.문제: data에서 "Alice"의 두 번째 점수를 "90"으로 변경하고 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>{'info': [{'name': 'Alice', 'scores': (95, 90, 92)}, ...]}</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>data['info'][0]['scores'] = (95, 90, 92)</code></pre>
+</div>
+</details>
+</div>
+<div class="card" id="q58">
+<h3>58번</h3>
+<div class="note"><strong>문제</strong> 아래 문제를 해결하시오.</div>
+<p>58.문제: "Bob"의 첫 번째 점수를 출력하세요.</p>
+<details class="hint" open="">
+<summary>힌트 확인하기</summary>
+<div class="details-body">
+<p>결과 값:</p>
+<pre><code>78</code></pre>
+</div>
+</details>
+<details class="answer">
+<summary>풀이 확인하기</summary>
+<div class="details-body">
+<pre><code>data['info'][1]['scores'][0]</code></pre>
+<pre><code>78</code></pre>
+</div>
+</details>
+</div>
+<div class="footer">정답(풀이)은 화면에서 펼쳐서 확인할 수 있으며, 인쇄 시 숨김 처리된다.</div>
+</section>
+</main>
+</body>
+</html>
