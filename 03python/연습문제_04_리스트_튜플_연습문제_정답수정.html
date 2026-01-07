@@ -437,7 +437,9 @@ print(numbers)</code></pre></div>
 
       <details class="answer">
         <summary>풀이 확인하기</summary>
-        <div class="details-body"><pre><code>complex_list = [1, 2, 3, [4, 5, 6], (7, 8, '튜플')]</code></pre></div>
+        <div class="details-body"><pre><code>complex_list = [1, 2, 3, [4, 5, 6], (7, 8, '튜플')]
+complex_list[4][2]
+        </code></pre></div>
       </details>
     </div>
     
@@ -454,7 +456,7 @@ print(numbers)</code></pre></div>
 
       <details class="answer">
         <summary>풀이 확인하기</summary>
-        <div class="details-body"><pre><code>complex_list.reverse()</code></pre></div>
+        <div class="details-body"><pre><code>complex_list[::-1]</code></pre></div>
       </details>
     </div>
     
@@ -471,7 +473,7 @@ print(numbers)</code></pre></div>
 
       <details class="answer">
         <summary>풀이 확인하기</summary>
-        <div class="details-body"><pre><code>complex_list[3].reverse()
+        <div class="details-body"><pre><code>complex_list[3] = complex_list[3][::-1]
 complex_list</code></pre></div>
       </details>
     </div>
@@ -489,7 +491,10 @@ complex_list</code></pre></div>
 
       <details class="answer">
         <summary>풀이 확인하기</summary>
-        <div class="details-body"><pre><code>complex_list[4] = list(complex_list[4])</code></pre></div>
+        <div class="details-body"><pre><code>temp = list(complex_list[4])
+temp.pop()
+complex_list[4] = temp
+complex_list</code></pre></div>
       </details>
     </div>
     
@@ -508,7 +513,7 @@ complex_list</code></pre></div>
       <details class="answer">
         <summary>풀이 확인하기</summary>
         <div class="details-body"><pre><code>t = (10, 20, 30, 40, 50)
-t</code></pre></div>
+print("최대값: ", max(t), "최솟값: ", min(t))</code></pre></div>
       </details>
     </div>
     
@@ -543,6 +548,8 @@ t</code></pre></div>
       <details class="answer">
         <summary>풀이 확인하기</summary>
         <div class="details-body"><pre><code>t = list(t)
+t[1] = "Python"
+t = tuple(t)
 t</code></pre></div>
       </details>
     </div>
