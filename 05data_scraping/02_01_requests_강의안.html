@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>requests 모듈 강의안</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <span class="badge">Python · HTTP · requests</span>
+      <h1 class="title">requests 모듈 사용법 강의안</h1>
+      <p class="subtitle">
+        파이썬에서 HTTP 요청을 가장 간단하고 직관적으로 다룰 수 있는
+        <strong>requests 모듈</strong>의 설치부터 실전 사용까지 정리한 문서이다.
+      </p>
+      <nav class="toc">
+        <a href="#install">1. 설치</a>
+        <a href="#http-basic">2. HTTP 기본 개념</a>
+        <a href="#get">3. GET 요청</a>
+        <a href="#post">4. POST 요청</a>
+        <a href="#params-data">5. params / data / json</a>
+        <a href="#headers">6. 헤더 다루기</a>
+        <a href="#response">7. 응답(Response) 처리</a>
+        <a href="#error">8. 에러 처리</a>
+        <a href="#timeout">9. timeout / 세션</a>
+        <a href="#mini-lab">10. 미니 실습</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="section" id="install">
+      <h2>1. 설치</h2>
+      <article class="card">
+        <pre><code>pip install requests</code></pre>
+        <div class="note">
+          <strong>표준 라이브러리 아님</strong><br/>
+          requests는 기본 내장 모듈이 아니므로 반드시 설치해야 한다.
+        </div>
+      </article>
+    </section>
+
+    <section class="section" id="http-basic">
+      <h2>2. HTTP 기본 개념</h2>
+      <article class="card">
+        <table class="table">
+          <thead>
+            <tr><th>메서드</th><th>의미</th><th>예시</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>GET</td><td>데이터 조회</td><td>게시글 목록 조회</td></tr>
+            <tr><td>POST</td><td>데이터 생성</td><td>회원가입</td></tr>
+            <tr><td>PUT</td><td>전체 수정</td><td>회원정보 수정</td></tr>
+            <tr><td>PATCH</td><td>부분 수정</td><td>비밀번호 변경</td></tr>
+            <tr><td>DELETE</td><td>삭제</td><td>게시글 삭제</td></tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <section class="section" id="get">
+      <h2>3. GET 요청</h2>
+      <article class="card">
+        <pre><code>import requests
+
+response = requests.get("https://api.github.com")
+print(response.status_code)
+print(response.text)</code></pre>
+      </article>
+
+      <article class="card">
+        <h3>쿼리 파라미터(params)</h3>
+        <pre><code>params = {"q": "python", "page": 1}
+response = requests.get("https://api.example.com/search", params=params)</code></pre>
+      </article>
+    </section>
+
+    <section class="section" id="post">
+      <h2>4. POST 요청</h2>
+      <article class="card">
+        <h3>form 데이터</h3>
+        <pre><code>data = {"username": "alice", "password": "1234"}
+response = requests.post("https://api.example.com/login", data=data)</code></pre>
+      </article>
+
+      <article class="card">
+        <h3>JSON 데이터</h3>
+        <pre><code>payload = {"title": "hello", "body": "content"}
+response = requests.post("https://api.example.com/posts", json=payload)</code></pre>
+      </article>
+    </section>
+
+    <section class="section" id="params-data">
+      <h2>5. params / data / json 차이</h2>
+      <article class="card">
+        <table class="table">
+          <thead>
+            <tr><th>구분</th><th>용도</th><th>전송 위치</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>params</td><td>조회 조건</td><td>URL 쿼리스트링</td></tr>
+            <tr><td>data</td><td>폼 데이터</td><td>요청 바디</td></tr>
+            <tr><td>json</td><td>JSON API</td><td>요청 바디(JSON)</td></tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <section class="section" id="headers">
+      <h2>6. 헤더 다루기</h2>
+      <article class="card">
+        <pre><code>headers = {
+  "Authorization": "Bearer TOKEN",
+  "User-Agent": "my-app/1.0"
+}
+
+response = requests.get("https://api.example.com/me", headers=headers)</code></pre>
+      </article>
+    </section>
+
+    <section class="section" id="response">
+      <h2>7. 응답(Response) 처리</h2>
+      <article class="card">
+        <pre><code>response.status_code
+response.headers
+response.text
+response.json()</code></pre>
+
+        <div class="note">
+          <strong>주의</strong><br/>
+          response.json()은 JSON 응답이 아닐 경우 예외가 발생할 수 있다.
+        </div>
+      </article>
+    </section>
+
+    <section class="section" id="error">
+      <h2>8. 에러 처리</h2>
+      <article class="card">
+        <pre><code>response = requests.get(url)
+
+if response.status_code != 200:
+    print("요청 실패:", response.status_code)</code></pre>
+
+        <pre><code>try:
+    response.raise_for_status()
+except requests.exceptions.HTTPError as e:
+    print(e)</code></pre>
+      </article>
+    </section>
+
+    <section class="section" id="timeout">
+      <h2>9. timeout / Session</h2>
+      <article class="card">
+        <h3>timeout</h3>
+        <pre><code>requests.get(url, timeout=5)</code></pre>
+      </article>
+
+      <article class="card">
+        <h3>Session</h3>
+        <pre><code>session = requests.Session()
+session.headers.update({"Authorization": "Bearer TOKEN"})
+session.get("https://api.example.com/me")</code></pre>
+      </article>
+    </section>
+
+    
+    <section class="section" id="login">
+      <h2>추가 1. 로그인(Login) 처리</h2>
+
+      <article class="card">
+        <h3>1) 기본 로그인 요청 (POST)</h3>
+        <p class="p">
+          대부분의 로그인 API는 <strong>POST 요청</strong>으로 아이디/비밀번호를 전달한다.
+        </p>
+        <pre><code>import requests
+
+url = "https://api.example.com/login"
+data = {
+    "username": "alice",
+    "password": "password123"
+}
+
+response = requests.post(url, data=data)
+print(response.status_code)
+print(response.text)</code></pre>
+      </article>
+
+      <article class="card">
+        <h3>2) 로그인 후 토큰 사용</h3>
+        <p class="p">
+          로그인 성공 시 토큰(JWT 등)을 받고, 이후 요청의 헤더에 포함한다.
+        </p>
+        <pre><code>token = response.json().get("access_token")
+
+headers = {
+    "Authorization": f"Bearer {token}"
+}
+
+profile = requests.get("https://api.example.com/me", headers=headers)
+print(profile.json())</code></pre>
+      </article>
+
+      <article class="card">
+        <h3>3) Session으로 로그인 유지</h3>
+        <p class="p">
+          쿠키 기반 로그인의 경우 <code>Session</code> 객체를 사용하면
+          로그인 상태가 자동으로 유지된다.
+        </p>
+        <pre><code>session = requests.Session()
+
+session.post("https://api.example.com/login", data={
+    "username": "alice",
+    "password": "password123"
+})
+
+res = session.get("https://api.example.com/mypage")
+print(res.text)</code></pre>
+      </article>
+    </section>
+
+    <section class="section" id="delay">
+      <h2>추가 2. 요청 간 딜레이 주기</h2>
+
+      <article class="card">
+        <h3>1) time.sleep 사용</h3>
+        <p class="p">
+          API 서버 과부하 방지, 크롤링 차단 회피 등을 위해
+          요청 사이에 <strong>딜레이</strong>를 주는 것이 일반적이다.
+        </p>
+        <pre><code>import requests
+import time
+
+urls = [
+    "https://api.example.com/1",
+    "https://api.example.com/2",
+    "https://api.example.com/3"
+]
+
+for url in urls:
+    response = requests.get(url)
+    print(response.status_code)
+    time.sleep(1)  # 1초 대기</code></pre>
+      </article>
+
+      <article class="card">
+        <h3>2) 랜덤 딜레이</h3>
+        <p class="p">
+          일정하지 않은 간격으로 요청을 보내고 싶을 때는
+          <code>random.uniform</code>을 사용한다.
+        </p>
+        <pre><code>import time
+import random
+
+delay = random.uniform(0.5, 2.0)
+time.sleep(delay)</code></pre>
+      </article>
+
+      <article class="card">
+        <h3>3) Session + 딜레이 패턴</h3>
+        <p class="p">
+          로그인 세션을 유지하면서 여러 요청을 보낼 때 자주 쓰이는 패턴이다.
+        </p>
+        <pre><code>session = requests.Session()
+
+for page in range(1, 6):
+    res = session.get(f"https://api.example.com/posts?page={page}")
+    print(page, res.status_code)
+    time.sleep(0.8)</code></pre>
+      </article>
+    </section>
+
+
+    <section class="section" id="mini-lab">
+      <h2>10. 미니 실습</h2>
+      <article class="card">
+        <p><strong>공개 API에 GET 요청을 보내고 JSON 응답 일부를 출력하시오.</strong></p>
+        <pre><code>import requests
+
+url = "https://api.github.com/repos/psf/requests"
+response = requests.get(url)
+data = response.json()
+
+print(data["name"])
+print(data["stargazers_count"])</code></pre>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <p class="footer-text">
+          본 강의안은 requests 모듈의 핵심 사용법을 중심으로 구성되었다.
+        </p>
+      </div>
+    </footer>
+
+  </main>
+</body>
+</html>
