@@ -7,7 +7,7 @@
 </head>
 <body>
     <div>
-    <h1><id="title">제목태그</h1>
+    <h1 id="title">제목태그</h1>
     <h1>heading 1</h1>
     <h2>heading 2</h2>
     <h3>heading 3</h3>
@@ -37,9 +37,9 @@
 
         <div>
             <h1>링크 태그 a</h1>
-            <a href="https://www.naver.com">네이버 바로 가기</a>
+            <a href="https://www.naver.com">네이버 바로 가기</a><br>
             <a href="#title">제목 태그 항목으로 이동</a><br>
-            <a href="http://www.google.com" target="_blank" rel="noopener noreferrer">Visit google.com!</a>
+            <a href="http://www.google.com" target="_blank" rel="noopener noreferrer">Visit google.com!</a><br>
             <a href="http://www.google.com" target="_self" rel="noopener noreferrer">Visit google.com!</a>
 
         </div>
@@ -109,19 +109,103 @@
                     </tr>
                 </table>
 
-
-
             </div>
-
-
-
         </div>
+<hr>
+
+<div>
+<h2>이미지 태그</h2>
+<img src="https://yt3.ggpht.com/a/AATXAJzdt4KmHeJR55SF8LhWiHp19cLKCZSlSqQwvw=s900-c-k-c0xffffffff-no-rj-mo" alt="토끼">
+<img src="" alt="이미지 없음">
+</div>
+
+<hr>
+
+<div>
+<h2>폼태그</h2>
+<p>속성 type은 입력 폼의 종류 변경</p>
+<p>속성 name은 변수명</p>
+<p>속성 value는 변수에 입력하는 값</p>
+
+<h3>button</h3>
+<input type="button" value="버튼" onclick="alert('Hello world')">
+
+<hr>
+<h3>checkbox</h3>
+<p>체크 박스는 중복 선택 가능</p>
+<input type="checkbox" name="fruit1" value="apple" checked> 사과<br>
+<input type="checkbox" name="fruit2" value="grape"> 포도<br>
+<input type="checkbox" name="fruit3" value="peach" checked> 복숭아<br>
+
+<hr>
+<h3>color</h3>
+<input type="color" name="mycolor"><br>
+
+<hr>
+<h3>date</h3>
+<input type="date" name="birthday">
+
+<hr>
+<h3>email</h3>
+<input type="email" name="useremail">
+
+<hr>
+<h3>file</h3>
+<input type="file" name="myfile">
+
+<hr>
+<h3>image</h3>
+<input type="image" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTAxMDRfMTE0%2FMDAxNzM1OTYyMjU2MjQx.jVo9PzXZ6vxMwy_s5jeK3z34RgxxHeuwPJgQHnn3njog.tk4B8XDg8J2xVvk4_9kWMUol8EnD7LUlg8DL6TYGQhsg.JPEG%2F900%25A3%25DFPicsart%25A3%25DF25%25A3%25AD01%25A3%25AD04%25A3%25DF12%25A3%25AD44%25A3%25AD09%25A3%25AD501.jpg&type=a340" alt="submit" width="48" height="48">
+
+<hr>
+<h3>password</h3>
+<input type="password" name="pwd">
+
+<hr>
+<h3>text</h3>
+<input type="text" name="myname">
 
 
+<hr>
+<h3>text</h3>
+<p>복수의 리스트에서 아이템 선택</p>
 
+<select name="cars1">
+    <option value="volvo" selected>Volvo</option>
+    <option value="saab" disabled>Saab</option>
+    <option value="fiat">Fiat</option>
+    <option value="audi">Audi</option>
+</select>
 
-        
+<select name="cars2" size="4" multiple>
+    <option value="volvo">Volvo</option>
+    <option value="saab">Saab</option>
+    <option value="fiat">Fiat</option>
+    <option value="audi" selected>Audi</option>
+</select>
 
+<select name="cars3">
+    <optgroup label="Swedish Cars">
+    <option value="volvo">Volvo</option>
+    <option value="saab">Saab</option>
+    </optgroup>
+
+    <optgroup label="German Cars" disabled>
+    <option value="mercedes">Mercedes</option>
+    <option value="audi">Audi</option>
+    </optgroup>
+</select>
+
+<hr>
+<h3>testarea</h3>
+<textarea name="messages"></textarea>
+
+<hr>
+<h3>button</h3>
+<button type="button" value="Click Me!" onclick="alert('Hello world!')">Click me!</button>
+<input type="button" value="Click Me!" onclick="alert('Hello world!')">
+
+</div>
 
 </body>
 </html>
