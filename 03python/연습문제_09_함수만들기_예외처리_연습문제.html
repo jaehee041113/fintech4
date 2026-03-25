@@ -1,0 +1,1626 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>연습문제 13 — 함수 만들기 &amp; 예외 처리 (강의안 기반 50문제)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <span class="badge">Python · Jupyter Notebook</span>
+      <h1 class="title">연습문제 13 — 함수 만들기 &amp; 예외 처리 (강의안 기반 50문제)</h1>
+      <p class="subtitle">노트북(13함수만들기_예외처리.ipynb)에 포함된 내용(함수 정의/호출/매개변수/반환값/*args/**kwargs/키워드 인자/람다/try-except-else-finally)을 모두 실습할 수 있는 연습문제이다.</p>
+      <nav class="toc" aria-label="목차">
+        <a href="#sec1">1) 함수 기본 (1~20)</a>
+        <a href="#sec2">2) 함수 심화 &amp; 가변 인수 &amp; 람다 (21~35)</a>
+        <a href="#sec3">3) 예외 처리 (36~50)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+<section class="section" id="sec1">
+  <h2>1) 함수 기본 (1~20)</h2>
+  <article class="card" id="q1">
+  <h3><span class="badge">1번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>함수 만들기 — 고정 인사 출력</strong><br/>아무 인자도 받지 않는 <code>hello()</code> 함수를 작성하세요. 함수를 호출하면 <code>Hello, Python!</code>이 출력되어야 합니다.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>hello()</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>Hello, Python!</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def hello():
+    print(&#x27;Hello, Python!&#x27;)
+
+hello()</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q2">
+  <h3><span class="badge">2번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>함수 만들기 — 이름 인사</strong><br/><code>greet(name)</code> 함수를 작성하세요. 인자로 받은 이름을 사용해 <code>안녕하세요, (이름)님!</code>을 출력하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>greet(&#x27;민수&#x27;)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>안녕하세요, 민수님!</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def greet(name):
+    print(f&#x27;안녕하세요, {name}님!&#x27;)
+
+greet(&#x27;민수&#x27;)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q3">
+  <h3><span class="badge">3번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>함수 호출 순서 — 두 함수 호출하기</strong><br/><code>a()</code>는 <code>A</code>를 출력, <code>b()</code>는 <code>B</code>를 출력하도록 함수를 만들고, 아래 순서대로 호출해 출력이 맞는지 확인하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>a()
+b()
+a()</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>A
+B
+A</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def a():
+    print(&#x27;A&#x27;)
+
+def b():
+    print(&#x27;B&#x27;)
+
+a()
+b()
+a()</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q4">
+  <h3><span class="badge">4번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>반환값 — add 함수</strong><br/><code>add(a, b)</code> 함수를 작성하세요. 인자 2개를 입력받아 두 수의 합을 <strong>반환</strong>하고, 호출 결과를 출력하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(add(3, 4))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>7</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def add(a, b):
+    return a + b
+
+print(add(3, 4))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q5">
+  <h3><span class="badge">5번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>반환값 — 문자열 연결</strong><br/><code>join_words(a, b)</code> 함수를 작성하세요. 두 문자열을 한 칸 띄어서 이어 붙인 문자열을 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(join_words(&#x27;Hello&#x27;, &#x27;World&#x27;))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>Hello World</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def join_words(a, b):
+    return a + &#x27; &#x27; + b
+
+print(join_words(&#x27;Hello&#x27;, &#x27;World&#x27;))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q6">
+  <h3><span class="badge">6번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>기본값 매개변수 — power</strong><br/><code>power(x, n=2)</code> 함수를 작성하세요. n 기본값은 2이고, x의 n제곱을 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(power(5))
+print(power(2, 3))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>25
+8</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def power(x, n=2):
+    return x ** n
+
+print(power(5))
+print(power(2, 3))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q7">
+  <h3><span class="badge">7번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>기본값 매개변수 — 인사말 선택</strong><br/><code>say(name, msg='안녕하세요')</code> 함수를 작성하세요. <code>(msg), (name)!</code> 형태로 출력하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>say(&#x27;지현&#x27;)
+say(&#x27;지현&#x27;, &#x27;반가워요&#x27;)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>안녕하세요, 지현!
+반가워요, 지현!</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def say(name, msg=&#x27;안녕하세요&#x27;):
+    print(f&#x27;{msg}, {name}!&#x27;)
+
+say(&#x27;지현&#x27;)
+say(&#x27;지현&#x27;, &#x27;반가워요&#x27;)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q8">
+  <h3><span class="badge">8번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>여러 값 반환 — (합, 차)</strong><br/><code>sum_and_diff(a, b)</code> 함수를 작성하세요. (a+b, a-b)를 <strong>튜플</strong>로 반환하고, 언패킹해서 출력하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>s, d = sum_and_diff(10, 3)
+print(s)
+print(d)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>13
+7</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def sum_and_diff(a, b):
+    return a + b, a - b
+
+s, d = sum_and_diff(10, 3)
+print(s)
+print(d)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q9">
+  <h3><span class="badge">9번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>여러 값 반환 — (몫, 나머지)</strong><br/><code>quot_rem(a, b)</code> 함수를 작성하세요. a를 b로 나눈 몫과 나머지를 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>q, r = quot_rem(17, 5)
+print(q, r)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>3 2</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def quot_rem(a, b):
+    return a // b, a % b
+
+q, r = quot_rem(17, 5)
+print(q, r)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q10">
+  <h3><span class="badge">10번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>return로 중간 종료 — 음수면 종료</strong><br/><code>print_positive(n)</code> 함수를 작성하세요. n이 0보다 작으면 <code>음수는 처리하지 않습니다</code>를 출력하고 함수를 종료(return)하세요. 그렇지 않으면 <code>n</code>을 출력하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print_positive(-1)
+print_positive(7)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>음수는 처리하지 않습니다
+7</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def print_positive(n):
+    if n &lt; 0:
+        print(&#x27;음수는 처리하지 않습니다&#x27;)
+        return
+    print(n)
+
+print_positive(-1)
+print_positive(7)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q11">
+  <h3><span class="badge">11번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>위치 인수 — 순서가 중요함 확인</strong><br/><code>rect(w, h)</code> 함수를 작성하세요. <code>가로=w, 세로=h</code>를 출력합니다. (위치 인수로 호출)</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>rect(3, 5)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>가로=3, 세로=5</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def rect(w, h):
+    print(f&#x27;가로={w}, 세로={h}&#x27;)
+
+rect(3, 5)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q12">
+  <h3><span class="badge">12번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>키워드 인수 — 순서 바꿔 호출하기</strong><br/><code>rect(w, h)</code> 함수를 그대로 사용하고, 키워드 인자로 순서를 바꿔 호출해도 같은 출력이 나오게 하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>rect(h=5, w=3)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>가로=3, 세로=5</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def rect(w, h):
+    print(f&#x27;가로={w}, 세로={h}&#x27;)
+
+rect(h=5, w=3)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q13">
+  <h3><span class="badge">13번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>키워드 인수 — profile 만들기</strong><br/><code>profile(name, age, city)</code> 함수를 작성하세요. 아래 호출 예시처럼 출력되게 하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>profile(city=&#x27;Seoul&#x27;, age=25, name=&#x27;Alice&#x27;)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>이름: Alice
+나이: 25
+도시: Seoul</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def profile(name, age, city):
+    print(&#x27;이름:&#x27;, name)
+    print(&#x27;나이:&#x27;, age)
+    print(&#x27;도시:&#x27;, city)
+
+profile(city=&#x27;Seoul&#x27;, age=25, name=&#x27;Alice&#x27;)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q14">
+  <h3><span class="badge">14번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>가변 위치 인수(*args) — 합계</strong><br/><code>sum_all(*args)</code> 함수를 작성하세요. 전달된 모든 숫자의 합을 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(sum_all(1, 2, 3, 4))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>10</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def sum_all(*args):
+    total = 0
+    for x in args:
+        total += x
+    return total
+
+print(sum_all(1, 2, 3, 4))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q15">
+  <h3><span class="badge">15번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>가변 위치 인수(*args) — 최댓값</strong><br/><code>max_of(*args)</code> 함수를 작성하세요. 전달된 값 중 최댓값을 반환하세요. (인자가 없으면 None)</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(max_of(3, 7, 2))
+print(max_of())</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>7
+None</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def max_of(*args):
+    if len(args) == 0:
+        return None
+    m = args[0]
+    for x in args[1:]:
+        if x &gt; m:
+            m = x
+    return m
+
+print(max_of(3, 7, 2))
+print(max_of())</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q16">
+  <h3><span class="badge">16번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>가변 위치 인수(*args) — 평균</strong><br/><code>avg_args(*args)</code> 함수를 작성하세요. 인자가 없으면 0을 반환하고, 있으면 평균을 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(avg_args(1, 2, 3, 4))
+print(avg_args())</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>2.5
+0</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def avg_args(*args):
+    if len(args) == 0:
+        return 0
+    return sum(args) / len(args)
+
+print(avg_args(1, 2, 3, 4))
+print(avg_args())</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q17">
+  <h3><span class="badge">17번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>가변 키워드 인수(**kwargs) — key=value 출력</strong><br/><code>show_settings(**kwargs)</code> 함수를 작성하세요. 전달된 키/값을 <code>key=value</code> 형태로 한 줄씩 출력하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>show_settings(mode=&#x27;dev&#x27;, debug=True)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>mode=dev
+debug=True</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def show_settings(**kwargs):
+    for k, v in kwargs.items():
+        print(f&#x27;{k}={v}&#x27;)
+
+show_settings(mode=&#x27;dev&#x27;, debug=True)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q18">
+  <h3><span class="badge">18번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>가변 키워드 인수(**kwargs) — 사람 정보 dict 만들기</strong><br/><code>build_person(**kwargs)</code> 함수를 작성하세요. name(기본 'Unknown'), age(기본 0), city(기본 'Seoul')을 가지는 dict를 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(build_person(name=&#x27;Alice&#x27;, age=25))
+print(build_person())</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>{&#x27;name&#x27;: &#x27;Alice&#x27;, &#x27;age&#x27;: 25, &#x27;city&#x27;: &#x27;Seoul&#x27;}
+{&#x27;name&#x27;: &#x27;Unknown&#x27;, &#x27;age&#x27;: 0, &#x27;city&#x27;: &#x27;Seoul&#x27;}</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def build_person(**kwargs):
+    return {
+        &#x27;name&#x27;: kwargs.get(&#x27;name&#x27;, &#x27;Unknown&#x27;),
+        &#x27;age&#x27;: kwargs.get(&#x27;age&#x27;, 0),
+        &#x27;city&#x27;: kwargs.get(&#x27;city&#x27;, &#x27;Seoul&#x27;)
+    }
+
+print(build_person(name=&#x27;Alice&#x27;, age=25))
+print(build_person())</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q19">
+  <h3><span class="badge">19번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>인수/매개변수 실습 — 전달된 값을 그대로 반환</strong><br/><code>identity(x)</code> 함수를 작성하세요. 전달받은 값을 그대로 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(identity(123))
+print(identity(&#x27;abc&#x27;))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>123
+abc</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def identity(x):
+    return x
+
+print(identity(123))
+print(identity(&#x27;abc&#x27;))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q20">
+  <h3><span class="badge">20번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>리스트 처리 함수 — 짝수만 반환</strong><br/><code>only_even(nums)</code> 함수를 작성하세요. 숫자 리스트에서 짝수만 골라 새 리스트로 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(only_even([1,2,3,4,5,6]))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>[2, 4, 6]</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def only_even(nums):
+    result = []
+    for x in nums:
+        if x % 2 == 0:
+            result.append(x)
+    return result
+
+print(only_even([1,2,3,4,5,6]))</code></pre>
+    </div>
+  </details>
+</article>
+</section>
+<section class="section" id="sec2">
+  <h2>2) 함수 심화 &amp; 가변 인수 &amp; 람다 (21~35)</h2>
+  <article class="card" id="q21">
+  <h3><span class="badge">21번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>문자열 처리 함수 — 모든 공백 제거</strong><br/><code>remove_spaces(s)</code> 함수를 작성하세요. 문자열에서 공백을 모두 제거한 문자열을 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(remove_spaces(&#x27;a b  c&#x27;))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>abc</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def remove_spaces(s):
+    return s.replace(&#x27; &#x27;, &#x27;&#x27;)
+
+print(remove_spaces(&#x27;a b  c&#x27;))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q22">
+  <h3><span class="badge">22번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>함수 조합 — 두 함수 결과 더하기</strong><br/><code>double(x)</code>는 2배 반환, <code>triple(x)</code>은 3배 반환하도록 작성한 뒤, <code>double(x)+triple(x)</code>를 출력하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(double(5) + triple(5))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>25</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def double(x):
+    return x * 2
+
+def triple(x):
+    return x * 3
+
+print(double(5) + triple(5))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q23">
+  <h3><span class="badge">23번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>람다 — 제곱 함수 만들기</strong><br/>람다를 사용해 <code>square</code> 함수를 만들고, 아래 호출 결과가 출력되게 하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(square(6))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>36</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>square = lambda x: x * x
+print(square(6))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q24">
+  <h3><span class="badge">24번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>람다 — 두 수 더하기</strong><br/>람다를 사용해 <code>add2</code> 함수를 만들고, 아래 호출 결과가 출력되게 하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(add2(3, 4))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>7</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>add2 = lambda a, b: a + b
+print(add2(3, 4))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q25">
+  <h3><span class="badge">25번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>람다 — 리스트 정렬(key)</strong><br/>아래 people 리스트를 나이(age) 기준으로 오름차순 정렬해 출력하세요. (sorted + lambda 사용)</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>people=[{&#x27;name&#x27;:&#x27;A&#x27;,&#x27;age&#x27;:30},{&#x27;name&#x27;:&#x27;B&#x27;,&#x27;age&#x27;:20},{&#x27;name&#x27;:&#x27;C&#x27;,&#x27;age&#x27;:25}]
+print(sorted(people, key=lambda x: x[&#x27;age&#x27;]))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>[{&#x27;name&#x27;: &#x27;B&#x27;, &#x27;age&#x27;: 20}, {&#x27;name&#x27;: &#x27;C&#x27;, &#x27;age&#x27;: 25}, {&#x27;name&#x27;: &#x27;A&#x27;, &#x27;age&#x27;: 30}]</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>people=[{&#x27;name&#x27;:&#x27;A&#x27;,&#x27;age&#x27;:30},{&#x27;name&#x27;:&#x27;B&#x27;,&#x27;age&#x27;:20},{&#x27;name&#x27;:&#x27;C&#x27;,&#x27;age&#x27;:25}]
+print(sorted(people, key=lambda x: x[&#x27;age&#x27;]))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q26">
+  <h3><span class="badge">26번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>람다 — 길이 기준 정렬</strong><br/>아래 words를 문자열 길이 기준으로 오름차순 정렬해 출력하세요. (sorted + lambda)</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>words=[&#x27;banana&#x27;,&#x27;kiwi&#x27;,&#x27;apple&#x27;,&#x27;a&#x27;]
+print(sorted(words, key=lambda s: len(s)))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>[&#x27;a&#x27;, &#x27;kiwi&#x27;, &#x27;apple&#x27;, &#x27;banana&#x27;]</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>words=[&#x27;banana&#x27;,&#x27;kiwi&#x27;,&#x27;apple&#x27;,&#x27;a&#x27;]
+print(sorted(words, key=lambda s: len(s)))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q27">
+  <h3><span class="badge">27번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>try-except — 0으로 나누기(ZeroDivisionError)</strong><br/>아래 코드에서 발생하는 오류를 try/except로 처리하세요. 0으로 나누면 <code>0으로 나눌 수 없습니다</code>를 출력해야 합니다.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>try:
+    print(10/0)
+except ZeroDivisionError:
+    print(&#x27;0으로 나눌 수 없습니다&#x27;)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>0으로 나눌 수 없습니다</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>try:
+    print(10/0)
+except ZeroDivisionError:
+    print(&#x27;0으로 나눌 수 없습니다&#x27;)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q28">
+  <h3><span class="badge">28번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>try-except — 안전한 나눗셈 함수</strong><br/><code>safe_div(a, b)</code> 함수를 작성하세요. b가 0이면 <code>None</code>을 반환하고, 아니면 <code>a/b</code>를 반환하세요. (try/except 사용)</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(safe_div(10, 0))
+print(safe_div(5, 2))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>None
+2.5</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def safe_div(a, b):
+    try:
+        return a / b
+    except ZeroDivisionError:
+        return None
+
+print(safe_div(10, 0))
+print(safe_div(5, 2))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q29">
+  <h3><span class="badge">29번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>try-except — 여러 번 나눗셈 시도</strong><br/>아래 numbers를 10으로 나눈 결과를 순서대로 출력하세요. 단, 0이 나오면 오류가 나므로 try/except로 처리해 <code>error</code>를 출력하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>nums=[2, 0, 5]
+# 출력: 5.0, error, 2.0</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>5.0
+error
+2.0</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>nums=[2, 0, 5]
+for n in nums:
+    try:
+        print(10 / n)
+    except ZeroDivisionError:
+        print(&#x27;error&#x27;)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q30">
+  <h3><span class="badge">30번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>try-except(일반) — 숫자 변환 실패도 처리</strong><br/>사용자 입력을 int로 바꾼 뒤 10을 나누어 출력하려고 합니다. 오류가 나면(어떤 오류든) <code>입력 또는 계산 오류</code>를 출력하세요. (예외 종류를 지정하지 않는 except 사용)</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>try:
+    n = int(input())
+    print(10/n)
+except:
+    print(&#x27;입력 또는 계산 오류&#x27;)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>(입력에 따라 출력이 달라짐)</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>try:
+    n = int(input(&#x27;n: &#x27;))
+    print(10/n)
+except:
+    print(&#x27;입력 또는 계산 오류&#x27;)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q31">
+  <h3><span class="badge">31번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>try-except-else — 정상일 때만 else 실행</strong><br/>try에서 오류가 없을 때만 else에서 <code>정상 처리</code>를 출력하도록 작성하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>a=10
+b=2
+# try/except/else로 작성</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>5.0
+정상 처리</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>a=10
+b=2
+try:
+    print(a/b)
+except ZeroDivisionError:
+    print(&#x27;0으로 나눌 수 없습니다&#x27;)
+else:
+    print(&#x27;정상 처리&#x27;)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q32">
+  <h3><span class="badge">32번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>try-except-finally — finally는 항상 실행</strong><br/>0으로 나누기 오류가 나더라도 finally에서 <code>끝</code>을 출력하도록 작성하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>try:
+    print(10/0)
+except ZeroDivisionError:
+    print(&#x27;error&#x27;)
+finally:
+    print(&#x27;끝&#x27;)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>error
+끝</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>try:
+    print(10/0)
+except ZeroDivisionError:
+    print(&#x27;error&#x27;)
+finally:
+    print(&#x27;끝&#x27;)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q33">
+  <h3><span class="badge">33번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>함수 — 원의 둘레</strong><br/><code>circle_circumference(r, pi=3.14)</code> 함수를 작성하세요. 원의 둘레(2*pi*r)를 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(circle_circumference(2))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>12.56</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def circle_circumference(r, pi=3.14):
+    return 2 * pi * r
+
+print(circle_circumference(2))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q34">
+  <h3><span class="badge">34번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>함수 — 홀수/짝수 문자열 반환</strong><br/><code>odd_or_even(n)</code> 함수를 작성하세요. n이 짝수면 <code>'even'</code>, 홀수면 <code>'odd'</code>를 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(odd_or_even(4))
+print(odd_or_even(7))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>even
+odd</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def odd_or_even(n):
+    if n % 2 == 0:
+        return &#x27;even&#x27;
+    return &#x27;odd&#x27;
+
+print(odd_or_even(4))
+print(odd_or_even(7))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q35">
+  <h3><span class="badge">35번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>함수 — 문자열 반복</strong><br/><code>repeat(s, n)</code> 함수를 작성하세요. 문자열 s를 n번 반복한 결과를 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(repeat(&#x27;ab&#x27;, 3))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>ababab</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def repeat(s, n):
+    return s * n
+
+print(repeat(&#x27;ab&#x27;, 3))</code></pre>
+    </div>
+  </details>
+</article>
+</section>
+<section class="section" id="sec3">
+  <h2>3) 예외 처리 (36~50)</h2>
+  <article class="card" id="q36">
+  <h3><span class="badge">36번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>함수 — 리스트 합계</strong><br/><code>list_sum(nums)</code> 함수를 작성하세요. 리스트의 합계를 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(list_sum([1,2,3,4]))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>10</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def list_sum(nums):
+    total = 0
+    for x in nums:
+        total += x
+    return total
+
+print(list_sum([1,2,3,4]))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q37">
+  <h3><span class="badge">37번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>함수 — 리스트 최대-최소 차이</strong><br/><code>range_value(nums)</code> 함수를 작성하세요. (최댓값 - 최솟값)을 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(range_value([3, 10, 1, 7]))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>9</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def range_value(nums):
+    return max(nums) - min(nums)
+
+print(range_value([3, 10, 1, 7]))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q38">
+  <h3><span class="badge">38번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>키워드 인수 — 포맷 출력</strong><br/><code>format_price(price, currency='KRW')</code> 함수를 작성하세요. <code>currency: price</code> 형태의 문자열을 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(format_price(12000))
+print(format_price(15, currency=&#x27;USD&#x27;))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>KRW: 12000
+USD: 15</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def format_price(price, currency=&#x27;KRW&#x27;):
+    return f&#x27;{currency}: {price}&#x27;
+
+print(format_price(12000))
+print(format_price(15, currency=&#x27;USD&#x27;))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q39">
+  <h3><span class="badge">39번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>*args — 문자열 이어붙이기</strong><br/><code>concat(*args)</code> 함수를 작성하세요. 전달된 문자열을 공백 한 칸으로 이어 붙인 문자열을 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(concat(&#x27;I&#x27;, &#x27;like&#x27;, &#x27;python&#x27;))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>I like python</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def concat(*args):
+    return &#x27; &#x27;.join(args)
+
+print(concat(&#x27;I&#x27;, &#x27;like&#x27;, &#x27;python&#x27;))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q40">
+  <h3><span class="badge">40번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>*args + 기본값 — 구분자 지정</strong><br/><code>concat2(*args, sep='-')</code> 함수를 작성하세요. sep로 문자열을 이어 붙여 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(concat2(&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;))
+print(concat2(&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;, sep=&#x27;:&#x27;))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>a-b-c
+a:b:c</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def concat2(*args, sep=&#x27;-&#x27;):
+    return sep.join(args)
+
+print(concat2(&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;))
+print(concat2(&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;, sep=&#x27;:&#x27;))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q41">
+  <h3><span class="badge">41번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>**kwargs — 키 목록 출력</strong><br/><code>print_keys(**kwargs)</code> 함수를 작성하세요. 전달된 키들을 한 줄에 쉼표로 이어 출력하세요. (순서는 items() 순서 사용)</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print_keys(a=1, b=2, c=3)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>a,b,c</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def print_keys(**kwargs):
+    print(&#x27;,&#x27;.join(kwargs.keys()))
+
+print_keys(a=1, b=2, c=3)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q42">
+  <h3><span class="badge">42번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>**kwargs — 값 합계</strong><br/><code>sum_values(**kwargs)</code> 함수를 작성하세요. 전달된 값(value)들의 합을 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(sum_values(a=1, b=2, c=3))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>6</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def sum_values(**kwargs):
+    return sum(kwargs.values())
+
+print(sum_values(a=1, b=2, c=3))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q43">
+  <h3><span class="badge">43번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>인수 종류 — 위치 + 키워드 혼합 호출</strong><br/><code>calc(a, b, op='+')</code> 함수를 작성하세요. op가 '+', '-', '*' 중 하나일 때 계산 결과를 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(calc(3, 4))
+print(calc(10, 7, op=&#x27;-&#x27;))
+print(calc(2, 5, op=&#x27;*&#x27;))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>7
+3
+10</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def calc(a, b, op=&#x27;+&#x27;):
+    if op == &#x27;+&#x27;:
+        return a + b
+    if op == &#x27;-&#x27;:
+        return a - b
+    if op == &#x27;*&#x27;:
+        return a * b
+    return None
+
+print(calc(3, 4))
+print(calc(10, 7, op=&#x27;-&#x27;))
+print(calc(2, 5, op=&#x27;*&#x27;))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q44">
+  <h3><span class="badge">44번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>return 활용 — 조건 만족 시 바로 종료</strong><br/><code>find_first_even(nums)</code> 함수를 작성하세요. 리스트에서 처음 등장하는 짝수를 반환하고, 없으면 None을 반환하세요. (반복 중 return으로 중간 종료)</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(find_first_even([1,3,5,6,8]))
+print(find_first_even([1,3,5]))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>6
+None</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def find_first_even(nums):
+    for x in nums:
+        if x % 2 == 0:
+            return x
+    return None
+
+print(find_first_even([1,3,5,6,8]))
+print(find_first_even([1,3,5]))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q45">
+  <h3><span class="badge">45번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>리턴 여러 개 — 좌표 이동</strong><br/><code>move(x, y, dx, dy)</code> 함수를 작성하세요. (x+dx, y+dy)를 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>nx, ny = move(2, 3, 5, -1)
+print(nx, ny)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>7 2</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def move(x, y, dx, dy):
+    return x + dx, y + dy
+
+nx, ny = move(2, 3, 5, -1)
+print(nx, ny)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q46">
+  <h3><span class="badge">46번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>람다 — map으로 제곱 리스트 만들기</strong><br/>람다와 map을 사용해 nums의 각 원소를 제곱한 리스트를 만들어 출력하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>nums=[1,2,3,4]
+print(list(map(lambda x: x*x, nums)))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>[1, 4, 9, 16]</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>nums=[1,2,3,4]
+print(list(map(lambda x: x*x, nums)))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q47">
+  <h3><span class="badge">47번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>람다 — filter로 길이 4 이상만</strong><br/>람다와 filter를 사용해 길이가 4 이상인 단어만 남겨 리스트로 출력하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>words=[&#x27;a&#x27;,&#x27;to&#x27;,&#x27;java&#x27;,&#x27;python&#x27;,&#x27;go&#x27;]
+print(list(filter(lambda s: len(s) &gt;= 4, words)))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>[&#x27;java&#x27;, &#x27;python&#x27;]</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>words=[&#x27;a&#x27;,&#x27;to&#x27;,&#x27;java&#x27;,&#x27;python&#x27;,&#x27;go&#x27;]
+print(list(filter(lambda s: len(s) &gt;= 4, words)))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q48">
+  <h3><span class="badge">48번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>가변 인수 — 숫자 + 보너스 더하기</strong><br/><code>sum_with_bonus(*args, bonus=0)</code> 함수를 작성하세요. 모든 args 합에 bonus를 더해 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(sum_with_bonus(1,2,3, bonus=10))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>16</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def sum_with_bonus(*args, bonus=0):
+    return sum(args) + bonus
+
+print(sum_with_bonus(1,2,3, bonus=10))</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q49">
+  <h3><span class="badge">49번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>키워드 인수 — 주문 정보 출력</strong><br/><code>order(item, qty=1, **kwargs)</code> 함수를 작성하세요. item/qty는 필수 출력, kwargs는 추가 옵션을 key=value로 한 줄씩 출력하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>order(&#x27;커피&#x27;)
+order(&#x27;샌드위치&#x27;, qty=2, size=&#x27;L&#x27;, takeout=True)</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>item=커피
+qty=1
+item=샌드위치
+qty=2
+size=L
+takeout=True</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def order(item, qty=1, **kwargs):
+    print(f&#x27;item={item}&#x27;)
+    print(f&#x27;qty={qty}&#x27;)
+    for k, v in kwargs.items():
+        print(f&#x27;{k}={v}&#x27;)
+
+order(&#x27;커피&#x27;)
+order(&#x27;샌드위치&#x27;, qty=2, size=&#x27;L&#x27;, takeout=True)</code></pre>
+    </div>
+  </details>
+</article>
+
+<article class="card" id="q50">
+  <h3><span class="badge">50번</span> 문제</h3>
+
+  <div class="q-box">
+    <p class="q-desc"><strong>함수 — 문자열에서 특정 문자 개수</strong><br/><code>count_char(s, ch)</code> 함수를 작성하세요. 문자열 s에 ch가 몇 개 있는지 반환하세요.</p>
+  </div>
+
+  <details class="qa hint" open>
+    <summary>힌트 / 출력</summary>
+    <div class="details-body">
+      <div class="muted">호출 예시</div>
+      <pre><code>print(count_char(&#x27;banana&#x27;, &#x27;a&#x27;))</code></pre>
+      <div class="muted">출력 예시</div>
+      <pre><code>3</code></pre>
+    </div>
+  </details>
+
+  <details class="qa answer">
+    <summary>정답 코드 보기</summary>
+    <div class="details-body">
+      <div class="badge code">정답</div>
+      <pre><code>def count_char(s, ch):
+    return s.count(ch)
+
+print(count_char(&#x27;banana&#x27;, &#x27;a&#x27;))</code></pre>
+    </div>
+  </details>
+</article>
+</section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">HTML 파일과 styles.css를 같은 폴더에 두고 열면 스타일이 적용된다.</p>
+    </div>
+  </footer>
+</body>
+</html>

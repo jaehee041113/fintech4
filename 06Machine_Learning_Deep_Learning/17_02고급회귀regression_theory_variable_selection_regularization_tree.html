@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>변수선택법 · 정규화 회귀 · 트리 기반 회귀 이론 강의안</title>
+<style>
+  :root{
+    --bg:#0b1020;
+    --bg2:#121933;
+    --card:#ffffff;
+    --ink:#0f172a;
+    --muted:#475569;
+    --line:#dbe4f0;
+    --accent:#4f46e5;
+    --accent2:#06b6d4;
+    --soft:#eef2ff;
+    --soft2:#ecfeff;
+    --warn:#fff7ed;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family: "Pretendard","Noto Sans KR","Apple SD Gothic Neo",sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(79,70,229,.35), transparent 28%),
+      radial-gradient(circle at top right, rgba(6,182,212,.30), transparent 25%),
+      linear-gradient(180deg, var(--bg), #111827 30%, #0f172a 100%);
+    line-height:1.7;
+  }
+  .topbar{
+    position:sticky; top:0; z-index:1000;
+    backdrop-filter: blur(14px);
+    background:rgba(11,16,32,.75);
+    border-bottom:1px solid rgba(255,255,255,.10);
+  }
+  .topbar-inner{
+    max-width:1300px; margin:0 auto; padding:14px 22px;
+  }
+  .title{
+    color:#fff; font-weight:800; font-size:1.3rem; margin:0 0 8px 0;
+  }
+  .subtitle{
+    color:rgba(255,255,255,.75); font-size:.95rem; margin:0 0 12px 0;
+  }
+  .toc{
+    display:flex; flex-wrap:wrap; gap:8px;
+  }
+  .toc a{
+    text-decoration:none; color:#eef2ff; font-size:.92rem;
+    padding:8px 12px; border-radius:999px;
+    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.1);
+  }
+  .toc a:hover{background:rgba(255,255,255,.16)}
+  .wrap{max-width:1300px; margin:0 auto; padding:32px 18px 80px}
+  .slide{
+    background:var(--card); border:1px solid rgba(255,255,255,.15);
+    border-radius:28px; box-shadow:0 22px 60px rgba(15,23,42,.18);
+    padding:38px 38px 34px; margin:0 0 26px 0;
+  }
+  .kicker{
+    display:inline-block; padding:6px 10px; border-radius:999px;
+    background:linear-gradient(90deg,var(--soft),var(--soft2)); color:var(--accent);
+    font-weight:700; font-size:.85rem; margin-bottom:10px;
+  }
+  h1,h2,h3{margin:0 0 14px 0; line-height:1.3}
+  h1{font-size:2rem}
+  h2{font-size:1.65rem}
+  h3{font-size:1.15rem; margin-top:22px}
+  p{margin:10px 0}
+  ul,ol{margin:10px 0 10px 22px}
+  li{margin:6px 0}
+  table{
+    width:100%; border-collapse:collapse; margin:14px 0 18px;
+    font-size:.98rem; overflow:hidden;
+  }
+  th,td{border:1px solid var(--line); padding:12px 12px; vertical-align:top}
+  th{background:#f8fafc; text-align:left}
+  code{
+    background:#eef2ff; padding:2px 6px; border-radius:6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:.92em;
+  }
+  pre{
+    background:#0f172a; color:#e5e7eb; padding:18px; border-radius:18px;
+    overflow:auto; font-size:.92rem; line-height:1.55; border:1px solid #1e293b;
+  }
+  .grid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px}
+  .card{
+    border:1px solid var(--line); border-radius:18px; padding:16px;
+    background:linear-gradient(180deg,#fff,#fbfdff);
+  }
+  .note{
+    background:var(--warn); border-left:5px solid #fb923c; padding:14px 16px; border-radius:14px;
+    margin:14px 0;
+  }
+  .pill{
+    display:inline-block; padding:5px 10px; border-radius:999px;
+    background:#eff6ff; color:#1d4ed8; font-size:.85rem; font-weight:700; margin-right:6px;
+  }
+  .formula{
+    background:#f8fafc; border:1px solid var(--line); border-radius:18px;
+    padding:16px 18px; font-family: ui-monospace, monospace; overflow:auto;
+  }
+  .footer{
+    color:rgba(255,255,255,.72); text-align:center; padding-top:8px; font-size:.95rem;
+  }
+  @media (max-width:900px){
+    .grid{grid-template-columns:1fr}
+    .slide{padding:24px 20px}
+    h1{font-size:1.6rem} h2{font-size:1.35rem}
+  }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="title">변수선택법 · 정규화 회귀 · 트리 기반 회귀 이론 강의안</div>
+      <div class="subtitle">업로드한 회귀분석 노트북의 이론 내용을 중심으로 재구성한 슬라이드형 HTML</div>
+      <nav class="toc">
+        <a href="#s1">강의 개요</a>
+        <a href="#s2">변수선택 개념</a>
+        <a href="#s3">선택법 종류</a>
+        <a href="#s4">평가기준</a>
+        <a href="#s5">AIC·BIC·Cp</a>
+        <a href="#s6">정규화 회귀</a>
+        <a href="#s7">L1 규제</a>
+        <a href="#s8">L2 규제</a>
+        <a href="#s9">Elastic Net</a>
+        <a href="#s10">규제 비교</a>
+        <a href="#s11">트리 회귀 개념</a>
+        <a href="#s12">대표 트리 모델</a>
+        <a href="#s13">부스팅 계열</a>
+        <a href="#s14">모델 선택 가이드</a>
+      </nav>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="slide" id="s1">
+      <div class="kicker">Intro</div>
+      <h1>회귀모형을 더 잘 만드는 세 가지 축</h1>
+      <p>회귀분석에서는 단순히 선형회귀를 한 번 적합하는 것에서 끝나지 않습니다. 실제 분석에서는 <b>어떤 변수를 남길지</b>, <b>과적합을 어떻게 줄일지</b>, <b>비선형 관계를 어떻게 잡을지</b>가 매우 중요합니다.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>1. 변수선택법</h3>
+          <p>예측에 꼭 필요한 변수만 남겨 모델을 단순화하고 해석력을 높입니다.</p>
+        </div>
+        <div class="card">
+          <h3>2. 정규화 회귀</h3>
+          <p>계수 크기에 패널티를 주어 과적합을 줄이고 일반화 성능을 높입니다.</p>
+        </div>
+        <div class="card">
+          <h3>3. 트리 기반 회귀</h3>
+          <p>비선형 관계와 변수 간 상호작용을 자동으로 반영할 수 있습니다.</p>
+        </div>
+        <div class="card">
+          <h3>핵심 관점</h3>
+          <p><span class="pill">해석</span><span class="pill">예측</span><span class="pill">복잡도 제어</span>를 균형 있게 보는 것이 중요합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="s2">
+      <div class="kicker">Variable Selection</div>
+      <h2>변수선택법이 필요한 이유</h2>
+      <p>변수 선택(variable selection)의 목적은 <b>예측에 꼭 필요한 변수만 남겨서 모델을 단순하게 만들고</b>, 동시에 <b>과적합을 줄이며 해석력을 높이는 것</b>입니다.</p>
+      <table>
+        <tr><th>목적</th><th>설명</th></tr>
+        <tr><td>불필요한 변수 제거</td><td>의미 없는 변수를 제외하여 모델을 깔끔하게 만듭니다.</td></tr>
+        <tr><td>모델 단순화</td><td>변수 수를 줄이면 해석이 쉬워집니다.</td></tr>
+        <tr><td>과적합 방지</td><td>훈련데이터에만 지나치게 맞는 현상을 줄일 수 있습니다.</td></tr>
+        <tr><td>해석 용이성 향상</td><td>어떤 변수가 중요한지 더 명확하게 설명할 수 있습니다.</td></tr>
+        <tr><td>예측 성능 개선</td><td>잡음 변수를 제거하면 테스트 성능이 좋아질 수 있습니다.</td></tr>
+      </table>
+      <div class="note">변수가 많다고 항상 좋은 모델은 아닙니다. 설명력은 조금 높아져도 일반화 성능은 오히려 나빠질 수 있습니다.</div>
+    </section>
+
+    <section class="slide" id="s3">
+      <div class="kicker">Selection Methods</div>
+      <h2>변수선택법의 대표적인 종류</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>전진 선택법 (Forward Selection)</h3>
+          <ul>
+            <li>변수가 없는 상태에서 시작</li>
+            <li>가장 성능이 좋아지는 변수를 하나씩 추가</li>
+            <li>계산량이 비교적 적음</li>
+            <li>초기에 잘못 들어간 변수를 뒤늦게 빼기 어려움</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>후진 제거법 (Backward Elimination)</h3>
+          <ul>
+            <li>모든 변수를 넣고 시작</li>
+            <li>덜 중요한 변수를 하나씩 제거</li>
+            <li>전체 변수를 고려해서 시작한다는 장점</li>
+            <li>변수가 많으면 계산량이 큼</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>단계적 선택법 (Stepwise Selection)</h3>
+          <ul>
+            <li>전진 선택과 후진 제거를 결합</li>
+            <li>변수를 추가하기도 하고 제거하기도 함</li>
+            <li>더 유연하지만 절차가 복잡해질 수 있음</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>전체 부분집합 선택법 (Best Subset Selection)</h3>
+          <ul>
+            <li>가능한 모든 변수 조합을 비교</li>
+            <li>가장 좋은 조합을 선택</li>
+            <li>이론적으로 가장 철저함</li>
+            <li>변수가 많아지면 계산량이 폭발적으로 증가</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="s4">
+      <div class="kicker">Selection Criteria</div>
+      <h2>변수 선택 시 어떤 기준으로 판단할까?</h2>
+      <p>변수 선택에서는 단순히 설명력이 높은 모델보다 <b>설명력과 복잡도를 함께 고려한 모델</b>을 선택하는 것이 중요합니다.</p>
+      <table>
+        <tr><th>기준</th><th>핵심 아이디어</th><th>해석 포인트</th></tr>
+        <tr><td>AIC</td><td>적합도 + 변수 수에 대한 페널티</td><td>작을수록 좋음</td></tr>
+        <tr><td>BIC</td><td>AIC와 비슷하지만 변수 수에 더 강한 페널티</td><td>작을수록 좋음</td></tr>
+        <tr><td>Mallows' Cp</td><td>편향과 분산의 균형 확인</td><td>작고 단순한 모델 선호</td></tr>
+        <tr><td>교차검증 점수</td><td>훈련셋이 아닌 검증 성능을 직접 확인</td><td>예측 중심 분석에서 중요</td></tr>
+      </table>
+      <p>즉, 좋은 모델은 <b>잘 맞기만 하는 모델</b>이 아니라, <b>필요 이상으로 복잡하지 않은 모델</b>입니다.</p>
+    </section>
+
+    <section class="slide" id="s5">
+      <div class="kicker">AIC · BIC · Cp</div>
+      <h2>AIC, BIC, Mallows' Cp 핵심 정리</h2>
+
+      <h3>1. AIC (Akaike Information Criterion)</h3>
+      <div class="formula">AIC = -2 log L + 2k</div>
+      <ul>
+        <li><code>L</code>: 가능도(likelihood), <code>k</code>: 모수 개수</li>
+        <li>데이터에 잘 맞을수록 좋지만, 변수가 많아질수록 벌점을 줍니다.</li>
+        <li><b>AIC 값이 작을수록</b> 좋은 모델입니다.</li>
+        <li>상대적으로 예측 성능 중심의 모델 선택에 자주 사용됩니다.</li>
+      </ul>
+
+      <h3>2. BIC (Bayesian Information Criterion)</h3>
+      <div class="formula">BIC = -2 log L + k log n</div>
+      <ul>
+        <li>표본 수 <code>n</code>이 커질수록 벌점이 더 커집니다.</li>
+        <li>AIC보다 변수 수에 대해 더 보수적입니다.</li>
+        <li><b>단순한 모델을 더 선호</b>하는 경향이 있습니다.</li>
+      </ul>
+
+      <h3>3. Mallows' Cp</h3>
+      <ul>
+        <li>모형의 편향과 분산 사이 균형을 보려는 지표입니다.</li>
+        <li>값이 너무 크면 과적합 또는 부적절한 변수 조합일 수 있습니다.</li>
+        <li>후보 모델들을 비교할 때 참고 지표로 사용합니다.</li>
+      </ul>
+
+      <table>
+        <tr><th>지표</th><th>특징</th><th>언제 유용한가</th></tr>
+        <tr><td>AIC</td><td>복잡도 벌점이 비교적 약함</td><td>예측 성능을 좀 더 중시할 때</td></tr>
+        <tr><td>BIC</td><td>복잡도 벌점이 더 강함</td><td>더 단순한 모델을 선호할 때</td></tr>
+        <tr><td>Mallows' Cp</td><td>편향-분산 균형 관점</td><td>후보 모델 비교 보조 지표</td></tr>
+      </table>
+    </section>
+
+    <section class="slide" id="s6">
+      <div class="kicker">Regularized Regression</div>
+      <h2>정규화 회귀(Regularized Regression)란?</h2>
+      <p>정규화 회귀는 회귀모형에서 <b>변수의 계수(coefficient)가 너무 커지는 것을 방지하기 위해 규제(패널티)</b>를 추가하는 방법입니다. 이를 통해 <b>과적합을 줄이고 모델의 일반화 성능을 높일 수 있습니다.</b></p>
+      <div class="formula">
+기본 선형회귀:  minimize Σ(yi - ŷi)²
+
+정규화 회귀:    minimize [ Σ(yi - ŷi)² + Penalty ]
+      </div>
+      <p>대표적인 방법은 <b>L1 규제(Lasso)</b>, <b>L2 규제(Ridge)</b>, <b>Elastic Net</b>입니다.</p>
+      <div class="note">정규화 회귀는 특히 변수가 많거나, 변수끼리 상관이 높거나, 과적합이 의심될 때 매우 유용합니다.</div>
+    </section>
+
+    <section class="slide" id="s7">
+      <div class="kicker">L1 Penalty</div>
+      <h2>L1 규제: Lasso Regression</h2>
+      <div class="formula">Penalty = Σ |βj|</div>
+      <p>L1 규제는 <b>회귀계수의 절대값 합</b>을 패널티로 사용하는 방법입니다.</p>
+      <h3>핵심 특징</h3>
+      <ul>
+        <li>일부 변수의 계수를 <b>정확히 0</b>으로 만들 수 있습니다.</li>
+        <li>따라서 <b>자동 변수선택 효과</b>가 있습니다.</li>
+        <li>중요한 변수만 남기고 싶을 때 유리합니다.</li>
+      </ul>
+      <h3>언제 적합한가?</h3>
+      <ul>
+        <li>변수가 많고 불필요한 변수가 섞여 있을 때</li>
+        <li>해석 가능한 단순 모델이 필요할 때</li>
+        <li>변수선택을 동시에 하고 싶을 때</li>
+      </ul>
+      <div class="note"><b>한 줄 요약:</b> Lasso는 불필요한 변수를 제거하는 데 강한 규제 방법입니다.</div>
+    </section>
+
+    <section class="slide" id="s8">
+      <div class="kicker">L2 Penalty</div>
+      <h2>L2 규제: Ridge Regression</h2>
+      <div class="formula">Penalty = Σ βj²</div>
+      <p>L2 규제는 <b>회귀계수의 제곱합</b>을 패널티로 사용하는 방법입니다.</p>
+      <h3>핵심 특징</h3>
+      <ul>
+        <li>계수를 0에 가깝게 줄이지만 <b>완전히 0으로 만들지는 않는 경우가 많습니다.</b></li>
+        <li>모든 변수를 유지하면서도 계수의 크기를 안정화합니다.</li>
+        <li>다중공선성이 있을 때 특히 유리합니다.</li>
+      </ul>
+      <h3>언제 적합한가?</h3>
+      <ul>
+        <li>변수들이 모두 어느 정도 의미가 있다고 생각될 때</li>
+        <li>변수 제거보다는 계수 안정화가 중요할 때</li>
+        <li>상관이 높은 변수들이 많은 데이터일 때</li>
+      </ul>
+      <div class="note"><b>한 줄 요약:</b> Ridge는 변수를 없애기보다 계수를 작게 만들어 과적합을 줄입니다.</div>
+    </section>
+
+    <section class="slide" id="s9">
+      <div class="kicker">Mixed Penalty</div>
+      <h2>Elastic Net: L1과 L2의 결합</h2>
+      <p>Elastic Net은 L1과 L2 규제를 함께 사용하는 방법입니다.</p>
+      <div class="formula">Penalty = λ [ α Σ|βj| + (1-α) Σβj² ]</div>
+      <ul>
+        <li><code>α = 1</code> 이면 Lasso에 가까움</li>
+        <li><code>α = 0</code> 이면 Ridge에 가까움</li>
+        <li>L1의 변수선택 기능과 L2의 안정성을 동시에 활용할 수 있습니다.</li>
+      </ul>
+      <h3>언제 적합한가?</h3>
+      <ul>
+        <li>변수 수가 많고 상관이 높은 변수도 많은 경우</li>
+        <li>Lasso 하나로는 선택이 불안정할 때</li>
+        <li>변수선택과 계수 안정화를 함께 원할 때</li>
+      </ul>
+      <div class="note"><b>한 줄 요약:</b> Elastic Net은 Lasso와 Ridge의 절충안입니다.</div>
+    </section>
+
+    <section class="slide" id="s10">
+      <div class="kicker">Comparison</div>
+      <h2>L1 · L2 · Elastic Net 비교</h2>
+      <table>
+        <tr><th>방법</th><th>패널티</th><th>변수 제거</th><th>주요 장점</th><th>주의점</th></tr>
+        <tr><td>Lasso</td><td>L1</td><td>가능</td><td>자동 변수선택</td><td>상관 높은 변수들 사이에서 선택이 불안정할 수 있음</td></tr>
+        <tr><td>Ridge</td><td>L2</td><td>거의 없음</td><td>계수 안정화, 다중공선성 완화</td><td>변수 수를 직접 줄이지는 않음</td></tr>
+        <tr><td>Elastic Net</td><td>L1 + L2</td><td>가능</td><td>선택 + 안정성 동시 확보</td><td>튜닝할 하이퍼파라미터가 더 많음</td></tr>
+      </table>
+      <h3>실무 감각으로 기억하기</h3>
+      <ul>
+        <li><b>해석 가능한 간단한 모델</b>이 필요하면 → Lasso</li>
+        <li><b>다중공선성이 심하고 모든 변수를 유지</b>하고 싶으면 → Ridge</li>
+        <li><b>둘 다 필요</b>하면 → Elastic Net</li>
+      </ul>
+    </section>
+
+    <section class="slide" id="s11">
+      <div class="kicker">Tree Regression</div>
+      <h2>트리 기반 회귀란?</h2>
+      <p>트리 기반 회귀는 데이터를 여러 구간으로 나누면서 각 구간에서 예측값을 만드는 방법입니다. 선형회귀처럼 하나의 직선을 맞추는 것이 아니라, <b>조건 분기(rule)</b>를 통해 비선형 패턴을 잡습니다.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>핵심 아이디어</h3>
+          <p>“어떤 변수의 어떤 기준값을 기준으로 나누면 오차가 가장 많이 줄어드는가?”를 반복합니다.</p>
+        </div>
+        <div class="card">
+          <h3>왜 강한가?</h3>
+          <p>비선형 관계, 구간별 효과, 변수 간 상호작용을 자동으로 반영할 수 있습니다.</p>
+        </div>
+      </div>
+      <h3>트리 회귀의 장점</h3>
+      <ul>
+        <li>스케일링이 거의 필요 없습니다.</li>
+        <li>비선형 관계를 잘 반영합니다.</li>
+        <li>설명 규칙을 나무 구조로 볼 수 있어 직관적입니다.</li>
+      </ul>
+      <h3>트리 회귀의 단점</h3>
+      <ul>
+        <li>단일 트리는 과적합되기 쉽습니다.</li>
+        <li>데이터가 조금만 달라져도 구조가 바뀔 수 있습니다.</li>
+        <li>예측 경계가 계단형으로 나타날 수 있습니다.</li>
+      </ul>
+    </section>
+
+    <section class="slide" id="s12">
+      <div class="kicker">Tree Family</div>
+      <h2>대표적인 트리 기반 회귀 모델</h2>
+      <table>
+        <tr><th>모델</th><th>개념</th><th>특징</th></tr>
+        <tr><td>Decision Tree Regressor</td><td>하나의 트리로 예측</td><td>직관적이지만 과적합 위험이 큼</td></tr>
+        <tr><td>Random Forest Regressor</td><td>여러 트리를 무작위로 만들어 평균</td><td>안정적이고 기본 성능이 좋음</td></tr>
+        <tr><td>Gradient Boosting Regressor</td><td>이전 오차를 보완하는 트리를 순차적으로 추가</td><td>정교한 예측 가능</td></tr>
+        <tr><td>XGBoost / LightGBM / CatBoost</td><td>고성능 부스팅 계열</td><td>실무·대회에서 매우 자주 사용</td></tr>
+      </table>
+
+      <h3>단일 트리 vs 앙상블</h3>
+      <ul>
+        <li><b>단일 트리</b>는 해석이 쉽지만 불안정할 수 있습니다.</li>
+        <li><b>앙상블</b>은 여러 트리를 결합하여 성능과 안정성을 높입니다.</li>
+      </ul>
+    </section>
+
+    <section class="slide" id="s13">
+      <div class="kicker">Boosting Models</div>
+      <h2>XGBoost · LightGBM · CatBoost 이론 정리</h2>
+
+      <h3>XGBoost</h3>
+      <ul>
+        <li>Gradient Boosting을 효율적으로 개선한 모델</li>
+        <li>정규화, 병렬 처리, 가지치기 등이 잘 설계되어 있음</li>
+        <li>정확도와 안정성 때문에 매우 널리 사용됨</li>
+      </ul>
+
+      <h3>LightGBM</h3>
+      <ul>
+        <li>속도와 메모리 효율에 강점이 있는 부스팅 모델</li>
+        <li>대용량 데이터에서 빠르게 학습 가능</li>
+        <li>리프 중심 분할 방식으로 깊고 효율적인 트리를 만듦</li>
+      </ul>
+
+      <h3>CatBoost</h3>
+      <ul>
+        <li>범주형 변수 처리에 강한 부스팅 모델</li>
+        <li>별도의 복잡한 인코딩 없이도 좋은 성능을 내는 경우가 많음</li>
+        <li>카테고리 feature가 많은 데이터에서 특히 강점</li>
+      </ul>
+
+      <table>
+        <tr><th>모델</th><th>강점</th><th>특히 유리한 상황</th></tr>
+        <tr><td>XGBoost</td><td>정확도와 안정성</td><td>전반적으로 강력한 기본 선택지</td></tr>
+        <tr><td>LightGBM</td><td>속도와 대용량 처리</td><td>행 수가 많고 빠른 반복 실험이 필요할 때</td></tr>
+        <tr><td>CatBoost</td><td>범주형 처리</td><td>카테고리 feature가 많을 때</td></tr>
+      </table>
+    </section>
+
+    <section class="slide" id="s14">
+      <div class="kicker">Guide</div>
+      <h2>언제 어떤 회귀 방법을 선택할까?</h2>
+      <table>
+        <tr><th>상황</th><th>추천 방법</th><th>이유</th></tr>
+        <tr><td>해석이 가장 중요함</td><td>선형회귀 + 변수선택</td><td>계수 해석이 명확하고 설명하기 쉬움</td></tr>
+        <tr><td>과적합이 걱정됨</td><td>Ridge / Elastic Net</td><td>계수 크기를 조절해 일반화 성능 향상</td></tr>
+        <tr><td>변수 수가 많고 불필요한 변수도 많음</td><td>Lasso / Elastic Net</td><td>변수선택 효과를 기대할 수 있음</td></tr>
+        <tr><td>비선형 관계가 많음</td><td>트리 기반 회귀</td><td>직선이 아닌 복잡한 패턴을 잘 잡음</td></tr>
+        <tr><td>최고 성능이 필요함</td><td>XGBoost / LightGBM / CatBoost</td><td>부스팅 계열이 높은 예측력을 보이는 경우가 많음</td></tr>
+      </table>
+
+      <h3>최종 정리</h3>
+      <ul>
+        <li><b>변수선택법</b>은 “무엇을 남길까”에 대한 문제입니다.</li>
+        <li><b>정규화 회귀</b>는 “계수를 얼마나 줄일까”에 대한 문제입니다.</li>
+        <li><b>트리 기반 회귀</b>는 “비선형 구조를 어떻게 잡을까”에 대한 문제입니다.</li>
+      </ul>
+
+      <div class="note">강의에서는 세 방법을 서로 경쟁 관계로 보기보다, <b>해석 중심 / 예측 중심 / 비선형 대응</b>이라는 서로 다른 목적의 도구로 이해하는 것이 가장 좋습니다.</div>
+    </section>
+
+    <div class="footer">제작: 업로드한 회귀분석 노트북의 이론 내용 기반 재구성 · HTML 슬라이드형 강의안</div>
+  </main>
+</body>
+</html>

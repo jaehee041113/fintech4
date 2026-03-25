@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NLP 이론 강의안 (초보자용) — ML영역 vs DL영역 + 핀테크/서비스기획 예시</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --bg2:#0f1730;
+      --card:rgba(255,255,255,.08);
+      --text:#eaf0ff;
+      --muted:rgba(234,240,255,.72);
+      --line:rgba(255,255,255,.14);
+      --accent:#7aa7ff;
+      --accent2:#7dffcf;
+      --warn:#ffcc66;
+      --bad:#ff6b8a;
+      --good:#79ffa6;
+      --shadow: 0 12px 40px rgba(0,0,0,.35);
+      --radius:18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background:
+        radial-gradient(900px 600px at 10% 10%, rgba(122,167,255,.18), transparent 55%),
+        radial-gradient(900px 600px at 90% 20%, rgba(125,255,207,.12), transparent 55%),
+        radial-gradient(700px 500px at 60% 90%, rgba(255,204,102,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      color:var(--text);
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    .wrap{width:100%; max-width:none; margin:0; padding:22px 18px 72px;}
+
+    header.hero{
+      padding:22px 18px 16px;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    header.hero::before{
+      content:"";
+      position:absolute; inset:-60px -80px auto auto;
+      width:220px; height:220px;
+      background:radial-gradient(circle at 30% 30%, rgba(122,167,255,.55), transparent 60%);
+      filter: blur(10px);
+      opacity:.7;
+      transform: rotate(18deg);
+    }
+    .title{font-size:28px; letter-spacing:-.3px; margin:0 0 10px; line-height:1.2;}
+    .subtitle{margin:0 0 12px; color:var(--muted); line-height:1.6; font-size:15px;}
+    .pillrow{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px}
+    .pill{padding:8px 10px; border:1px solid var(--line); border-radius:999px; background:rgba(0,0,0,.18); color:var(--muted); font-size:12.5px;}
+
+    /* toc in header */
+    .tocbar{
+      border-top:1px solid rgba(255,255,255,.14);
+      padding-top:12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      position:relative;
+      z-index:2;
+    }
+    .tocbar a{
+      display:inline-block;
+      padding:9px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.18);
+      color:rgba(234,240,255,.86);
+      font-size:13px;
+      line-height:1;
+    }
+    .tocbar a:hover{background:rgba(122,167,255,.12); border-color:rgba(122,167,255,.28); text-decoration:none;}
+
+    main.content{margin-top:14px; display:flex; flex-direction:column; gap:14px;}
+    section.card{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:rgba(255,255,255,.06);
+      box-shadow: var(--shadow);
+      padding:18px 18px 16px;
+      width:100%;
+    }
+    section.card h2{margin:0 0 10px; font-size:20px; letter-spacing:-.3px;}
+    section.card h3{margin:14px 0 8px; font-size:16px; letter-spacing:-.2px; color:rgba(234,240,255,.92);}
+    section.card h4{margin:12px 0 8px; font-size:14.5px; letter-spacing:-.15px; color:rgba(234,240,255,.92);}
+    p{margin:8px 0; color:var(--muted); line-height:1.8; font-size:14.5px}
+    ul{margin:8px 0 8px 18px; color:var(--muted); line-height:1.8; font-size:14.5px}
+    li{margin:4px 0}
+
+    .note{
+      margin:10px 0;
+      padding:12px 12px;
+      border:1px solid rgba(255,204,102,.28);
+      background: rgba(255,204,102,.10);
+      border-radius:14px;
+      color: rgba(234,240,255,.84);
+      line-height:1.75;
+      font-size:14px;
+    }
+    .ok{border-color: rgba(121,255,166,.25); background: rgba(121,255,166,.10);}
+    .bad{border-color: rgba(255,107,138,.28); background: rgba(255,107,138,.10);}
+
+    .two{display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin:10px 0;}
+    @media (max-width: 900px){.two{grid-template-columns:1fr} .title{font-size:24px}}
+
+    .code{
+      font-family: var(--mono);
+      font-size: 12.8px;
+      line-height: 1.65;
+      background: rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:14px;
+      padding:12px 12px;
+      overflow:auto;
+      color: rgba(234,240,255,.88);
+      margin:10px 0;
+    }
+    .k{color: rgba(122,167,255,.95); font-weight:600;}
+    .mini{font-size:12.8px; color: rgba(234,240,255,.65); line-height:1.6;}
+
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      margin:10px 0;
+      background: rgba(0,0,0,.22);
+    }
+    th,td{
+      padding:10px 10px;
+      border-bottom:1px solid rgba(255,255,255,.12);
+      vertical-align:top;
+      font-size:13.5px;
+      color: rgba(234,240,255,.80);
+      line-height:1.65;
+    }
+    th{
+      background: rgba(255,255,255,.06);
+      color: rgba(234,240,255,.90);
+      font-weight:700;
+      letter-spacing:-.1px;
+      text-align:left;
+    }
+    tr:last-child td{border-bottom:0}
+
+    .tag{
+      display:inline-block;
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      margin-right:6px;
+      font-size:12px;
+      color: rgba(234,240,255,.72);
+    }
+    .badge{
+      display:inline-block;
+      font-size:12px;
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      color: rgba(234,240,255,.72);
+      margin-left:6px;
+      vertical-align:middle;
+    }
+    section{scroll-margin-top: 120px;}
+    footer{margin-top:18px; color: rgba(234,240,255,.55); font-size:12.5px; line-height:1.7; text-align:center;}
+
+    .split{
+      border:1px solid rgba(122,167,255,.22);
+      background: rgba(122,167,255,.08);
+      border-radius: 16px;
+      padding: 12px 12px;
+      margin: 10px 0;
+    }
+    .split h4{margin:0 0 6px}
+
+    details{
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:14px;
+      background: rgba(255,255,255,.05);
+      padding:10px 12px;
+      margin:10px 0;
+    }
+    summary{
+      cursor:pointer;
+      font-weight:700;
+      color: rgba(234,240,255,.92);
+      list-style:none;
+    }
+    summary::-webkit-details-marker{display:none}
+    details[open]{background: rgba(122,167,255,.08); border-color: rgba(122,167,255,.20)}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1 class="title">NLP 이론 강의안 (초보자용) <span class="badge">“전통 ML”과 “DL/Transformer”를 한 번에</span></h1>
+      <p class="subtitle">
+        요청하신 <b>BoW, N-gram, WordCloud, Word2Vec(CBOW/Skip-gram), LDA</b>를 빠짐없이 자세히 설명하고,<br/>
+        <b>RNN/LSTM/Attention/Transformer</b>까지 연결해서 “NLP 전체 지도”를 만들었습니다.<br/>
+        <span class="mini">추가: 핀테크 활용 예시 + 서비스 기획(산출물/KPI/운영정책) 활용 예시</span>
+      </p>
+
+      <div class="pillrow">
+        <span class="pill">구조: 문제유형 → ML영역(전통) → DL영역(문맥) → 선택/운영</span>
+        <span class="pill">초보자 포인트: 직관 + 예시 + 언제 쓰는지</span>
+        <span class="pill">실무 포인트: 핀테크/FDS/VOC/약관검색/상담자동화</span>
+      </div>
+
+      <nav class="tocbar" aria-label="목차">
+        <a href="#bigpicture">0. 큰그림</a>
+        <a href="#tasks">1. 텍스트분석 종류</a>
+        <a href="#fintech">2. 핀테크 예시</a>
+        <a href="#planning">3. 서비스기획 예시</a>
+        <a href="#basics">4. 기본 용어</a>
+        <a href="#mlzone">5. ML 영역</a>
+        <a href="#bow">5-1. BoW</a>
+        <a href="#ngram">5-2. N-gram</a>
+        <a href="#tfidf">5-3. TF-IDF</a>
+        <a href="#wordcloud">5-4. WordCloud</a>
+        <a href="#lda">5-5. LDA</a>
+        <a href="#embedding">6. Embedding/Word2Vec</a>
+        <a href="#cbow">6-1. CBOW</a>
+        <a href="#skipgram">6-2. Skip-gram</a>
+        <a href="#tsne">6-3. t-SNE</a>
+        <a href="#dlzone">7. DL 영역</a>
+        <a href="#rnn">7-1. RNN</a>
+        <a href="#lstm">7-2. LSTM</a>
+        <a href="#attention">7-3. Attention</a>
+        <a href="#transformer">7-4. Transformer</a>
+        <a href="#compare">8. ML vs DL 선택</a>
+        <a href="#practice">9. 실무 체크리스트</a>
+        <a href="#summary">10. 요약</a>
+      </nav>
+    </header>
+
+    <main class="content">
+
+      <!-- 0 -->
+      <section id="bigpicture" class="card">
+        <h2>0. NLP 큰그림 (텍스트 → 숫자 → 모델 → 해석)</h2>
+        <p>
+          NLP는 텍스트를 그대로 “이해”하는 게 아니라,
+          <b>텍스트를 숫자(벡터)로 바꾼 뒤</b> 모델이 그 숫자 패턴을 학습하게 만드는 과정입니다.
+          그래서 NLP에서 가장 중요한 질문은 다음입니다.
+        </p>
+        <ul>
+          <li><b>무슨 문제를 풀 건가?</b> (분류/토픽/유사도/요약/생성)</li>
+          <li><b>텍스트를 어떻게 숫자로 만들까?</b> (BoW/TF-IDF/Embedding)</li>
+          <li><b>어떤 모델이 그 숫자에서 패턴을 잘 찾나?</b> (ML 모델 / DL 모델)</li>
+        </ul>
+
+        <div class="split">
+          <h4>✅ 공통 파이프라인(실무 흐름)</h4>
+          <div class="code">
+1) 데이터 수집: 리뷰/상담로그/약관/공지/뉴스/사내 문서<br/>
+2) 전처리: 정규화(소문자/특수문자), 토큰화, 불용어, 표제어/어간 추출(필요시)<br/>
+3) 표현(벡터화): BoW/TF-IDF/Embedding(Word2Vec/문장임베딩)<br/>
+4) 모델링: 분류/토픽(LDA)/유사도/요약/생성(Transformer)<br/>
+5) 평가/운영: 정확도/F1, 토픽 해석, 모니터링, 재학습, KPI 대시보드
+          </div>
+        </div>
+
+        <div class="note ok">
+          <b>전통 ML vs DL 한줄</b><br/>
+          <b>ML</b>: BoW/TF-IDF 같은 “단어 기반 벡터” + 간단하고 빠른 모델 (해석 쉬움)<br/>
+          <b>DL</b>: Embedding + 신경망(RNN/LSTM/Transformer)로 “문맥/의미”를 더 깊게 학습 (성능↑)
+        </div>
+      </section>
+
+      <!-- 1 -->
+      <section id="tasks" class="card">
+        <h2>1. 텍스트 분석의 종류 (무엇을 얻고 싶은가?)</h2>
+        <p>먼저 문제 유형을 확실히 정해야, 불필요한 모델/비용을 줄일 수 있습니다.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>분석 종류</th>
+              <th>목표</th>
+              <th>출력(산출물)</th>
+              <th>대표 방법</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>문서 분류</b></td>
+              <td>문서를 라벨로 분류</td>
+              <td>카테고리 라벨</td>
+              <td>TF-IDF+SVM/로지스틱, Transformer</td>
+            </tr>
+            <tr>
+              <td><b>감성 분석</b></td>
+              <td>긍/부정/중립 또는 점수</td>
+              <td>감성 라벨/점수</td>
+              <td>TF-IDF, RNN/LSTM, Transformer</td>
+            </tr>
+            <tr>
+              <td><b>토픽 모델링</b></td>
+              <td>주제 자동 묶기</td>
+              <td>토픽 K개 + 토픽별 단어</td>
+              <td>LDA, (임베딩+군집)</td>
+            </tr>
+            <tr>
+              <td><b>키워드 추출</b></td>
+              <td>핵심 단어 뽑기</td>
+              <td>키워드 TOP-N</td>
+              <td>TF-IDF, WordCloud(시각화)</td>
+            </tr>
+            <tr>
+              <td><b>유사도/추천</b></td>
+              <td>비슷한 문서 찾기</td>
+              <td>유사 문서/FAQ 리스트</td>
+              <td>Word2Vec/문장임베딩 + 코사인</td>
+            </tr>
+            <tr>
+              <td><b>NER(개체명)</b></td>
+              <td>사람/회사/상품명 추출</td>
+              <td>엔티티 리스트</td>
+              <td>Transformer 기반</td>
+            </tr>
+            <tr>
+              <td><b>요약/생성</b></td>
+              <td>요약문/응답 생성</td>
+              <td>요약/답변 텍스트</td>
+              <td>Transformer</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="note">
+          <b>초보자 전략</b><br/>
+          1) 분류/키워드/토픽은 ML로 MVP → 2) 필요할 때 DL로 고도화(문맥/요약/생성)
+        </div>
+      </section>
+
+      <!-- 2 -->
+      <section id="fintech" class="card">
+        <h2>2. 핀테크 영역에서 NLP 활용 예시 (실제 서비스로 연결)</h2>
+        <div class="two">
+          <div class="split">
+            <h4>📌 리스크/보안(FDS) & 규제 대응</h4>
+            <ul>
+              <li><b>피싱/스미싱 탐지</b>: 문자·채팅 내용을 “피싱/정상” 분류</li>
+              <li><b>민원 조기경보</b>: 상담로그에서 “금감원/민원/고소” 키워드 급증 감지</li>
+              <li><b>이상거래 보조 신호</b>: 거래 메모/설명란에서 위험 문구 탐지</li>
+              <li><b>KYC/AML 보조</b>: 고객 입력 텍스트의 패턴 이상(가짜 주소/비정상 문구) 탐지</li>
+            </ul>
+          </div>
+          <div class="split">
+            <h4>📌 고객경험/상품</h4>
+            <ul>
+              <li><b>앱 리뷰 감성·이슈 분석</b>: 업데이트 후 불만 토픽(로그인/버그/UX) 자동 요약</li>
+              <li><b>약관/상품 설명 검색</b>: “중도상환수수료” 관련 조항을 의미 검색</li>
+              <li><b>FAQ/상담 자동 라우팅</b>: 문의 내용을 유형 분류해 담당 큐로 분배</li>
+              <li><b>개인화 추천</b>: 고객의 질문/관심사 기반으로 콘텐츠 추천</li>
+            </ul>
+          </div>
+        </div>
+        <div class="note ok">
+          <b>핵심</b>: 핀테크는 “신뢰/리스크/규제” 때문에 <b>설명 가능성</b>이 중요할 때가 많아 ML이 강점이고,<br/>
+          동시에 고객 응대 자동화(요약/생성)로 가면 Transformer가 큰 효과를 냅니다.
+        </div>
+      </section>
+
+      <!-- 3 -->
+      <section id="planning" class="card">
+        <h2>3. 서비스 기획에서 NLP 활용 예시 (산출물/KPI/운영정책)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>기획 단계</th>
+              <th>NLP로 할 수 있는 일</th>
+              <th>산출물 예</th>
+              <th>KPI 예</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>문제 정의</b></td>
+              <td>VOC/리뷰에서 반복 이슈를 수치화(토픽/키워드)</td>
+              <td>VOC 리포트, 이슈맵</td>
+              <td>버그 토픽 비중, 부정 비중</td>
+            </tr>
+            <tr>
+              <td><b>기능 설계</b></td>
+              <td>문의 자동분류→상담 라우팅, 자동 태깅</td>
+              <td>플로우차트, 정책서</td>
+              <td>라우팅 정확도, 처리시간 감소</td>
+            </tr>
+            <tr>
+              <td><b>UX/검색</b></td>
+              <td>유사도 기반 검색/추천</td>
+              <td>검색 정책, 랭킹 규칙</td>
+              <td>검색 성공률, FAQ 전환율</td>
+            </tr>
+            <tr>
+              <td><b>운영</b></td>
+              <td>이슈 급증 모니터링/알림</td>
+              <td>운영 가이드</td>
+              <td>민원 감소, SLA 개선</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="note">
+          <b>기획 관점 핵심</b><br/>
+          모델 정확도 자체보다 “라벨 정의/오탐·미탐 처리/재학습 루프/대시보드”가 서비스 품질을 결정합니다.
+        </div>
+      </section>
+
+      <!-- 4 -->
+      <section id="basics" class="card">
+        <h2>4. NLP 기본 용어 (반드시 알고 가기)</h2>
+        <table>
+          <thead>
+            <tr><th>용어</th><th>설명(초보자용)</th><th>예시</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b>Corpus</b></td><td>텍스트 전체 모음</td><td>리뷰 5만 개 전체</td></tr>
+            <tr><td><b>Document</b></td><td>코퍼스 안의 한 개 문서</td><td>리뷰 1개</td></tr>
+            <tr><td><b>Token</b></td><td>쪼갠 단위(단어/형태소)</td><td>“환불이”, “빨라요”</td></tr>
+            <tr><td><b>Tokenization</b></td><td>문장을 토큰으로 쪼개기</td><td>Mecab 형태소 분석</td></tr>
+            <tr><td><b>Vocabulary</b></td><td>전체 토큰 목록(사전)</td><td>단어 30,000개</td></tr>
+            <tr><td><b>Stopwords</b></td><td>의미가 약한 불용어</td><td>“그리고/정말/하다”</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 5 ML 영역 -->
+      <section id="mlzone" class="card">
+        <h2>5. 머신러닝(ML) 영역 — “단어 빈도 기반” 중심</h2>
+        <p>
+          ML 기반 NLP의 핵심은 <b>BoW/TF-IDF/N-gram</b> 같은 “단어 기반 벡터”를 만든 뒤
+          로지스틱/SVM/나이브베이즈 같은 모델로 분류하거나, LDA로 토픽을 찾는 것입니다.
+        </p>
+
+        <div class="note ok">
+          <b>ML이 잘 맞는 상황</b><br/>
+          빠르게 MVP, 비용 제약, 설명 가능성 필요(규제/리스크), 데이터가 많지 않을 때
+        </div>
+      </section>
+
+      <!-- 5-1 BoW -->
+      <section id="bow" class="card">
+        <h2>5-1. BoW (Bag of Words) — “단어를 세어서 벡터로”</h2>
+        <p>
+          BoW는 문장의 <b>단어 순서를 무시</b>하고, 각 단어가 <b>몇 번 등장했는지</b>를 세어서 벡터로 만듭니다.
+          그래서 “단어 주머니”라고 부릅니다.
+        </p>
+
+        <div class="split">
+          <h4>✅ 예시로 이해하기</h4>
+          <div class="code">
+문장1: "환불이 빨라요"<br/>
+문장2: "환불이 늦어요"<br/><br/>
+Vocabulary = ["환불", "빠르", "늦"] (형태소/어간 기준으로 단순화)<br/>
+BoW(문장1) = [1, 1, 0]<br/>
+BoW(문장2) = [1, 0, 1]
+          </div>
+        </div>
+
+        <div class="two">
+          <div class="note ok">
+            <b>장점</b>
+            <ul>
+              <li>단순/빠름, 적은 데이터에서도 강력한 베이스라인</li>
+              <li>해석 쉬움(어떤 단어가 영향 줬는지 바로 보임)</li>
+            </ul>
+          </div>
+          <div class="note bad">
+            <b>단점</b>
+            <ul>
+              <li>단어 순서/문맥을 잃음(“하지만” 같은 반전 처리 약함)</li>
+              <li>동의어 의미를 모름(“해지/탈퇴”를 따로 봄)</li>
+            </ul>
+          </div>
+        </div>
+
+        <details>
+          <summary>BoW가 의외로 잘 먹히는 이유</summary>
+          <p>
+            많은 텍스트 분류 문제는 “특정 단어/표현이 나오면 라벨이 결정되는 경우”가 많습니다.
+            예: “먹통/오류/로그인 안됨”이 나오면 불만/버그 라벨 가능성이 큼.
+          </p>
+        </details>
+      </section>
+
+      <!-- 5-2 N-gram -->
+      <section id="ngram" class="card">
+        <h2>5-2. N-gram — “단어 묶음”으로 순서 정보를 조금 살리기</h2>
+        <p>
+          BoW는 순서를 완전히 버립니다. N-gram은 이를 보완하기 위해
+          <b>연속된 N개의 토큰 묶음</b>을 하나의 특징으로 사용합니다.
+        </p>
+
+        <div class="split">
+          <h4>✅ 예시</h4>
+          <div class="code">
+문장: "로그인 오류가 계속 발생"<br/>
+1-gram(유니그램): ["로그인","오류","계속","발생"]<br/>
+2-gram(바이그램): ["로그인 오류","오류 계속","계속 발생"]<br/>
+3-gram(트라이그램): ["로그인 오류 계속","오류 계속 발생"]
+          </div>
+        </div>
+
+        <div class="note ok">
+          <b>왜 중요?</b><br/>
+          “로그인”과 “오류”가 따로 있는 것보다 <b>“로그인 오류”</b>라는 묶음이 훨씬 강한 신호입니다.<br/>
+          핀테크에서는 “계좌 해지”, “비밀번호 오류”, “인증 실패” 같은 바이그램이 매우 유용합니다.
+        </div>
+
+        <div class="note bad">
+          <b>주의</b><br/>
+          N을 올리면 특징 수가 폭발합니다(차원↑). 그래서 보통 1~2 또는 1~3 정도로 제한하고,
+          <span class="k">min_df</span>, <span class="k">max_df</span>로 단어를 정리합니다.
+        </div>
+      </section>
+
+      <!-- 5-3 TF-IDF -->
+      <section id="tfidf" class="card">
+        <h2>5-3. TF · IDF · TF-IDF — “중요한 단어에 가중치”</h2>
+        <h3>TF (Term Frequency)</h3>
+        <p>한 문서 안에서 단어가 얼마나 자주 등장했는지(빈도)입니다.</p>
+
+        <h3>IDF (Inverse Document Frequency)</h3>
+        <p>
+          전체 문서에 너무 흔한 단어는 정보량이 작으니 가중치를 낮춥니다.
+          예: “그리고/정말/하다” 같은 단어.
+        </p>
+
+        <h3>TF-IDF</h3>
+        <p>
+          TF × IDF로 계산하며,
+          “문서 안에서는 자주 나오고, 전체에서는 흔하지 않은” 단어의 점수를 높입니다.
+          텍스트 분류/검색/키워드 추출에 매우 강력합니다.
+        </p>
+
+        <div class="note ok">
+          <b>핀테크 예</b><br/>
+          리뷰에서 “인증서/간편인증/OTP/먹통” 같은 단어는 특정 이슈를 강하게 대표합니다.<br/>
+          TF-IDF는 이런 “이슈 대표 단어”를 잘 부각시켜 줍니다.
+        </div>
+      </section>
+
+      <!-- 5-4 WordCloud -->
+      <section id="wordcloud" class="card">
+        <h2>5-4. WordCloud — “빈도/중요도를 눈으로 보기”</h2>
+        <p>
+          WordCloud는 단어를 크게/작게 표시하는 시각화입니다.
+          크기 기준은 보통 <b>빈도(TF)</b> 또는 <b>TF-IDF 점수</b>를 사용합니다.
+        </p>
+
+        <div class="two">
+          <div class="note ok">
+            <b>언제 쓰나?</b>
+            <ul>
+              <li>EDA(탐색)에서 데이터 분위기 파악</li>
+              <li>긍정/부정 리뷰를 분리해 비교</li>
+              <li>업데이트 전/후 키워드 변화 비교</li>
+            </ul>
+          </div>
+          <div class="note bad">
+            <b>함정</b>
+            <ul>
+              <li>많이 나온 단어 ≠ 중요한 단어</li>
+              <li>불용어 제거 안 하면 의미 없는 단어가 크게 보임</li>
+              <li>문맥(왜 부정인지)을 직접 보여주진 못함</li>
+            </ul>
+          </div>
+        </div>
+
+        <details>
+          <summary>실무 팁(퀄리티 올리기)</summary>
+          <ul>
+            <li>불용어 사전을 직접 만들기(프로덕트 도메인 단어 포함)</li>
+            <li>명사/형용사 중심으로 토큰을 제한하면 해석이 쉬움</li>
+            <li>단순 빈도보다 <b>TF-IDF 상위 단어</b>로 만들면 “그룹 특화 단어”가 잘 보임</li>
+          </ul>
+        </details>
+      </section>
+
+      <!-- 5-5 LDA -->
+      <section id="lda" class="card">
+        <h2>5-5. LDA 토픽 모델링 — “문서를 주제 비율로 분해”</h2>
+        <p>
+          LDA(Latent Dirichlet Allocation)는 대표적인 토픽 모델입니다.
+          핵심 가정은 다음 2가지입니다.
+        </p>
+        <ul>
+          <li><b>토픽은 단어의 확률 분포</b>이다. (토픽 → 단어 분포)</li>
+          <li><b>문서는 토픽의 혼합</b>이다. (문서 → 토픽 분포)</li>
+        </ul>
+
+        <div class="split">
+          <h4>✅ 직관 예시</h4>
+          <div class="code">
+토픽 A(배송): ["배송","포장","빠르다","기사"] 확률이 높음<br/>
+토픽 B(환불): ["환불","취소","지연","처리"] 확률이 높음<br/><br/>
+문서1: 배송 0.8 + 환불 0.2<br/>
+문서2: 환불 0.9 + 배송 0.1
+          </div>
+        </div>
+
+        <h3>K(토픽 수) 선택이 핵심</h3>
+        <div class="two">
+          <div class="note">
+            <b>K가 너무 작으면</b><br/>
+            여러 주제가 한 토픽에 섞여 “이름 붙이기”가 어려워집니다.
+          </div>
+          <div class="note">
+            <b>K가 너무 크면</b><br/>
+            토픽이 쪼개져서 서로 비슷한 토픽이 여러 개 생기고 해석이 어려워집니다.
+          </div>
+        </div>
+
+        <div class="note ok">
+          <b>핀테크/VOC에 LDA가 잘 맞는 이유</b><br/>
+          리뷰/상담로그는 “무슨 이슈가 많은지”를 빠르게 뽑는 게 목적일 때가 많습니다.<br/>
+          LDA는 “배송/환불/인증/오류/수수료” 같은 주제 지도를 빠르게 만들어줍니다.
+        </div>
+
+        <div class="note bad">
+          <b>한계</b><br/>
+          LDA는 BoW 기반이라 “문맥/순서”를 반영하지 못합니다. (그래도 탐색/설명가능성/속도에서 강점)
+        </div>
+      </section>
+
+      <!-- 6 Embedding -->
+      <section id="embedding" class="card">
+        <h2>6. Embedding & Word2Vec — “의미를 담는 벡터”</h2>
+        <p>
+          BoW/TF-IDF는 의미를 직접 담지 못합니다.
+          Embedding은 단어를 “의미 기반” 벡터로 만들고,
+          의미가 비슷한 단어는 벡터 공간에서도 가깝게 배치되도록 학습합니다.
+        </p>
+
+        <div class="note ok">
+          <b>직관</b><br/>
+          “사과”와 “바나나”가 가까이, “자동차”는 멀리.
+          이런 관계를 데이터로부터 자동 학습합니다.
+        </div>
+
+        <h3>Word2Vec이란?</h3>
+        <p>
+          Word2Vec은 “주변 단어(Context)가 비슷하면 의미도 비슷하다”라는 가정으로 단어 벡터를 학습합니다.
+          대표 구조가 <b>CBOW</b>와 <b>Skip-gram</b>입니다.
+        </p>
+      </section>
+
+      <!-- 6-1 CBOW -->
+      <section id="cbow" class="card">
+        <h2>6-1. CBOW — “주변 단어로 중심 단어 맞히기”</h2>
+        <p>
+          CBOW(Continuous Bag of Words)는 <b>주변 단어(Context)</b>를 입력으로 넣고,
+          <b>중심 단어(Target)</b>를 예측합니다.
+        </p>
+
+        <div class="split">
+          <h4>✅ 예시</h4>
+          <div class="code">
+문장: "나는 사과를 먹었다"<br/>
+윈도우 크기=1이라면<br/>
+Context: ["나는", "먹었다"] → Target: ["사과"]
+          </div>
+        </div>
+
+        <div class="note ok">
+          <b>특징</b><br/>
+          보통 학습이 빠르고 안정적인 편이라 “데이터가 많을 때” 잘 동작하는 경우가 많습니다.
+        </div>
+      </section>
+
+      <!-- 6-2 Skip-gram -->
+      <section id="skipgram" class="card">
+        <h2>6-2. Skip-gram — “중심 단어로 주변 단어 맞히기”</h2>
+        <p>
+          Skip-gram은 CBOW의 반대입니다.
+          <b>중심 단어(Target)</b>로 <b>주변 단어(Context)</b>를 예측합니다.
+        </p>
+
+        <div class="split">
+          <h4>✅ 예시</h4>
+          <div class="code">
+문장: "나는 사과를 먹었다"<br/>
+Target: ["사과"] → Context: ["나는", "먹었다"]
+          </div>
+        </div>
+
+        <div class="note ok">
+          <b>특징</b><br/>
+          희귀 단어(자주 안 나오는 단어) 학습에 상대적으로 유리하다고 알려져 있습니다.
+        </div>
+      </section>
+
+      <!-- 6-3 t-SNE -->
+      <section id="tsne" class="card">
+        <h2>6-3. t-SNE — “임베딩을 2D로 내려서 눈으로 확인”</h2>
+        <p>
+          단어 임베딩은 보통 100~300차원입니다. t-SNE는 이를 2차원으로 줄여서
+          “비슷한 단어가 실제로 모여 있는지” 시각적으로 확인하는 데 쓰입니다.
+        </p>
+        <div class="note bad">
+          <b>주의</b><br/>
+          t-SNE는 로컬 구조는 잘 보여주지만, 전역 거리(멀리 떨어진 정도)는 과해석하면 안 됩니다.
+          실행할 때마다 모양이 달라질 수 있으니 <span class="k">random_state</span> 고정이 중요합니다.
+        </div>
+      </section>
+
+      <!-- 7 DL 영역 -->
+      <section id="dlzone" class="card">
+        <h2>7. 딥러닝(DL) 영역 — “문맥(순서/관계)”을 학습</h2>
+        <p>
+          DL은 Embedding을 입력으로 받아 문장/문서의 문맥을 학습합니다.
+          과거에는 RNN/LSTM이 중심이었고, 현재는 Attention/Transformer가 주류입니다.
+        </p>
+      </section>
+
+      <section id="rnn" class="card">
+        <h2>7-1. RNN — 순서대로 읽으며 기억 전달</h2>
+        <p>
+          RNN은 문장을 왼쪽→오른쪽으로 읽으면서 “이전 요약(기억)”을 다음 시점에 전달합니다.
+          그래서 BoW/TF-IDF보다 순서 정보를 더 잘 다룰 수 있습니다.
+        </p>
+        <div class="note bad">
+          <b>한계</b><br/>
+          문장이 길어지면 앞부분 정보가 사라지는 문제가 있어 LSTM이 등장했습니다.
+        </div>
+      </section>
+
+      <section id="lstm" class="card">
+        <h2>7-2. LSTM — “무엇을 기억/삭제할지” 게이트로 제어</h2>
+        <p>
+          LSTM은 게이트(Forget/Input/Output)로 메모리(셀 상태)를 관리해
+          긴 문맥에서도 정보가 덜 사라지도록 개선한 RNN 계열 모델입니다.
+        </p>
+      </section>
+
+      <section id="attention" class="card">
+        <h2>7-3. Attention — 중요한 단어에 집중</h2>
+        <p>
+          Attention은 문장을 해석할 때, 단어마다 중요도를 점수로 매겨
+          중요한 단어에 더 집중하도록 만드는 방법입니다.
+          번역/요약/질의응답에서 큰 효과를 냈습니다.
+        </p>
+      </section>
+
+      <section id="transformer" class="card">
+        <h2>7-4. Transformer — Self-Attention 기반의 표준</h2>
+        <p>
+          Transformer는 RNN처럼 순서대로 처리하지 않고,
+          문장 전체를 한 번에 보고 Self-Attention으로 단어 간 관계를 학습합니다.
+          병렬처리가 가능하고 긴 문맥에도 강해서 현재 NLP의 표준이 됐습니다.
+        </p>
+        <ul>
+          <li><b>Self-Attention</b>: 단어들이 서로에게 주는 영향 계산</li>
+          <li><b>Multi-Head</b>: 관계를 여러 관점으로 나눠서 봄</li>
+          <li><b>Positional Encoding</b>: 순서 정보 보완</li>
+        </ul>
+      </section>
+
+      <!-- 8 -->
+      <section id="compare" class="card">
+        <h2>8. ML vs DL 선택 기준</h2>
+        <table>
+          <thead><tr><th>상황</th><th>추천</th><th>이유</th></tr></thead>
+          <tbody>
+            <tr><td>빠른 MVP/비용 제약</td><td><b>ML(TF-IDF + 선형모델)</b></td><td>빠르고 해석 쉬움</td></tr>
+            <tr><td>문맥이 중요/표현 다양</td><td><b>DL(Transformer)</b></td><td>의미/뉘앙스에 강함</td></tr>
+            <tr><td>요약/생성/고급 검색</td><td><b>DL(Transformer)</b></td><td>생성형/의미 검색 적합</td></tr>
+            <tr><td>규제/설명가능성 중요</td><td><b>ML 우선</b></td><td>단어 가중치로 설명 쉬움</td></tr>
+          </tbody>
+        </table>
+        <div class="note ok">
+          <b>실무 황금 규칙</b><br/>
+          ML로 기준선 → 성능/문맥/요약 필요 시 DL로 업그레이드
+        </div>
+      </section>
+
+      <!-- 9 -->
+      <section id="practice" class="card">
+        <h2>9. 실무 체크리스트(운영 포함)</h2>
+        <ul>
+          <li><b>라벨 정의</b>: 환불/해지/인증오류 등 기준을 문장 예시로 명확히</li>
+          <li><b>불용어/정규화</b>: 워드클라우드/TF-IDF/LDA 품질에 결정적</li>
+          <li><b>데이터 누수</b>: “처리완료” 같은 미래정보가 학습에 들어가지 않게</li>
+          <li><b>오탐/미탐 정책</b>: 수동 검수/재학습/알림 기준</li>
+          <li><b>KPI</b>: 토픽 비중 변화, 부정 비중, 처리시간 감소, 상담 이관율 감소 등</li>
+        </ul>
+      </section>
+
+      <!-- 10 -->
+      <section id="summary" class="card">
+        <h2>10. 최종 요약</h2>
+        <div class="two">
+          <div class="split">
+            <h4>ML 영역(단어 기반 벡터)</h4>
+            <ul>
+              <li>BoW, N-gram, TF-IDF</li>
+              <li>WordCloud(시각화), LDA(토픽)</li>
+              <li>장점: 빠름/저비용/해석 쉬움</li>
+            </ul>
+          </div>
+          <div class="split">
+            <h4>DL 영역(문맥/의미 학습)</h4>
+            <ul>
+              <li>Embedding(Word2Vec)</li>
+              <li>RNN/LSTM → Attention/Transformer</li>
+              <li>장점: 문맥/뉘앙스/요약·생성에 강함</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="note ok">
+          <b>핀테크/기획 연결</b><br/>
+          ML로 VOC/리스크 텍스트를 빠르게 구조화(분류/토픽/키워드)하고,<br/>
+          DL로 상담요약/의미검색/고정밀 분류를 붙이면 서비스 기획 기능으로 자연스럽게 이어집니다.
+        </div>
+      </section>
+
+      <footer>
+        © NLP Theory Notes (Beginner-friendly).<br/>
+        원하시면 이 HTML과 동일한 구조로 “실습 ipynb(리뷰 데이터: TF-IDF 분류 → LDA 토픽 → Word2Vec/t-SNE → Transformer)”까지 만들어드릴게요.
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

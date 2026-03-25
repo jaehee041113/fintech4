@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jupyter Markdown 실습문제 30</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <span class="badge">Practice · Markdown</span>
+      <h1 class="title">Jupyter Markdown 실습문제 30</h1>
+      <p class="subtitle">각 문제는 “Markdown 셀”에서 직접 입력해보고, 렌더링 결과를 확인하는 실습이다.</p>
+
+      <nav class="toc" aria-label="목차">
+        <a href="#howto">실습 방법</a>
+        <a href="#problems">문제</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="section" id="howto">
+      <h2>실습 방법</h2>
+      <div class="card">
+        <ol class="list">
+          <li>Jupyter Notebook에서 새 셀을 만든다.</li>
+          <li><code>Esc → M</code>으로 Markdown 셀로 바꾼다.</li>
+          <li>문제의 “작성할 마크다운”을 그대로 입력한다(또는 요구사항을 만족하도록 작성한다).</li>
+          <li><code>Shift + Enter</code>로 렌더링 결과를 확인한다.</li>
+        </ol>
+        <div class="note">
+          <strong>체크 포인트</strong> “작성할 마크다운”은 정답 예시일 뿐이며, 같은 결과가 나오면 다른 표현도 정답이다.
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="problems">
+      <h2>문제</h2>
+
+      <!-- 1 -->
+      <div class="card" id="q1">
+        <h3><span class="badge">1</span> 제목 1 만들기</h3>
+        <p>“내 첫 번째 노트북”이라는 <strong>제목 1</strong>을 작성하라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>#</code>을 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code># 내 첫 번째 노트북</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 2 -->
+      <div class="card" id="q2">
+        <h3><span class="badge">2</span> 제목 2 만들기</h3>
+        <p>“실습 목표”라는 <strong>제목 2</strong>를 작성하라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>##</code>을 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>## 실습 목표</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 3 -->
+      <div class="card" id="q3">
+        <h3><span class="badge">3</span> 문단 나누기</h3>
+        <p>아래 문장을 <strong>두 문단</strong>으로 나누어 작성하라.</p>
+        <pre><code>데이터 분석은 질문에서 시작한다.
+좋은 질문이 좋은 결과를 만든다.</code></pre>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p>문단은 “빈 줄”로 구분한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>데이터 분석은 질문에서 시작한다.
+
+좋은 질문이 좋은 결과를 만든다.</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 4 -->
+      <div class="card" id="q4">
+        <h3><span class="badge">4</span> 줄바꿈 만들기</h3>
+        <p>한 문단 안에서 아래처럼 줄바꿈이 되도록 작성하라.</p>
+        <pre><code>첫 줄
+둘째 줄</code></pre>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p>문장 끝에 공백 2칸을 넣는다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>첫 줄␠␠
+둘째 줄</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 5 -->
+      <div class="card" id="q5">
+        <h3><span class="badge">5</span> 굵게 표시</h3>
+        <p>“중요”라는 단어를 <strong>굵게</strong> 표시하라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>** **</code>를 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>**중요**</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 6 -->
+      <div class="card" id="q6">
+        <h3><span class="badge">6</span> 기울임 표시</h3>
+        <p>“주의”라는 단어를 <strong>기울임</strong>으로 표시하라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>* *</code>를 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>*주의*</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 7 -->
+      <div class="card" id="q7">
+        <h3><span class="badge">7</span> 굵고 기울임</h3>
+        <p>“핵심”이라는 단어를 <strong>굵고 기울임</strong>으로 표시하라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>*** ***</code>를 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>***핵심***</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 8 -->
+      <div class="card" id="q8">
+        <h3><span class="badge">8</span> 인라인 코드</h3>
+        <p>문장 “변수는 x = 10 으로 만든다.”에서 <code>x = 10</code>을 인라인 코드로 표시하라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p>백틱 1개를 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>변수는 `x = 10` 으로 만든다.</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 9 -->
+      <div class="card" id="q9">
+        <h3><span class="badge">9</span> 순서 없는 목록</h3>
+        <p>과일 3개(사과, 바나나, 포도)를 순서 없는 목록으로 작성하라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>-</code>를 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>- 사과
+- 바나나
+- 포도</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 10 -->
+      <div class="card" id="q10">
+        <h3><span class="badge">10</span> 순서 있는 목록</h3>
+        <p>“수집→정제→학습” 3단계를 순서 있는 목록으로 작성하라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>1.</code>, <code>2.</code> 형태로 쓴다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>1. 수집
+2. 정제
+3. 학습</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 11 -->
+      <div class="card" id="q11">
+        <h3><span class="badge">11</span> 중첩 목록</h3>
+        <p>“과일(사과, 바나나)”를 중첩 목록으로 작성하라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p>하위 항목은 들여쓰기를 한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>- 과일
+  - 사과
+  - 바나나</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 12 -->
+      <div class="card" id="q12">
+        <h3><span class="badge">12</span> 인용문</h3>
+        <p>“측정할 수 없으면 개선할 수 없다.”를 인용문으로 작성하라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>&gt;</code>를 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>&gt; 측정할 수 없으면 개선할 수 없다.</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 13 -->
+      <div class="card" id="q13">
+        <h3><span class="badge">13</span> 구분선</h3>
+        <p>문단 사이에 구분선을 넣어라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>---</code>를 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>첫 문단이다.
+
+---
+
+둘째 문단이다.</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 14 -->
+      <div class="card" id="q14">
+        <h3><span class="badge">14</span> 링크 만들기</h3>
+        <p>“OpenAI”라는 텍스트에 <code>https://www.openai.com</code> 링크를 걸어라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>[텍스트](URL)</code> 형식이다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>[OpenAI](https://www.openai.com)</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 15 -->
+      <div class="card" id="q15">
+        <h3><span class="badge">15</span> 이미지 넣기</h3>
+        <p>대체 텍스트가 “sample”이고 경로가 <code>images/sample.png</code>인 이미지를 넣어라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>![대체텍스트](경로)</code> 형식이다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>![sample](images/sample.png)</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 16 -->
+      <div class="card" id="q16">
+        <h3><span class="badge">16</span> 표 만들기</h3>
+        <p>아래 데이터를 표로 작성하라.</p>
+        <pre><code>이름: 철수, 나이: 20
+이름: 영희, 나이: 21</code></pre>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p>헤더 아래에 <code>|---|---|</code>가 필요하다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>| 이름 | 나이 |
+|---|---|
+| 철수 | 20 |
+| 영희 | 21 |</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 17 -->
+      <div class="card" id="q17">
+        <h3><span class="badge">17</span> 표 정렬</h3>
+        <p>표에서 1열은 왼쪽, 2열은 가운데, 3열은 오른쪽 정렬을 지정하라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>:---</code>, <code>:---:</code>, <code>---:</code>를 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>| L | C | R |
+|:---|:---:|---:|
+| 1 | 2 | 3 |</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 18 -->
+      <div class="card" id="q18">
+        <h3><span class="badge">18</span> 체크박스</h3>
+        <p>할 일 3개를 체크박스로 작성하라. (첫 번째는 완료 처리)</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>- [x]</code>, <code>- [ ]</code>를 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>- [x] 환경 설정
+- [ ] 데이터 로드
+- [ ] 시각화</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 19 -->
+      <div class="card" id="q19">
+        <h3><span class="badge">19</span> 코드 블록 (python)</h3>
+        <p>아래 코드를 Python 코드 블록으로 감싸라.</p>
+        <pre><code>print("hello")</code></pre>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p>백틱 3개와 언어명을 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>```python
+print("hello")
+```</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 20 -->
+      <div class="card" id="q20">
+        <h3><span class="badge">20</span> 코드 블록 (sql)</h3>
+        <p>아래 쿼리를 SQL 코드 블록으로 작성하라.</p>
+        <pre><code>SELECT * FROM film LIMIT 5;</code></pre>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>```sql</code>로 시작한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>```sql
+SELECT * FROM film LIMIT 5;
+```</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 21 -->
+      <div class="card" id="q21">
+        <h3><span class="badge">21</span> 인라인 수식</h3>
+        <p>문장 “직선은 y = ax + b 로 표현한다.”에서 수식을 인라인 수식으로 표시하라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>$...$</code>를 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>직선은 $y = ax + b$ 로 표현한다.</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 22 -->
+      <div class="card" id="q22">
+        <h3><span class="badge">22</span> 블록 수식</h3>
+        <p>아래 수식을 블록 수식으로 작성하라.</p>
+        <pre><code>\sum_{i=1}^{n} x_i</code></pre>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>$$</code>로 감싼다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>$$
+\sum_{i=1}^{n} x_i
+$$</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 23 -->
+      <div class="card" id="q23">
+        <h3><span class="badge">23</span> 제목 + 목록 조합</h3>
+        <p>제목 2 “오늘 할 일”을 만들고, 아래 3개를 순서 없는 목록으로 작성하라.</p>
+        <pre><code>노트북 정리
+실습
+복습</code></pre>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>##</code>와 <code>-</code>를 조합한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>## 오늘 할 일
+- 노트북 정리
+- 실습
+- 복습</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 24 -->
+      <div class="card" id="q24">
+        <h3><span class="badge">24</span> 인용문 + 강조</h3>
+        <p>아래 문장을 인용문으로 만들고, “중요”만 굵게 표시하라.</p>
+        <pre><code>중요한 것은 꾸준함이다.</code></pre>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>&gt;</code>와 <code>** **</code>를 함께 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>&gt; **중요**한 것은 꾸준함이다.</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 25 -->
+      <div class="card" id="q25">
+        <h3><span class="badge">25</span> 링크 + 인라인 코드</h3>
+        <p>“문서”라는 링크 텍스트로 <code>https://example.com</code>에 연결하고, 같은 문장에 <code>README.md</code>를 인라인 코드로 넣어라.</p>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>[문서](...)</code>와 <code>`README.md`</code>를 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>[문서](https://example.com) 를 읽고 `README.md`를 확인한다.</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 26 -->
+      <div class="card" id="q26">
+        <h3><span class="badge">26</span> 체크박스 + 진행상황</h3>
+        <p>“진행상황” 제목 3을 만들고, 아래 3개를 체크박스로 작성하라. (2개 완료)</p>
+        <pre><code>데이터 수집
+전처리
+모델 학습</code></pre>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>###</code>와 <code>- [x]</code>를 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>### 진행상황
+- [x] 데이터 수집
+- [x] 전처리
+- [ ] 모델 학습</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 27 -->
+      <div class="card" id="q27">
+        <h3><span class="badge">27</span> 표 + 정렬 혼합</h3>
+        <p>아래 요구사항을 만족하는 표를 작성하라.</p>
+        <ul class="list">
+          <li>컬럼: 항목(왼쪽), 값(오른쪽)</li>
+          <li>행: 정확도 0.93, 손실 0.12</li>
+        </ul>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p>정렬은 2번째 열을 <code>---:</code>로 지정한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>| 항목 | 값 |
+|:---|---:|
+| 정확도 | 0.93 |
+| 손실 | 0.12 |</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 28 -->
+      <div class="card" id="q28">
+        <h3><span class="badge">28</span> 문서 템플릿 만들기</h3>
+        <p>아래 구조를 그대로 만드는 마크다운을 작성하라.</p>
+        <pre><code>제목 1: 데이터 분석 보고서
+제목 2: 1. 문제 정의
+(한 줄 설명)
+제목 2: 2. 데이터
+(한 줄 설명)</code></pre>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p><code>#</code>, <code>##</code>, 문단을 사용한다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code># 데이터 분석 보고서
+
+## 1. 문제 정의
+분석 목적을 한 줄로 적는다.
+
+## 2. 데이터
+데이터 출처와 범위를 한 줄로 적는다.</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 29 -->
+      <div class="card" id="q29">
+        <h3><span class="badge">29</span> 코드 블록 + 설명 문장</h3>
+        <p>아래 요구사항을 만족하라.</p>
+        <ul class="list">
+          <li>“예제 코드”라는 문장을 쓴다.</li>
+          <li>다음 코드를 Python 코드 블록으로 넣는다.</li>
+        </ul>
+        <pre><code>nums = [1, 2, 3]
+sum(nums)</code></pre>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body"><p>문장 + 코드블록을 연달아 쓰면 된다.</p></div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>예제 코드
+
+```python
+nums = [1, 2, 3]
+sum(nums)
+```</code></pre></div>
+        </details>
+      </div>
+
+      <!-- 30 -->
+      <div class="card" id="q30">
+        <h3><span class="badge">30</span> 종합 문제</h3>
+        <p>아래 요구사항을 모두 만족하는 마크다운을 작성하라.</p>
+        <ul class="list">
+          <li>제목 2: “요약”</li>
+          <li>인용문: “결과는 재현 가능해야 한다.”</li>
+          <li>체크박스 2개: (첫 번째 완료) “데이터 저장”, “리포트 작성”</li>
+          <li>구분선 1개</li>
+          <li>마지막 줄에 인라인 수식 <code>E = mc^2</code>를 포함한 문장</li>
+        </ul>
+        <details class="hint" open>
+          <summary>힌트</summary>
+          <div class="details-body">
+            <p><code>##</code>, <code>&gt;</code>, <code>- [x]</code>, <code>---</code>, <code>$...$</code>를 모두 사용한다.</p>
+          </div>
+        </details>
+        <details class="answer">
+          <summary>정답 예시</summary>
+          <div class="details-body"><pre><code>## 요약
+
+&gt; 결과는 재현 가능해야 한다.
+
+- [x] 데이터 저장
+- [ ] 리포트 작성
+
+---
+
+마지막으로 $E = mc^2$ 를 확인한다.</code></pre></div>
+        </details>
+      </div>
+
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,16 @@
+data/
+*.csv
+*.json
+*.xlsx
+.env
+.env*
+build/
+dist/
+*.spec
+models/
+utils/
+*.pkl
+*.keras
+*.h5
+07DeepLearning/model/*.keras
+*.tflite

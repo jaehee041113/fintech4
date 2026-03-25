@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>웹에서 자료를 수집하는 방법: API/HTTP/URL/파라미터/헤더/GET·POST</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <span class="badge">Web Data Collection · HTTP/API 기본기</span>
+      <h1 class="title">API로 데이터 수집하기 (개념부터 실전까지)</h1>
+      <p class="subtitle">
+        이 강의안은 “API를 이용한 데이터 수집”을 할 때 반드시 알아야 할 <b>HTTP</b>, <b>URL</b>, <b>Query Parameter</b>, <b>Header</b>,
+        <b>GET/POST</b> 차이, 그리고 <b>정적/동적 스크래핑</b>과의 관계를 초보자도 납득할 수 있게 설명합니다.
+      </p>
+
+      <nav class="toc" aria-label="목차">
+        <a href="#overview">1. 큰 그림</a>
+        <a href="#http">2. HTTP란?</a>
+        <a href="#url">3. URL 구조</a>
+        <a href="#params">4. Parameter(쿼리/경로/바디)</a>
+        <a href="#headers">5. Header란?</a>
+        <a href="#methods">6. GET vs POST</a>
+        <a href="#status">7. 상태코드</a>
+        <a href="#auth">8. 인증(토큰/키)</a>
+        <a href="#scraping">9. 스크래핑과 비교</a>
+        <a href="#practice">10. 실전 예제</a>
+        <a href="#checklist">11. 체크리스트</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- 1) 큰 그림 -->
+    <section class="section" id="overview">
+      <h2>1. 큰 그림: “웹에서 자료를 수집한다”는 말의 의미</h2>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>1) API를 이용한 수집 (권장)</h3>
+          <p class="p">
+            API는 “서비스가 정해준 규칙대로 요청하면, 기계가 읽기 쉬운 형태(JSON/XML 등)로 데이터를 주는 창구”입니다.
+            즉, 데이터 수집 관점에서는 <b>웹페이지(HTML)</b>를 긁는 것보다 훨씬 안정적입니다.
+          </p>
+          <ul class="list">
+            <li><b>장점</b>: 구조가 일정, 속도 빠름, 정책/문서가 있음, 오류 처리 쉬움</li>
+            <li><b>단점</b>: 인증 필요할 수 있음, 호출 제한(레이트 리밋), 제공 범위에 제한</li>
+          </ul>
+          <div class="note">
+            예: 네이버/구글/카카오/공공데이터 포털 등에서 제공하는 Open API 활용
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>2) 웹페이지 스크래핑(크롤링/파싱) 기반 수집</h3>
+          <p class="p">
+            스크래핑은 사람이 보는 <b>웹페이지(HTML)</b>를 받아와서 원하는 부분을 추출하는 방식입니다.
+            사이트에 따라 <b>정적 페이지</b>와 <b>동적 페이지</b>의 난이도가 크게 다릅니다.
+          </p>
+          <ul class="list">
+            <li><b>정적 페이지</b>: JS 없이도 HTML에 내용이 포함 → requests + BeautifulSoup로 수집 가능</li>
+            <li><b>동적 페이지</b>: JS가 화면을 “그린 뒤”에 데이터가 보임 → 브라우저 자동화(Selenium/Playwright) 또는 내부 API 호출 필요</li>
+          </ul>
+          <div class="warn">
+            스크래핑은 서비스 약관/로봇 정책/저작권/개인정보 이슈가 있을 수 있습니다. 반드시 합법/정책 준수 범위에서 진행하세요.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>오늘의 목표</h3>
+        <ul class="list">
+          <li>“API 요청 1번”이 실제로는 <b>HTTP 요청/응답</b>이라는 걸 이해한다.</li>
+          <li>URL을 보고 <b>어떤 서버에 무엇을 요청하는지</b>를 읽을 수 있다.</li>
+          <li><b>파라미터 / 헤더 / 메서드(GET/POST)</b>를 구분해 요청을 설계할 수 있다.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 2) HTTP -->
+    <section class="section" id="http">
+      <h2>2. HTTP란? (웹 통신의 공용어)</h2>
+
+      <div class="card">
+        <h3>HTTP 한 문장 정의</h3>
+        <p class="p">
+          <b>HTTP(HyperText Transfer Protocol)</b>는 “클라이언트(브라우저/앱/파이썬 코드)가 서버에 요청(Request)을 보내고,
+          서버가 응답(Response)을 돌려주는 규칙(프로토콜)”입니다.
+        </p>
+        <div class="mini">
+          <div class="mini-title">비유로 이해하기</div>
+          <ul class="list">
+            <li><b>클라이언트</b>: 주문하는 사람 (브라우저, 파이썬 requests, 앱)</li>
+            <li><b>서버</b>: 주문을 받는 가게 (네이버/공공데이터 서버)</li>
+            <li><b>요청(Request)</b>: “이 메뉴 주세요” (URL + 메서드 + 헤더 + 바디)</li>
+            <li><b>응답(Response)</b>: “여기 있습니다” (상태코드 + 헤더 + 바디(JSON/HTML 등))</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>HTTPS는 뭐가 다를까?</h3>
+        <p class="p">
+          <b>HTTPS</b>는 HTTP에 <b>암호화(TLS)</b>를 더한 것입니다. 전송 중에 데이터가 노출/변조되는 위험을 줄입니다.
+          현대 웹서비스는 대부분 HTTPS를 사용합니다.
+        </p>
+        <ul class="list">
+          <li>HTTP: 평문 전송(권장되지 않음)</li>
+          <li>HTTPS: 암호화 전송(로그인/결제/개인정보는 필수)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 3) URL -->
+    <section class="section" id="url">
+      <h2>3. URL 구조: “어디로” 요청하는가</h2>
+
+      <div class="card">
+        <h3>URL 기본 형태</h3>
+        <pre><code>scheme://host[:port]/path?query</code></pre>
+
+        <table class="table" aria-label="URL 구성요소 표">
+          <thead>
+            <tr><th>구성</th><th>예시</th><th>설명</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>scheme</b></td>
+              <td>https</td>
+              <td>통신 방식(프로토콜). 보통 http 또는 https</td>
+            </tr>
+            <tr>
+              <td><b>host</b></td>
+              <td>search.shopping.naver.com</td>
+              <td>서버 주소(도메인). 어디 서버에 요청할지</td>
+            </tr>
+            <tr>
+              <td><b>port</b></td>
+              <td>(생략)</td>
+              <td>서버의 접속 포트. https는 기본 443, http는 기본 80이라 보통 생략</td>
+            </tr>
+            <tr>
+              <td><b>path</b></td>
+              <td>/book/search</td>
+              <td>서버 내부의 “자원(리소스) 위치”. 어떤 기능/데이터를 요청할지</td>
+            </tr>
+            <tr>
+              <td><b>query</b></td>
+              <td>pageIndex=2&amp;query=파이썬</td>
+              <td>추가 옵션/필터/정렬/페이지 등의 요청값(쿼리 파라미터)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="note">
+          <b>핵심</b>: URL은 “서버 주소 + 자원 경로 + 옵션(쿼리)”로 구성됩니다.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>예시 URL 분해</h3>
+        <p class="p muted">사용자 예시(네이버 쇼핑 책 검색 URL):</p>
+        <pre><code>https://search.shopping.naver.com/book/search?bookTabType=ALL&pageIndex=2&pageSize=40&prevQuery=%EB%84%A4%EC%9D%B4%EB%B2%84%20%EC%B1%85&query=%ED%8C%8C%EC%9D%B4%EC%8D%AC&sort=REL</code></pre>
+
+        <ul class="list">
+          <li><b>base url</b>: <code>https://search.shopping.naver.com/book/search</code></li>
+          <li><b>query string</b>: <code>bookTabType=ALL ... &amp; sort=REL</code></li>
+        </ul>
+
+        <details class="details">
+          <summary>URL 인코딩(%)은 왜 보일까?</summary>
+          <div class="details-body">
+            <p class="p">
+              URL은 기본적으로 영문/숫자/일부 특수문자만 안정적으로 전달할 수 있습니다.
+              그래서 한글/공백 같은 문자는 <b>퍼센트 인코딩(percent-encoding)</b> 형태로 바뀌어 전달됩니다.
+              예를 들어 공백은 <code>%20</code>로 표현될 수 있습니다.
+            </p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 4) Parameter -->
+    <section class="section" id="params">
+      <h2>4. Parameter란? “무엇을/어떻게” 요청하는가</h2>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>1) Query Parameter (URL 뒤의 ?)</h3>
+          <p class="p">
+            URL 뒤 <code>?</code> 이후에 붙는 <code>key=value</code>들의 묶음입니다. 여러 개면 <code>&amp;</code>로 이어집니다.
+            보통 <b>검색어, 정렬, 페이지</b> 같은 옵션을 전달합니다.
+          </p>
+          <pre><code>.../search?query=파이썬&pageIndex=2&sort=REL</code></pre>
+          <ul class="list">
+            <li><b>pageIndex</b>: 2페이지</li>
+            <li><b>pageSize</b>: 한 페이지 결과 수</li>
+            <li><b>sort</b>: 정렬 기준(관련도/최신순 등)</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>2) Path Parameter (URL 경로 일부)</h3>
+          <p class="p">
+            어떤 “대상”을 특정하기 위해 URL 경로 자체에 값을 넣는 방식입니다. 보통 “id”가 많이 들어갑니다.
+          </p>
+          <pre><code>GET /users/42
+GET /items/005930</code></pre>
+          <p class="p muted">
+            여기서 <code>42</code>, <code>005930</code> 같은 값이 path parameter 역할을 합니다.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>3) Body Parameter (POST/PUT 등에서 본문으로)</h3>
+        <p class="p">
+          “요청 본문(body)”에 데이터를 담아 보내는 방식입니다.
+          로그인 정보, 대량의 필터 조건, 파일 업로드 같은 경우에 자주 사용합니다.
+        </p>
+        <pre><code>POST /login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "********"
+}</code></pre>
+        <div class="note">
+          <b>정리</b>: 쿼리(옵션) / 경로(대상) / 바디(내용)로 나눠서 생각하면 API 설계와 사용이 쉬워집니다.
+        </div>
+      </div>
+    </section>
+
+    <!-- 5) Headers -->
+    <section class="section" id="headers">
+      <h2>5. Header란? “요청/응답의 메타데이터”</h2>
+
+      <div class="card">
+        <h3>Header의 역할</h3>
+        <ul class="list">
+          <li><b>요청이 어떤 형식인지</b> (예: JSON 보냄) → <code>Content-Type</code></li>
+          <li><b>무엇을 받고 싶은지</b> (예: JSON 받고 싶음) → <code>Accept</code></li>
+          <li><b>누가 요청하는지</b> (브라우저/앱/봇 식별) → <code>User-Agent</code></li>
+          <li><b>인증 정보</b> (토큰/키) → <code>Authorization</code>, <code>X-API-KEY</code></li>
+          <li><b>세션/추적</b> (쿠키 등) → <code>Cookie</code></li>
+        </ul>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>대표 요청 헤더 예</h3>
+          <pre><code>GET /v1/items?query=python HTTP/1.1
+Host: api.example.com
+Accept: application/json
+User-Agent: python-requests/2.x
+Authorization: Bearer &lt;ACCESS_TOKEN&gt;</code></pre>
+        </div>
+
+        <div class="card">
+          <h3>대표 응답 헤더 예</h3>
+          <pre><code>HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-cache
+Date: Mon, 19 Jan 2026 03:00:00 GMT</code></pre>
+        </div>
+      </div>
+
+      <details class="details">
+        <summary>Header vs Parameter, 뭐가 달라요?</summary>
+        <div class="details-body">
+          <ul class="list">
+            <li><b>Parameter</b>: 서버 기능에 직접 영향을 주는 “요청값” (검색어, 페이지, 필터 등)</li>
+            <li><b>Header</b>: 요청/응답을 “설명하는 부가정보” (인증, 데이터 형식, 캐시 정책 등)</li>
+          </ul>
+          <div class="mini">
+            예: “검색어=파이썬”은 파라미터, “JSON으로 받을게요(Accept)”는 헤더
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- 6) GET vs POST -->
+    <section class="section" id="methods">
+      <h2>6. GET vs POST: 무엇이 다르고 언제 쓰나</h2>
+
+      <div class="card">
+        <h3>한 줄 요약</h3>
+        <ul class="list">
+          <li><b>GET</b>: “조회(Read)” — 서버의 데이터를 읽어온다.</li>
+          <li><b>POST</b>: “생성(Create) / 처리(Process)” — 서버에 데이터를 보내서 새로 만들거나 처리 결과를 받는다.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>비교 표</h3>
+        <table class="table" aria-label="GET POST 비교표">
+          <thead>
+            <tr><th>구분</th><th>GET</th><th>POST</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>목적</b></td>
+              <td>데이터 조회</td>
+              <td>데이터 전송(생성/로그인/검색 조건이 큰 경우 등)</td>
+            </tr>
+            <tr>
+              <td><b>데이터 위치</b></td>
+              <td>주로 URL의 query parameter</td>
+              <td>주로 body(JSON/form-data)</td>
+            </tr>
+            <tr>
+              <td><b>캐시 가능성</b></td>
+              <td>상대적으로 캐시/북마크에 적합</td>
+              <td>일반적으로 캐시/북마크에 부적합</td>
+            </tr>
+            <tr>
+              <td><b>멱등성(같이 실행해도 결과 동일?)</b></td>
+              <td>보통 멱등(조회이므로)</td>
+              <td>보통 비멱등(생성/변경이 될 수 있음)</td>
+            </tr>
+            <tr>
+              <td><b>예시</b></td>
+              <td>/search?query=python</td>
+              <td>/login (아이디/비번 전송), /orders (주문 생성)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <details class="details">
+          <summary>“검색인데 왜 POST를 쓰는 경우도 있어요?”</summary>
+          <div class="details-body">
+            <p class="p">
+              검색 조건이 너무 많거나(복잡한 필터), 민감한 정보가 포함되거나, URL 길이 제한을 피해야 할 때
+              검색을 POST로 받는 API도 있습니다. 즉, “의미는 조회지만 구현은 POST”가 가능하다는 점을 알아두세요.
+            </p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 7) status -->
+    <section class="section" id="status">
+      <h2>7. 상태코드(Status Code): 요청 결과를 숫자로 알려준다</h2>
+
+      <div class="card">
+        <h3>가장 중요한 상태코드만 먼저</h3>
+        <table class="table" aria-label="상태코드 표">
+          <thead>
+            <tr><th>코드</th><th>의미</th><th>실무에서 흔한 원인</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b>200</b></td><td>성공</td><td>정상 응답</td></tr>
+            <tr><td><b>201</b></td><td>생성됨</td><td>POST로 새 리소스 생성 성공</td></tr>
+            <tr><td><b>400</b></td><td>요청 오류</td><td>필수 파라미터 누락, 형식 오류(JSON 문법 등)</td></tr>
+            <tr><td><b>401</b></td><td>인증 필요</td><td>토큰 없음/만료, API 키 누락</td></tr>
+            <tr><td><b>403</b></td><td>권한 없음</td><td>접근 금지(정책/권한/차단)</td></tr>
+            <tr><td><b>404</b></td><td>없음</td><td>URL(경로) 오타, 리소스 없음</td></tr>
+            <tr><td><b>429</b></td><td>너무 많은 요청</td><td>호출 제한(레이트 리밋) 초과</td></tr>
+            <tr><td><b>500</b></td><td>서버 오류</td><td>서버 내부 문제</td></tr>
+          </tbody>
+        </table>
+
+        <div class="note">
+          데이터 수집에서는 <b>상태코드 확인</b>이 1순위 디버깅 포인트입니다. “안 된다”의 대부분은 400/401/403/429 중 하나입니다.
+        </div>
+      </div>
+    </section>
+
+    <!-- 8) auth -->
+    <section class="section" id="auth">
+      <h2>8. 인증(Authentication): “누가 요청하는가”</h2>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>1) API Key 방식</h3>
+          <p class="p">
+            발급받은 키를 쿼리 파라미터 또는 헤더에 넣어 호출합니다.
+            공공데이터 포털에서 흔히 볼 수 있습니다.
+          </p>
+          <pre><code>GET /data?serviceKey=ABCDEF...
+# 또는
+X-API-KEY: ABCDEF...</code></pre>
+          <div class="warn">
+            API Key를 소스코드에 그대로 올리면 위험합니다. 실무에서는 .env(환경변수)로 관리합니다.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>2) 토큰(Bearer Token, JWT 등)</h3>
+          <p class="p">
+            로그인/인증을 한번 하고, 이후 요청마다 토큰을 헤더로 붙입니다.
+            웹서비스/앱 API에서 매우 흔합니다.
+          </p>
+          <pre><code>Authorization: Bearer &lt;ACCESS_TOKEN&gt;</code></pre>
+          <p class="p muted">
+            토큰은 “신분증”처럼 생각하면 됩니다. 만료되면 다시 발급 받아야 합니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9) scraping compare -->
+    <section class="section" id="scraping">
+      <h2>9. API vs 스크래핑: 같은 데이터라도 접근 방식이 다르다</h2>
+
+      <div class="card">
+        <h3>정적/동적 페이지를 구분하는 기준</h3>
+        <ul class="list">
+          <li><b>정적</b>: “페이지 소스 보기(View Source)”에서 데이터가 보이면 정적일 가능성이 큼</li>
+          <li><b>동적</b>: 새로고침/스크롤/클릭 시 JS가 API를 호출해 데이터가 채워짐</li>
+        </ul>
+        <div class="note">
+          동적 페이지는 오히려 “페이지를 긁는 것”보다 <b>페이지가 호출하는 API</b>를 찾아서 직접 호출하는 게 더 깔끔한 경우가 많습니다.
+        </div>
+      </div>
+
+      <details class="details">
+        <summary>동적 페이지에서 “내부 API”를 찾는 아이디어</summary>
+        <div class="details-body">
+          <ol class="ol">
+            <li>브라우저 개발자도구(F12) → Network 탭</li>
+            <li>XHR/Fetch 필터 선택</li>
+            <li>버튼/스크롤 등 행동을 했을 때 호출되는 요청 확인</li>
+            <li>요청 URL, 쿼리, 헤더(특히 인증/쿠키), 응답(JSON)을 확인</li>
+          </ol>
+          <div class="warn">
+            내부 API는 공개 API가 아닐 수 있어요. 약관/정책 위반이 되지 않도록 주의해야 합니다.
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- 10) practice -->
+    <section class="section" id="practice">
+      <h2>10. 실전 예제: “URL/파라미터/헤더/메서드”를 읽고 요청 만들기</h2>
+
+      <div class="card">
+        <h3>예제 A) URL만 보고 파라미터 의미 추측하기</h3>
+        <p class="p">
+          아래 URL에서 “요청값(parameter)”을 찾아보고, 어떤 의미일지 추측해봅시다.
+        </p>
+        <pre><code>https://search.shopping.naver.com/book/search?bookTabType=ALL&pageIndex=2&pageSize=40&prevQuery=...&query=...&sort=REL</code></pre>
+
+        <details class="details">
+          <summary>힌트</summary>
+          <div class="details-body">
+            <ul class="list">
+              <li><code>pageIndex</code>는 보통 페이지 번호입니다(1,2,3...).</li>
+              <li><code>pageSize</code>는 페이지당 결과 개수입니다.</li>
+              <li><code>sort</code>는 정렬 기준입니다(REL=관련도 같은 약어일 가능성).</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="details">
+          <summary>정답 예시(해석)</summary>
+          <div class="details-body">
+            <ul class="list">
+              <li><b>query</b>: 검색어(파이썬)</li>
+              <li><b>pageIndex</b>: 2페이지 결과</li>
+              <li><b>pageSize</b>: 한 페이지에 40개</li>
+              <li><b>sort</b>: 관련도(REL) 기준 정렬</li>
+            </ul>
+            <div class="note">
+              정확한 의미는 서비스마다 다를 수 있지만, “이름만 보고도 상당 부분을 추론”할 수 있어야 합니다.
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>예제 B) GET 요청(조회) — Python requests</h3>
+          <pre><code>import requests
+
+url = "https://api.example.com/v1/books"
+params = {
+    "query": "파이썬",
+    "page": 2,
+    "size": 40,
+    "sort": "rel"
+}
+headers = {
+    "Accept": "application/json",
+    "User-Agent": "Mozilla/5.0 (compatible; data-collector/1.0)"
+}
+
+r = requests.get(url, params=params, headers=headers, timeout=10)
+
+print(r.status_code)
+print(r.headers.get("Content-Type"))
+print(r.text[:300])</code></pre>
+          <div class="note">
+            <b>포인트</b>: <code>params</code>는 URL 뒤에 붙고, <code>headers</code>는 메타정보로 전달됩니다.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>예제 C) POST 요청(전송/처리) — JSON body</h3>
+          <pre><code>import requests
+
+url = "https://api.example.com/v1/login"
+payload = {
+    "email": "user@example.com",
+    "password": "********"
+}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+}
+
+r = requests.post(url, json=payload, headers=headers, timeout=10)
+
+print(r.status_code)
+print(r.json())</code></pre>
+          <div class="warn">
+            비밀번호 같은 민감 정보는 로그/깃허브에 남기지 마세요.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>자주 하는 실수 TOP 5</h3>
+        <ol class="ol">
+          <li><b>URL 오타</b>: /v1/item vs /v1/items 같은 단수/복수</li>
+          <li><b>필수 파라미터 누락</b>: 문서에 “required” 표시 확인</li>
+          <li><b>헤더(Content-Type/Accept) 혼동</b>: 보내는 형식 vs 받고 싶은 형식</li>
+          <li><b>인증 누락</b>: 401/403이 뜨면 토큰/키/권한을 먼저 의심</li>
+          <li><b>호출 제한</b>: 429면 sleep/재시도(backoff) 설계 필요</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 11) checklist -->
+    <section class="section" id="checklist">
+      <h2>11. 데이터 수집 체크리스트 (실무형)</h2>
+
+      <div class="card">
+        <h3>요청 설계 체크</h3>
+        <ul class="list">
+          <li>내가 호출하려는 것은 <b>공식 API</b>인가, 아니면 페이지 스크래핑인가?</li>
+          <li>메서드가 GET인지 POST인지, 문서와 일치하는가?</li>
+          <li>필수 파라미터(쿼리/경로/바디)가 모두 들어갔는가?</li>
+          <li>필수 헤더(Content-Type/Accept/Authorization 등)가 모두 들어갔는가?</li>
+          <li>상태코드(200/400/401/403/429/500)를 보고 원인 추적이 가능한가?</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>운영/품질 체크</h3>
+        <ul class="list">
+          <li><b>재시도</b>: 네트워크 오류/일시적 5xx에 대비</li>
+          <li><b>속도 제한</b>: 429 대비해 요청 간격 조절(예: 0.2~1초 sleep)</li>
+          <li><b>로깅</b>: 실패한 요청의 URL/파라미터/상태코드를 남기기</li>
+          <li><b>데이터 검증</b>: 스키마(필드) 누락/타입 변경에 대비</li>
+          <li><b>정책 준수</b>: 약관, robots, 개인정보/저작권 준수</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>정리</h3>
+        <p class="p">
+          API 수집은 “코드를 잘 짜는 것” 이전에 <b>HTTP 요청/응답 구조를 읽는 능력</b>이 핵심입니다.
+          URL/파라미터/헤더/메서드를 명확히 구분할 수 있으면,
+          어떤 API든 문서를 보고 빠르게 적용할 수 있습니다.
+        </p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p class="footer-text">
+        © 강의안: Web Data Collection Fundamentals. (이 문서는 교육용 예시입니다.)
+      </p>
+    </footer>
+  </main>
+</body>
+</html>
