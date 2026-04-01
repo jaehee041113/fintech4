@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>EasyFin V2.0 MVP</title>
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- React 18 + ReactDOM 18 -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+
+    <!-- Babel (JSX 변환용) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div class="mobile-container">
+      <div id="root">
+        <!-- React 로딩 실패시 보이는 fallback -->
+        <div style="padding:16px; font-size:14px;">
+          EasyFin 앱을 불러오는 중입니다...
+        </div>
+      </div>
+    </div>
+
+    <script type="text/babel" data-presets="env,react">
+      // ============================
+      // 0. 공통 설정
+      // ============================
+      const API_BASE = "http://localhost:8000";
+
+      // ============================
+      // 1. 공통 컴포넌트 (AppBar, BottomNav)
+      // ============================
+      function AppBar({ title }) {
+        return (
+          <header className="appbar">
+            <div className="appbar__title">{title}</div>
+            <div className="appbar__actions">
+              <button className="icon-button">🔍</button>
+              <button className="icon-button">🔔</button>
+            </div>
+          </header>
+        );
+      }
+
+      function BottomNav({ active, onChange }) {
+        const items = ["홈", "마켓", "라이브", "커뮤니티", "마이"];
+        return (
+          <nav className="bottom-nav">
+            {items.map((name) => (
+              <button
+                key={name}
+                type="button"
+                className={
+                  "bottom-nav__item" +
+                  (active === name ? " bottom-nav__item--active" : "")
+                }
+                onClick={() => onChange(name)}
+              >
+                <span className="bottom-nav__label">{name}</span>
+              </button>
+            ))}
+          </nav>
+        );
+      }
+
+      // ============================
+      // 2. Auth (로그인 / 회원가입)
+      // ============================
+      function AuthScreen({ onLogin }) {
+        const [mode, setMode] = React.useState("login");
+
+        const [loginEmail, setLoginEmail] = React.useState("demo@easyfin.app");
+        const [loginPassword, setLoginPassword] = React.useState("1234");
+
+        const [signupNickname, setSignupNickname] = React.useState("");
+        const [signupEmail, setSignupEmail] = React.useState("");
+        const [signupPassword, setSignupPassword] = React.useState("");
+        const [signupPasswordConfirm, setSignupPasswordConfirm] =
+          React.useState("");
+        const [agreeTerms, setAgreeTerms] = React.useState(false);
+        const [signupError, setSignupError] = React.useState("");
+
+        const handleLogin = async (e) => {
+          e.preventDefault();
+          try {
+            const res = await fetch(`${API_BASE}/auth/login`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: loginEmail,
+                password: loginPassword,
+              }),
+            });
+            if (!res.ok) {
+              const data = await res.json().catch(() => ({}));
+              alert(data.detail || "로그인에 실패했습니다.");
+              return;
+            }
+            const data = await res.json();
+            onLogin({
+              id: data.user_id,
+              nickname: data.nickname,
+              email: loginEmail,
+            });
+          } catch (err) {
+            console.error(err);
+            alert("서버에 연결할 수 없습니다.");
+          }
+        };
+
+        const handleSignup = (e) => {
+          e.preventDefault();
+          setSignupError("");
+
+          if (
+            !signupNickname ||
+            !signupEmail ||
+            !signupPassword ||
+            !signupPasswordConfirm
+          ) {
+            setSignupError("모든 필드를 입력해 주세요.");
+            return;
+          }
+          if (signupPassword !== signupPasswordConfirm) {
+            setSignupError("비밀번호가 일치하지 않습니다.");
+            return;
+          }
+          if (!agreeTerms) {
+            setSignupError("필수 약관에 동의해 주세요.");
+            return;
+          }
+
+          // MVP: 실제 회원가입 API 없이 바로 로그인 처리
+          onLogin({
+            id: 999,
+            nickname: signupNickname,
+            email: signupEmail,
+          });
+        };
+
+        return (
+          <div className="screen screen--center">
+            <h1 className="logo">EasyFin V2.0</h1>
+            <p className="login__subtitle">
+              당신의 자산을 한 번에, 라이브로 쉽게 이해하세요.
+            </p>
+
+            <div className="auth-toggle card">
+              <button
+                className={
+                  "auth-toggle__btn" +
+                  (mode === "login" ? " auth-toggle__btn--active" : "")
+                }
+                onClick={() => setMode("login")}
+              >
+                로그인
+              </button>
+              <button
+                className={
+                  "auth-toggle__btn" +
+                  (mode === "signup" ? " auth-toggle__btn--active" : "")
+                }
+                onClick={() => setMode("signup")}
+              >
+                회원가입
+              </button>
+            </div>
+
+            {mode === "login" ? (
+              <form className="card login__form" onSubmit={handleLogin}>
+                <label className="form-field">
+                  <span>이메일</span>
+                  <input
+                    value={loginEmail}
+                    onChange={(e) => setLoginEmail(e.target.value)}
+                  />
+                </label>
+                <label className="form-field">
+                  <span>비밀번호</span>
+                  <input
+                    type="password"
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
+                  />
+                </label>
+                <button type="submit" className="btn btn--primary">
+                  로그인
+                </button>
+                <div className="login__hint">
+                  데모 계정: demo@easyfin.app / 1234
+                </div>
+              </form>
+            ) : (
+              <form className="card login__form" onSubmit={handleSignup}>
+                <label className="form-field">
+                  <span>닉네임</span>
+                  <input
+                    value={signupNickname}
+                    onChange={(e) => setSignupNickname(e.target.value)}
+                    placeholder="예: 지현"
+                  />
+                </label>
+                <label className="form-field">
+                  <span>이메일</span>
+                  <input
+                    type="email"
+                    value={signupEmail}
+                    onChange={(e) => setSignupEmail(e.target.value)}
+                    placeholder="you@example.com"
+                  />
+                </label>
+                <label className="form-field">
+                  <span>비밀번호</span>
+                  <input
+                    type="password"
+                    value={signupPassword}
+                    onChange={(e) => setSignupPassword(e.target.value)}
+                  />
+                </label>
+                <label className="form-field">
+                  <span>비밀번호 확인</span>
+                  <input
+                    type="password"
+                    value={signupPasswordConfirm}
+                    onChange={(e) =>
+                      setSignupPasswordConfirm(e.target.value)
+                    }
+                  />
+                </label>
+                <label className="form-field form-field--row">
+                  <input
+                    type="checkbox"
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
+                  />
+                  <span>필수 약관에 동의합니다.</span>
+                </label>
+                {signupError && (
+                  <div className="form-error">{signupError}</div>
+                )}
+                <button type="submit" className="btn btn--primary">
+                  회원가입 완료
+                </button>
+              </form>
+            )}
+          </div>
+        );
+      }
+
+      // ============================
+      // 3. 홈 화면
+      // ============================
+      function HomeScreen() {
+        const [summary, setSummary] = React.useState(null);
+        const [accounts, setAccounts] = React.useState([]);
+        const [lives, setLives] = React.useState([]);
+
+        React.useEffect(() => {
+          fetch(`${API_BASE}/assets/summary`)
+            .then((r) => r.json())
+            .then(setSummary)
+            .catch((e) => console.error(e));
+
+          fetch(`${API_BASE}/assets/accounts`)
+            .then((r) => r.json())
+            .then(setAccounts)
+            .catch((e) => console.error(e));
+
+          fetch(`${API_BASE}/live/streams`)
+            .then((r) => r.json())
+            .then((data) => {
+              const items = (data || []).slice(0, 3).map((l) => {
+                const d = new Date(l.start_time);
+                const m = d.getMonth() + 1;
+                const day = d.getDate();
+                const hh = String(d.getHours()).padStart(2, "0");
+                const mm = String(d.getMinutes()).padStart(2, "0");
+                return `${m}월 ${day}일 ${hh}:${mm} · “${l.title}”`;
+              });
+              setLives(items);
+            })
+            .catch((e) => console.error(e));
+        }, []);
+
+        const breakdown = summary ? Object.entries(summary.breakdown || {}) : [];
+
+        return (
+          <div className="screen">
+            <AppBar title="홈" />
+            <div className="screen__content">
+              <section className="card">
+                <h2>통합 자산 현황</h2>
+                <div className="asset__total">
+                  총 자산{" "}
+                  <strong>
+                    {summary
+                      ? summary.total_amount.toLocaleString()
+                      : 0}{" "}
+                    {summary ? summary.currency : "KRW"}
+                  </strong>
+                </div>
+                <ul className="asset__breakdown">
+                  {breakdown.map(([label, amount]) => (
+                    <li key={label}>
+                      <span>{label}</span>
+                      <span>{Number(amount).toLocaleString()}원</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              <section className="card">
+                <h2>계좌별 요약</h2>
+                <ul className="account-list">
+                  {accounts.map((acc) => (
+                    <li key={acc.id} className="account-list__item">
+                      <div className="account-list__title">
+                        {acc.institution} · {acc.name}
+                      </div>
+                      <div className="account-list__meta">
+                        <span>{acc.type}</span>
+                        <span className="account-list__balance">
+                          {acc.balance.toLocaleString()}원
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              <section className="card">
+                <h2>추천 라이브</h2>
+                <p>지금 내 자산과 연관된 라이브 방송을 추천합니다.</p>
+                <ul className="simple-list">
+                  {lives.map((t, i) => (
+                    <li key={i}>{t}</li>
+                  ))}
+                </ul>
+                <p
+                  style={{
+                    fontSize: "12px",
+                    color: "#6b7280",
+                    marginTop: "8px",
+                  }}
+                >
+                  자세한 내용은 <strong>라이브 탭</strong>에서 확인할 수 있습니다.
+                </p>
+              </section>
+            </div>
+          </div>
+        );
+      }
+
+      // ============================
+      // 4. 마켓 화면
+      // ============================
+      function MarketScreen() {
+        const categories = ["전체", "공모주", "ETF", "채권", "리츠"];
+        const [category, setCategory] = React.useState("전체");
+        const [allItems, setAllItems] = React.useState([]);
+        const [items, setItems] = React.useState([]);
+        const [selected, setSelected] = React.useState(null);
+
+        React.useEffect(() => {
+          fetch(`${API_BASE}/market/items`)
+            .then((r) => r.json())
+            .then((data) => {
+              setAllItems(data || []);
+              setItems(data || []);
+            })
+            .catch((e) => console.error(e));
+        }, []);
+
+        React.useEffect(() => {
+          if (category === "전체") {
+            setItems(allItems);
+          } else {
+            setItems(allItems.filter((i) => i.category === category));
+          }
+        }, [category, allItems]);
+
+        return (
+          <div className="screen">
+            <AppBar title="마켓" />
+            <div className="screen__content">
+              <div className="chip-row">
+                {categories.map((c) => (
+                  <button
+                    key={c}
+                    className={"chip" + (category === c ? " chip--active" : "")}
+                    onClick={() => setCategory(c)}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
+
+              <section className="card">
+                <h2>상품 리스트</h2>
+                <ul className="market-list">
+                  {items.map((item) => (
+                    <li
+                      key={item.id}
+                      className="market-list__item"
+                      onClick={() => setSelected(item)}
+                    >
+                      <div className="market-list__title">{item.name}</div>
+                      <div className="market-list__meta">
+                        <span>{item.category}</span>
+                        <span>{item.code}</span>
+                        <span className={"risk risk--" + item.risk_level}>
+                          위험도 {item.risk_level}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              {selected && (
+                <div className="modal" onClick={() => setSelected(null)}>
+                  <div
+                    className="modal__content"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <h3>{selected.name}</h3>
+                    <p className="modal__code">{selected.code}</p>
+                    <p style={{ marginTop: "8px" }}>
+                      {selected.description}
+                    </p>
+                    {selected.expected_yield != null && (
+                      <p style={{ marginTop: "8px" }}>
+                        예상 수익률:{" "}
+                        <strong>{selected.expected_yield}%</strong>
+                      </p>
+                    )}
+                    <p
+                      className={"risk risk--" + selected.risk_level}
+                      style={{ marginTop: "8px" }}
+                    >
+                      위험도: {selected.risk_level}
+                    </p>
+                    <button
+                      className="btn"
+                      style={{ marginTop: "16px" }}
+                      onClick={() => setSelected(null)}
+                    >
+                      닫기
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      }
+
+      // ============================
+      // 5. 라이브 화면
+      // ============================
+      function LiveScreen() {
+        const tabs = ["진행중", "예정", "다시보기"];
+        const [tab, setTab] = React.useState("진행중");
+        const [allLives, setAllLives] = React.useState([]);
+        const [selected, setSelected] = React.useState(null);
+
+        React.useEffect(() => {
+          fetch(`${API_BASE}/live/streams`)
+            .then((r) => r.json())
+            .then((data) => setAllLives(data || []))
+            .catch((e) => console.error(e));
+        }, []);
+
+        const statusMap = {
+          진행중: "ongoing",
+          예정: "upcoming",
+          다시보기: "replay",
+        };
+
+        const filtered = allLives.filter(
+          (l) => l.status === statusMap[tab]
+        );
+
+        return (
+          <div className="screen">
+            <AppBar title="라이브" />
+            <div className="screen__content">
+              <div className="chip-row">
+                {tabs.map((t) => (
+                  <button
+                    key={t}
+                    className={"chip" + (tab === t ? " chip--active" : "")}
+                    onClick={() => setTab(t)}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+
+              <section className="card">
+                <h2>{tab} 라이브</h2>
+                <ul className="market-list">
+                  {filtered.map((l) => (
+                    <li
+                      key={l.id}
+                      className="market-list__item"
+                      onClick={() => setSelected(l)}
+                    >
+                      <div className="market-list__title">{l.title}</div>
+                      <div className="market-list__meta">
+                        <span>{l.host}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              {selected && (
+                <div className="modal" onClick={() => setSelected(null)}>
+                  <div
+                    className="modal__content"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <h3>{selected.title}</h3>
+                    <p>호스트: {selected.host}</p>
+                    <p>상태: {selected.status}</p>
+                    <p>
+                      시작 시간:{" "}
+                      {new Date(selected.start_time).toLocaleString("ko-KR")}
+                    </p>
+                    <p>※ 실제 버전에서는 영상 플레이어 + 채팅이 들어갑니다.</p>
+                    <button className="btn" onClick={() => setSelected(null)}>
+                      닫기
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      }
+
+      // ============================
+      // 6. 커뮤니티 화면
+      // ============================
+      function CommunityScreen({ user }) {
+        const [posts, setPosts] = React.useState([]);
+        const [openId, setOpenId] = React.useState(null);
+        const [newTitle, setNewTitle] = React.useState("");
+        const [newContent, setNewContent] = React.useState("");
+
+        React.useEffect(() => {
+          fetch(`${API_BASE}/community/posts`)
+            .then((r) => r.json())
+            .then((data) => setPosts(data || []))
+            .catch((e) => console.error(e));
+        }, []);
+
+        const submit = async () => {
+          if (!newTitle || !newContent) {
+            alert("제목과 내용을 입력하세요.");
+            return;
+          }
+          try {
+            const res = await fetch(`${API_BASE}/community/posts`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                author: user?.nickname || "익명",
+                category: "자유",
+                title: newTitle,
+                content: newContent,
+              }),
+            });
+            if (!res.ok) {
+              alert("게시글 등록에 실패했습니다.");
+              return;
+            }
+            const created = await res.json();
+            setPosts((prev) => [created, ...prev]);
+            setNewTitle("");
+            setNewContent("");
+          } catch (e) {
+            console.error(e);
+            alert("서버 오류가 발생했습니다.");
+          }
+        };
+
+        return (
+          <div className="screen">
+            <AppBar title="커뮤니티" />
+            <div className="screen__content">
+              <section className="card">
+                <h2>게시글 작성</h2>
+                <input
+                  className="input"
+                  placeholder="제목"
+                  value={newTitle}
+                  onChange={(e) => setNewTitle(e.target.value)}
+                  style={{ marginTop: "8px" }}
+                />
+                <textarea
+                  className="input"
+                  placeholder="내용을 입력하세요"
+                  value={newContent}
+                  onChange={(e) => setNewContent(e.target.value)}
+                  style={{ marginTop: "8px", height: "80px" }}
+                />
+                <button
+                  className="btn"
+                  style={{ marginTop: "12px" }}
+                  onClick={submit}
+                >
+                  등록하기
+                </button>
+              </section>
+
+              <section className="card">
+                <h2>게시글 목록</h2>
+                <ul className="market-list">
+                  {posts.map((p) => (
+                    <li
+                      key={p.id}
+                      className="market-list__item"
+                      onClick={() => setOpenId(openId === p.id ? null : p.id)}
+                    >
+                      <div className="market-list__title">{p.title}</div>
+                      <div className="market-list__meta">
+                        <span>{p.author}</span>
+                        <span>
+                          {new Date(p.created_at).toLocaleString("ko-KR")}
+                        </span>
+                      </div>
+                      {openId === p.id && (
+                        <p style={{ marginTop: "8px", color: "#374151" }}>
+                          {p.content}
+                        </p>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            </div>
+          </div>
+        );
+      }
+
+      // ============================
+      // 7. 마이 화면
+      // ============================
+      function MyScreen({ onLogout }) {
+        const [profile, setProfile] = React.useState(null);
+
+        React.useEffect(() => {
+          fetch(`${API_BASE}/me/profile`)
+            .then((r) => r.json())
+            .then(setProfile)
+            .catch((e) => console.error(e));
+        }, []);
+
+        return (
+          <div className="screen">
+            <AppBar title="마이" />
+            <div className="screen__content">
+              <section className="card">
+                <h2>내 프로필</h2>
+                {!profile ? (
+                  <p>프로필을 불러오는 중입니다...</p>
+                ) : (
+                  <>
+                    <p>
+                      <strong>{profile.nickname}</strong>
+                    </p>
+                    <p>{profile.email}</p>
+                    <button
+                      className="btn btn--secondary"
+                      style={{ marginTop: "8px", width: "100%" }}
+                      onClick={onLogout}
+                    >
+                      로그아웃
+                    </button>
+                  </>
+                )}
+              </section>
+
+              {profile && (
+                <>
+                  <section className="card">
+                    <h2>팔로우 중인 전문가</h2>
+                    <ul className="simple-list">
+                      {profile.following_experts.map((x, i) => (
+                        <li key={i}>{x}</li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <section className="card">
+                    <h2>연동된 금융사</h2>
+                    <ul className="simple-list">
+                      {profile.linked_institutions.map((x, i) => (
+                        <li key={i}>{x}</li>
+                      ))}
+                    </ul>
+                  </section>
+                </>
+              )}
+            </div>
+          </div>
+        );
+      }
+
+      // ============================
+      // 8. RootApp
+      // ============================
+      function RootApp() {
+        const [user, setUser] = React.useState(null);
+        const [tab, setTab] = React.useState("홈");
+
+        const handleLogout = () => {
+          setUser(null);
+          setTab("홈");
+        };
+
+        if (!user) {
+          return <AuthScreen onLogin={setUser} />;
+        }
+
+        let screen = null;
+        if (tab === "홈") screen = <HomeScreen />;
+        else if (tab === "마켓") screen = <MarketScreen />;
+        else if (tab === "라이브") screen = <LiveScreen />;
+        else if (tab === "커뮤니티") screen = <CommunityScreen user={user} />;
+        else if (tab === "마이") screen = <MyScreen onLogout={handleLogout} />;
+
+        return (
+          <>
+            {screen}
+            <BottomNav active={tab} onChange={setTab} />
+          </>
+        );
+      }
+
+      // ============================
+      // 9. React DOM 마운트
+      // ============================
+      try {
+        const rootEl = document.getElementById("root");
+        const root = ReactDOM.createRoot(rootEl);
+        root.render(<RootApp />);
+        console.log("EasyFin RootApp mounted.");
+      } catch (e) {
+        console.error("React 초기화 중 오류:", e);
+        const rootEl = document.getElementById("root");
+        if (rootEl) {
+          rootEl.innerHTML =
+            "<div style='padding:16px; color:red;'>React 앱을 불러오는 중 오류가 발생했습니다. 콘솔을 확인하세요.</div>";
+        }
+      }
+    </script>
+  </body>
+</html>

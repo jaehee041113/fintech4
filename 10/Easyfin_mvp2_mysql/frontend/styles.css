@@ -1,0 +1,417 @@
+/* ===============================
+   0. Reset & Base
+   =============================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR",
+    "Apple SD Gothic Neo", "맑은 고딕", sans-serif;
+  background: #e5e7eb; /* 바깥 배경만 회색 */
+  color: #111827;
+  height: 100%;
+}
+
+body {
+  padding: 0;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* 공통 텍스트 */
+h1,
+h2,
+h3 {
+  font-weight: 600;
+}
+
+/* 링크 기본 */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ===============================
+   1. 모바일 프레임 레이아웃
+   =============================== */
+.mobile-container {
+  max-width: 420px;
+  margin: 16px auto;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.25);
+  overflow: hidden;
+  min-height: calc(100vh - 32px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 화면 컨테이너 */
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 가운데 정렬 (로그인 등) */
+.screen--center {
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+/* 실제 내용 스크롤 영역 */
+.screen__content {
+  flex: 1;
+  padding: 12px 12px 16px;
+  max-width: 640px;
+  margin: 0 auto;
+  overflow-y: auto;
+}
+
+/* ===============================
+   2. 상단 AppBar
+   =============================== */
+.appbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.appbar__title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.appbar__actions .icon-button {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+/* ===============================
+   3. 카드 공통
+   =============================== */
+.card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  margin-bottom: 12px;
+}
+
+.card h2 {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+/* ===============================
+   4. 로그인 & 회원가입
+   =============================== */
+.logo {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.login__subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* 탭 토글 */
+.auth-toggle {
+  display: flex;
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 16px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.auth-toggle__btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 0;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.auth-toggle__btn--active {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.login__form {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  font-size: 13px;
+}
+
+.form-field input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.form-field--row {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-error {
+  color: #b91c1c;
+  font-size: 12px;
+}
+
+.login__hint {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ===============================
+   5. 버튼 & 칩
+   =============================== */
+.btn {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn--primary {
+  width: 100%;
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.btn--secondary {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+/* 칩 */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 12px 0;
+}
+
+.chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.chip--active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+/* ===============================
+   6. 하단 네비게이션
+   =============================== */
+.bottom-nav {
+  display: flex;
+  height: 56px;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.bottom-nav__item {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.bottom-nav__item--active {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* ===============================
+   7. 자산 요약 / 계좌
+   =============================== */
+.asset__total {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.asset__breakdown {
+  list-style: none;
+  font-size: 13px;
+}
+
+.asset__breakdown li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.account-list {
+  list-style: none;
+  font-size: 13px;
+}
+
+.account-list__item + .account-list__item {
+  margin-top: 6px;
+}
+
+.account-list__title {
+  font-weight: 500;
+}
+
+.account-list__meta {
+  display: flex;
+  justify-content: space-between;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.account-list__balance {
+  color: #111827;
+  font-weight: 600;
+}
+
+/* ===============================
+   8. 마켓
+   =============================== */
+.market-list {
+  list-style: none;
+  font-size: 13px;
+}
+
+.market-list__item {
+  padding: 6px 0;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+}
+
+.market-list__title {
+  font-weight: 500;
+}
+
+.market-list__meta {
+  font-size: 11px;
+  color: #6b7280;
+  display: flex;
+  gap: 6px;
+}
+
+/* 위험도 배지 */
+.risk {
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: 10px;
+}
+
+.risk--높음 {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.risk--중간 {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.risk--낮음 {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* ===============================
+   9. 커뮤니티
+   =============================== */
+.input {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+/* ===============================
+   10. 마이
+   =============================== */
+.simple-list {
+  list-style: none;
+  font-size: 13px;
+}
+
+.simple-list li + li {
+  margin-top: 4px;
+}
+
+/* ===============================
+   11. 모달
+   =============================== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal__content {
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 360px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.modal__code {
+  font-size: 12px;
+  color: #6b7280;
+}
