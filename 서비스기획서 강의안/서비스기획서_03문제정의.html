@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>EasyFin V2.0 – 핀테크 자산 통합 & 라이브 금융 콘텐츠 서비스 기획서</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="header">
+    <div class="header__inner">
+        <h1 class="header__title">EasyFin V2.0 – 핀테크 자산 통합 & 라이브 금융 콘텐츠 서비스 기획서</h1>
+        <p class="header__subtitle">
+            Persona: 박지현(마케팅 에이전시 AE) 기반 요구사항 정의서 & 화면 설계 와이어프레임
+        </p>
+        <nav class="header__nav">
+            <a href="서비스기획서_01목적_목표.html">개요</a>
+            <a href="서비스기획서_02페르소나.html">페르소나</a>
+            <a href="서비스기획서_03문제정의.html">문제 정의</a>
+            <a href="서비스기획서_04핵심가치.html">핵심 가치</a>
+            <a href="서비스기획서_05고객여정맵.html">고객 여정맵</a>
+            <a href="서비스기획서_06IA정보구조도.html">IA정보구조도</a>
+            <a href="서비스기획서_07주요기능.html">주요기능</a>
+            <a href="서비스기획서_08요구사항.html">요구사항</a>
+            <a href="서비스기획서_09와이어프레임.html">와이어프레임</a>
+            <a href="서비스기획서_10구현계획.html">구현 계획</a>
+        </nav>
+    </div>
+</header>
+
+<main class="main">
+
+    <!-- 📘 이론 설명: 문제 정의(Problem Definition)의 중요성 -->
+<section class="section theory">
+    <h2 class="section__title">문제 정의(Problem Definition) 이론</h2>
+    <p>
+        서비스 기획의 핵심은 단순히 ‘무엇을 만들 것인가’보다
+        <strong>‘왜 만들어야 하는가’—즉 해결해야 할 문제(Pain Point)가 무엇인지</strong>를 명확히 규정하는 것이다.
+        문제 정의는 전체 서비스 전략, 기능 우선순위, KPI 설계까지 모두 결정하는 출발점이다.
+    </p>
+
+    <ul class="list">
+        <li><strong>문제가 잘못 정의되면</strong> 모든 기획·설계·개발이 다른 방향으로 흘러버림</li>
+        <li>문제를 명확히 하면 <strong>우선 해결해야 할 핵심 기능만 남고 불필요한 기능이 제거</strong>됨</li>
+        <li>정확한 문제 정의는 <strong>솔루션(서비스 기능)의 우선순위</strong>를 결정하는 기준이 됨</li>
+        <li><strong>비즈니스 가치 × 사용자 가치의 최적 지점</strong>을 찾는 의사결정 도구가 됨</li>
+    </ul>
+
+    <p>
+        EasyFin V2.0의 문제 정의는 감이 아니라,
+        <strong>사용자 데이터(설문 312명, 군집 분석), 금융 콘텐츠 소비 패턴, 리뷰 7만 건 텍스트마이닝, 정성 인터뷰</strong>
+        기반으로 도출되었다.  
+        이 과정은 <strong>1번 섹션(서비스 목적·목표)</strong>과 <strong>2번 섹션(페르소나)</strong>의 분석 결과를 그대로 이어받는다.
+    </p>
+</section>
+
+<!-- ================================ -->
+<!-- 📌 3. 문제 정의 & 기획 방향 -->
+<!-- ================================ -->
+<section id="problem" class="section">
+    <h2 class="section__title">3. 문제 정의 &amp; 기획 방향</h2>
+
+    <!-- 3-1. 데이터 기반 문제 정의 -->
+    <div class="card">
+        <h3>3-1. 데이터 기반 문제 정의</h3>
+        <p>데이터 분석(1-4)과 페르소나 니즈(2단계)를 통해 아래 4가지 핵심 문제가 도출되었다.</p>
+
+        <ul class="list">
+            <li>
+                <strong>문제 1. 금융 앱의 난이도와 용어 장벽이 매우 높다</strong><br>
+                - 초보 탐색형 사용자(40%)가 가장 크게 느끼는 첫 진입 장벽<br>
+                - 숏폼 소비 증가 → “쉽고 빠른 해설 콘텐츠 필요”
+            </li>
+
+            <li>
+                <strong>문제 2. 자산이 여러 플랫폼에 흩어져 전체 재무 상태를 파악하기 어렵다</strong><br>
+                - 평균 3개 앱·4개 계좌 사용 → 통합 뷰 없음<br>
+                - DIY 투자자·생활밀착형 사용자 모두 겪는 주요 Pain Point
+            </li>
+
+            <li>
+                <strong>문제 3. 금융 정보의 신뢰도가 낮아 의사결정이 어렵다</strong><br>
+                - 광고성 콘텐츠 범람, 출처 불명 정보 증가<br>
+                - 리뷰·댓글에서 “믿어도 되나요?” 키워드 반복
+            </li>
+
+            <li>
+                <strong>문제 4. 정보 전달 방식이 사용자의 소비 패턴과 맞지 않는다</strong><br>
+                - 초보자: 영상·카드형 선호 vs 기존 앱: 텍스트 중심<br>
+                - 중급자: 포트폴리오 인사이트·뉴스 필터링 부재<br>
+                - 생활형 사용자: 지출·납입 일정 중심인데 투자 기능이 많음
+            </li>
+        </ul>
+    </div>
+
+    <!-- 3-2. 기획 방향 -->
+    <div class="card">
+        <h3>3-2. 기획 방향 (Solution Direction)</h3>
+        <p>도출된 문제 4가지를 해결하기 위한 EasyFin V2.0의 핵심 전략은 다음과 같다.</p>
+
+        <ul class="list list--bullet">
+            <li>
+                <strong>① 쉬운 금융 경험 제공 (Easy UI/UX)</strong><br>
+                - 카드형 요약, 쉬운 문장, 용어 버튼(툴팁), 영상 기반 설명 도입<br>
+                - 초보 탐색형 사용자의 '진입 장벽' 문제 해결
+            </li>
+
+            <li>
+                <strong>② 자산 통합 인텔리전스 (Unified Financial View)</strong><br>
+                - 은행/증권/간편결제 계좌 모두 한 화면에서 조회<br>
+                - DIY 투자형 사용자에게 필요했던 포트폴리오 분석 니즈 해결
+            </li>
+
+            <li>
+                <strong>③ 신뢰 기반 금융 콘텐츠 (Verified Content)</strong><br>
+                - 전문가·셀러 검증 시스템 + 광고성 콘텐츠 구분<br>
+                - “누구 말을 믿어야 하나?” 문제 해결
+            </li>
+
+            <li>
+                <strong>④ AI 개인 금융 비서 (Personal Finance AI)</strong><br>
+                - 자산·지출·관심사 기반 자동 요약/설명/리스크 알림<br>
+                - “내 상황에 필요한 정보만 받고 싶다”는 공통 니즈 해결
+            </li>
+
+            <li>
+                <strong>⑤ 라이브 기반 몰입형 경험 (Live + Community)</strong><br>
+                - 라이브 방송·채팅·Q&A로 사용자 참여 강화<br>
+                - 신뢰 + 재미 + 정보의 결합을 통한 지속 이용 유도
+            </li>
+        </ul>
+
+        <p>
+            위 기획 방향은 EasyFin V2.0의 전체 정보구조(IA), 핵심 기능, 와이어프레임 설계,
+            그리고 KPI(온보딩→자산 연동→핵심 기능 경험→유지율)의 퍼널 구조에 직접 연결된다.
+        </p>
+    </div>
+</section>
+
+
+</main>
+
+
+<footer class="footer">
+    <div class="footer__inner">
+        <p>© 2025 핀테크 자산 통합 & 라이브 콘텐츠 서비스 – 기획서 & 와이어프레임 예시</p>
+    </div>
+</footer>
+</body>
+</html>

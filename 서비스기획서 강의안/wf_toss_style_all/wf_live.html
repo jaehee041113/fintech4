@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WF-04 라이브 화면</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+
+<body>
+<div class="mobile-container"><div id="root"></div></div>
+
+<script type="text/babel" data-presets="react">
+
+/** 공통 AppBar */
+function AppBar({ title }) {
+  return (
+    <header className="appbar">
+      <div className="appbar__title">{title}</div>
+      <div className="appbar__actions">
+        <button className="icon-button">🔍</button>
+        <button className="icon-button">🔔</button>
+      </div>
+    </header>
+  );
+}
+
+/** 공통 하단 탭 바 */
+function BottomNav({ active }) {
+  const items = ["홈", "마켓", "라이브", "커뮤니티", "마이"];
+
+  return (
+    <nav className="bottom-nav">
+      {items.map((name) => (
+        <button
+          key={name}
+          type="button"
+          className={
+            "bottom-nav__item" +
+            (active === name ? " bottom-nav__item--active" : "")
+          }
+        >
+          <span className="bottom-nav__label">{name}</span>
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+/**
+ * WF-04 라이브 화면
+ * - FR-030 라이브 목록 제공 (진행중 / 예정 / 다시보기 탭)
+ * - FR-031 라이브 상세 (향후: 플레이어 + 채팅)
+ * - FR-A04 라이브 요약 & Q&A 하이라이트(향후) 표시
+ * - UI-005 라이브 화면 구성 대응
+ */
+function LiveScreen() {
+  const tabs = ["진행중", "예정", "다시보기"];
+  const [tab, setTab] = React.useState("진행중");
+  const [selected, setSelected] = React.useState(null);
+
+  const dummyLives = [
+    {
+      id: 1,
+      title: "ETF로 만드는 월배당 포트폴리오",
+      host: "김전문",
+      time: "진행중",
+      viewers: 2200,
+    },
+    {
+      id: 2,
+      title: "공모주 완전정복",
+      host: "IPO헌터",
+      time: "예정",
+      viewers: 0,
+    },
+    {
+      id: 3,
+      title: "채권으로 노후 준비하기",
+      host: "채권마스터",
+      time: "다시보기",
+      viewers: 15000,
+    },
+  ];
+
+  const filtered = dummyLives.filter((item) => item.time === tab);
+
+  return (
+    <div className="screen">
+      <AppBar title="라이브" />
+
+      <div className="screen__content">
+        {/* 탭 (FR-030) */}
+        <div className="chip-row">
+          {tabs.map((t) => (
+            <button
+              key={t}
+              className={"chip" + (t === tab ? " chip--active" : "")}
+              onClick={() => setTab(t)}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+
+        {/* 목록 (FR-030) */}
+        <section className="card">
+          <h2>{tab} 라이브</h2>
+
+          <ul className="market-list">
+            {filtered.map((l) => (
+              <li
+                key={l.id}
+                className="market-list__item"
+                onClick={() => setSelected(l)}
+              >
+                <div className="market-list__title">{l.title}</div>
+                <div className="market-list__meta">
+                  <span>{l.host}</span>
+                  <span>
+                    {tab === "진행중" ? `${l.viewers}명 시청중` : ""}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          {/* FR-A04: 향후 라이브 요약 & Q&A 하이라이트 제공 안내 */}
+          <p
+            style={{
+              fontSize: "12px",
+              color: "#6b7280",
+              marginTop: "8px",
+            }}
+          >
+            ※ 향후 버전에서는 다시보기 라이브에 대해
+            <strong> AI 기반 핵심 요약과 Q&amp;A 하이라이트</strong>가 함께 제공됩니다.
+          </p>
+        </section>
+
+        {/* 상세 모달 (FR-031: 향후 상세 구성의 와이어프레임용) */}
+        {selected && (
+          <div className="modal" onClick={() => setSelected(null)}>
+            <div
+              className="modal__content"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3>{selected.title}</h3>
+              <p>호스트: {selected.host}</p>
+              <p>상태: {selected.time}</p>
+              <p>시청자: {selected.viewers}</p>
+              <p>
+                ※ 실제 버전에서는 <strong>영상 플레이어와 실시간 채팅</strong>이 포함되며,
+                <strong> 라이브 내용 핵심 요약 &amp; 자주 나온 Q&amp;A 하이라이트</strong>가
+                AI를 통해 함께 제공됩니다.
+              </p>
+              <button className="btn" onClick={() => setSelected(null)}>
+                닫기
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* 하단 탭: 라이브 활성화 */}
+      <BottomNav active="라이브" />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<LiveScreen />);
+
+</script>
+</body>
+
+</html>

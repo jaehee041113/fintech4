@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WF-03 마켓 화면</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- React CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+
+<body>
+<div class="mobile-container">
+  <div id="root"></div>
+</div>
+
+<script type="text/babel" data-presets="react">
+
+/* -----------------------------
+   공통 AppBar 컴포넌트
+------------------------------ */
+function AppBar({ title }) {
+  return (
+    <header className="appbar">
+      <div className="appbar__title">{title}</div>
+      <div className="appbar__actions">
+        <button className="icon-button">🔍</button>
+        <button className="icon-button">🔔</button>
+      </div>
+    </header>
+  );
+}
+
+/* -----------------------------
+   하단 탭 바 공통 컴포넌트
+------------------------------ */
+function BottomNav({ active }) {
+  const items = ["홈", "마켓", "라이브", "커뮤니티", "마이"];
+
+  return (
+    <nav className="bottom-nav">
+      {items.map((name) => (
+        <button
+          key={name}
+          type="button"
+          className={
+            "bottom-nav__item" +
+            (active === name ? " bottom-nav__item--active" : "")
+          }
+        >
+          <span className="bottom-nav__label">{name}</span>
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+/* -----------------------------
+   WF-03 마켓 화면
+   - FR-020: 카테고리 탭
+   - FR-021: 상품 리스트 제공
+   - FR-022: 상세 모달
+   - UI-004 대응
+------------------------------ */
+function MarketScreen() {
+  const categories = ["전체", "공모주", "ETF", "채권", "리츠"];
+
+  // 🎯 더미 상품 데이터
+  const dummyItems = [
+    {
+      id: 1,
+      name: "에코그린 공모주 청약",
+      code: "IPO-2401",
+      category: "공모주",
+      risk_level: "mid",
+      expected_yield: 12.4,
+      description: "친환경 에너지 기업 에코그린의 신규 상장 공모주입니다."
+    },
+    {
+      id: 2,
+      name: "KODEX 200 ETF",
+      code: "ETF-200",
+      category: "ETF",
+      risk_level: "low",
+      expected_yield: 4.8,
+      description: "국내 대표 지수 KOSPI200을 추종하는 ETF 상품입니다."
+    },
+    {
+      id: 3,
+      name: "미래형 성장 ETF",
+      code: "ETF-500",
+      category: "ETF",
+      risk_level: "high",
+      expected_yield: 8.2,
+      description: "신재생·AI·바이오 등 성장 테마 기반 ETF."
+    },
+    {
+      id: 4,
+      name: "국채 10년 만기 채권",
+      code: "BOND-10Y",
+      category: "채권",
+      risk_level: "low",
+      expected_yield: 3.1,
+      description: "대한민국 국채 10년물, 안정적인 금리 기반 상품."
+    },
+    {
+      id: 5,
+      name: "스타리츠 상장리츠",
+      code: "REIT-STAR",
+      category: "리츠",
+      risk_level: "mid",
+      expected_yield: 6.0,
+      description: "오피스·상업시설 중심의 리츠 포트폴리오."
+    }
+  ];
+
+  const riskLabelMap = { low: "낮음", mid: "중간", high: "높음" };
+
+  const [category, setCategory] = React.useState("전체");
+  const [items, setItems] = React.useState(dummyItems);
+  const [selected, setSelected] = React.useState(null);
+
+  // 카테고리 필터링
+  React.useEffect(() => {
+    if (category === "전체") {
+      setItems(dummyItems);
+    } else {
+      setItems(dummyItems.filter(item => item.category === category));
+    }
+  }, [category]);
+
+  return (
+    <div className="screen">
+      <AppBar title="마켓" />
+
+      <div className="screen__content">
+        {/* FR-020 카테고리 탭 */}
+        <div className="chip-row">
+          {categories.map(cat => (
+            <button 
+              key={cat}
+              className={"chip" + (category === cat ? " chip--active" : "")}
+              onClick={() => setCategory(cat)}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* FR-021 상품 리스트 */}
+        <section className="card">
+          <h2>상품 리스트</h2>
+
+          <ul className="market-list">
+            {items.map(item => (
+              <li 
+                key={item.id}
+                className="market-list__item"
+                onClick={() => setSelected(item)}
+              >
+                <div className="market-list__title">{item.name}</div>
+                <div className="market-list__meta">
+                  <span>{item.category}</span>
+                  <span>{item.code}</span>
+                  <span className={"risk risk--" + item.risk_level}>
+                    위험도 {riskLabelMap[item.risk_level]}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+      {/* FR-A03: 마켓 AI 추천 (향후) */}
+        <p
+          style={{
+            fontSize: "12px",
+            color: "#6b7280",
+            marginTop: "8px",
+          }}
+        >
+          ※ 향후 버전에서는 사용자의 보유 자산·시청 라이브를 기반으로
+          AI가 유사 테마 상품을 추천 리스트로 제공합니다.
+        </p>
+
+
+
+
+        {/* FR-022 상품 상세 모달 */}
+        {selected && (
+          <div className="modal" onClick={() => setSelected(null)}>
+            <div className="modal__content" onClick={e => e.stopPropagation()}>
+              <h3>{selected.name}</h3>
+
+              <p className="modal__code">{selected.code}</p>
+              <p style={{ marginTop: "8px" }}>{selected.description}</p>
+
+              <p style={{ marginTop: "8px" }}>
+                예상 수익률:{" "}
+                <strong>{selected.expected_yield}%</strong>
+              </p>
+
+              <p
+                className={"risk risk--" + selected.risk_level}
+                style={{ marginTop: "8px" }}
+              >
+                위험도: {riskLabelMap[selected.risk_level]}
+              </p>
+
+              <button
+                className="btn"
+                style={{ marginTop: "16px" }}
+                onClick={() => setSelected(null)}
+              >
+                닫기
+              </button>
+
+              <button
+                className="btn btn--secondary"
+                style={{ marginTop: "8px", width: "100%" }}
+                onClick={() => alert("AI에게 물어보기(와이어프레임용)")}>
+                이 상품, AI에게 물어보기
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* 하단 탭 바: 마켓 활성화 */}
+      <BottomNav active="마켓" />
+    </div>
+  );
+}
+
+// React 18 렌더
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<MarketScreen />);
+</script>
+
+</body>
+</html>

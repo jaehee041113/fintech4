@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>EasyFin V2.0 – 핀테크 자산 통합 & 라이브 금융 콘텐츠 서비스 기획서</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="header">
+    <div class="header__inner">
+        <h1 class="header__title">EasyFin V2.0 – 핀테크 자산 통합 & 라이브 금융 콘텐츠 서비스 기획서</h1>
+        <p class="header__subtitle">
+            Persona: 박지현(마케팅 에이전시 AE) 기반 요구사항 정의서 & 화면 설계 와이어프레임
+        </p>
+        <nav class="header__nav">
+            <a href="서비스기획서_01목적_목표.html">개요</a>
+            <a href="서비스기획서_02페르소나.html">페르소나</a>
+            <a href="서비스기획서_03문제정의.html">문제 정의</a>
+            <a href="서비스기획서_04핵심가치.html">핵심 가치</a>
+            <a href="서비스기획서_05고객여정맵.html">고객 여정맵</a>
+            <a href="서비스기획서_06IA정보구조도.html">IA정보구조도</a>
+            <a href="서비스기획서_07주요기능.html">주요기능</a>
+            <a href="서비스기획서_08요구사항.html">요구사항</a>
+            <a href="서비스기획서_09와이어프레임.html">와이어프레임</a>
+            <a href="서비스기획서_10구현계획.html">구현 계획</a>
+        </nav>
+    </div>
+</header>
+
+<main class="main">
+
+   <!-- 📘 이론 설명: Value Proposition이란? -->
+<section class="section theory">
+    <h2 class="section__title">Value Proposition 이론</h2>
+    <p>
+        가치 제안(Value Proposition)은 사용자가 그 서비스를 선택해야 하는
+        <strong>핵심 이유</strong>를 명확하게 설명하는 개념이다.
+        즉, 서비스가 제공하는 이점·차별점·매력 요소를 정의하여
+        목표 사용자에게 전달되는 <strong>서비스의 정체성</strong>을 표현한다.
+    </p>
+    <ul class="list">
+        <li>경쟁 서비스 대비 <strong>차별화 포인트</strong>를 한 문장으로 설명할 수 있어야 함</li>
+        <li>기능 나열이 아니라 <strong>“사용자에게 돌아가는 가치”</strong> 중심으로 정리해야 함</li>
+        <li>페르소나·문제 정의·KPI와 정합성을 유지하는 <strong>기획의 기준선</strong> 역할</li>
+        <li>온보딩 메시지·랜딩 페이지·마케팅 카피의 <strong>핵심 메시지 원천</strong>이 됨</li>
+    </ul>
+    <p>
+        EasyFin V2.0의 가치 제안은
+        <strong>1번 섹션(서비스 목적 &amp; 목표)</strong>에서 정의한 목적 A~D
+        (쉬운 금융 경험·자산 통합 뷰·신뢰 기반 정보·AI 개인 금융 비서)와<br>
+        <strong>3명의 페르소나</strong>, <strong>3번 섹션(문제 정의)</strong>에서 도출한
+        네 가지 핵심 문제를 해결하는 방향으로 설계된다.
+    </p>
+</section>
+
+<!-- 4. 핵심 가치 제안 (Value Proposition) -->
+<section id="value" class="section">
+    <h2 class="section__title">4. 핵심 가치 제안 (Value Proposition)</h2>
+
+    <!-- 4-1. EasyFin V2.0의 4대 가치 축 -->
+    <div class="card card--grid-3">
+        <div>
+            <h3>Easy – 쉽게 이해되는 금융</h3>
+            <p>
+                복잡한 차트·전문 용어 대신,
+                <strong>카드형 요약·쉬운 문장·툴팁</strong> 중심으로 설계된 UI/UX 제공.<br>
+                초보 탐색형(박지현)의 “어디서 무엇을 봐야 할지 모르겠다” 문제를 해소한다.
+            </p>
+        </div>
+        <div>
+            <h3>Trust – 신뢰할 수 있는 금융 정보</h3>
+            <p>
+                <strong>검증된 전문가/셀러</strong>와의 제휴, 라이브·Q&amp;A 기록 공개, 광고성 콘텐츠 구분을 통해<br>
+                “믿어도 되나요?”라는 근본적인 불신을 줄이고, 의사결정의 기준점을 제공한다.
+            </p>
+        </div>
+        <div>
+            <h3>Fun – 함께 보는 금융 경험</h3>
+            <p>
+                라이브 방송, 채팅, 커뮤니티, 실시간 Q&amp;A를 통해
+                <strong>“함께 보고 질문하는 재미”</strong>를 강화한다.<br>
+                반복 방문과 콘텐츠 소비 시간을 늘려 서비스 체류 시간을 확대한다.
+            </p>
+        </div>
+        <div>
+            <h3>Intelligence – AI 개인 금융 비서</h3>
+            <p>
+                사용자의 자산 구성·지출 패턴·관심사 데이터를 바탕으로
+                <strong>요약·설명·리스크 알림·추천</strong>을 수행하는
+                AI 기반 <strong>개인 금융 비서</strong>를 제공한다.<br>
+                DIY 투자형(김도훈)의 포트폴리오 인사이트 니즈와,
+                생활밀착형(최수정)의 지출·납입 관리 니즈를 동시에 지원한다.
+            </p>
+        </div>
+    </div>
+
+    <!-- 4-2. 가치 제안과 KPI, 페르소나의 연결 요약 -->
+    <div class="card">
+        <h3>4-2. 가치 제안 · 페르소나 · KPI 연결</h3>
+        <ul class="list">
+            <li>
+                <strong>Easy</strong> → 초보 탐색형(박지현)의 진입 장벽 해소<br>
+                → <em>온보딩 완료율, 7일차 유지율</em> 개선에 기여
+            </li>
+            <li>
+                <strong>Trust</strong> → 모든 페르소나의 정보 신뢰도 문제 해결<br>
+                → <em>라이브/콘텐츠 이용률, 재방문율</em> 향상
+            </li>
+            <li>
+                <strong>Fun</strong> → “함께 보는 재미”로 콘텐츠 소비 시간 증가<br>
+                → <em>라이브 평균 시청 시간, 커뮤니티 참여도</em> 상승
+            </li>
+            <li>
+                <strong>Intelligence</strong> → DIY 투자형·생활밀착형의 맞춤 니즈 충족<br>
+                → <em>자산 연동 완료율, 핵심 기능 경험률, 통합 재무 기능 사용률</em> 향상
+            </li>
+        </ul>
+        <p>
+            이 네 가지 가치 축(Easy · Trust · Fun · Intelligence)은
+            이후 <strong>IA 설계, 핵심 기능 정의, 화면 와이어프레임, 온보딩 메시지</strong> 전반의
+            기준이 되는 브랜드·서비스 레벨의 약속이다.
+        </p>
+    </div>
+</section>
+
+
+</main>
+
+
+<footer class="footer">
+    <div class="footer__inner">
+        <p>© 2025 핀테크 자산 통합 & 라이브 콘텐츠 서비스 – 기획서 & 와이어프레임 예시</p>
+    </div>
+</footer>
+</body>
+</html>

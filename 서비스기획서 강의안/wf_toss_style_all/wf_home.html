@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WF-02 홈 / 대시보드</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- React CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+<div class="mobile-container">
+  <div id="root"></div>
+</div>
+
+<script type="text/babel" data-presets="react">
+/** 상단 앱바 공통 컴포넌트 */
+function AppBar({ title }) {
+  return (
+    <header className="appbar">
+      <div className="appbar__title">{title}</div>
+      <div className="appbar__actions">
+        <button className="icon-button">🔍</button>
+        <button className="icon-button">🔔</button>
+      </div>
+    </header>
+  );
+}
+
+/** 하단 탭 바 공통 컴포넌트 */
+function BottomNav({ active }) {
+  const items = ["홈", "마켓", "라이브", "커뮤니티", "마이"];
+
+  return (
+    <nav className="bottom-nav">
+      {items.map((name) => (
+        <button
+          key={name}
+          type="button"
+          className={
+            "bottom-nav__item" +
+            (active === name ? " bottom-nav__item--active" : "")
+          }
+        >
+          <span className="bottom-nav__label">{name}</span>
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+/**
+ * WF-02 홈 / 대시보드
+ * - FR-010 총 자산 표시
+ * - FR-011 자산 비중 표시
+ * - FR-012 계좌 요약 표시
+ * - FR-013 추천 라이브 섹션
+ * - UI-003 대시보드 화면 대응
+ */
+function HomeScreen() {
+  // 👉 백엔드 없이도 보이도록 더미 데이터 사용
+  const totalAsset = 123450000;
+
+  const breakdown = [
+    { label: "예금", amount: 35000000 },
+    { label: "주식", amount: 48000000 },
+    { label: "ETF", amount: 20000000 },
+    { label: "채권", amount: 10000000 },
+    { label: "현금", amount: 450000 },
+  ];
+
+  const accounts = [
+    {
+      id: 1,
+      institution: "토스뱅크",
+      name: "통합입출금",
+      type: "입출금",
+      balance: 12340000,
+    },
+    {
+      id: 2,
+      institution: "KB증권",
+      name: "국내주식",
+      type: "주식",
+      balance: 48000000,
+    },
+    {
+      id: 3,
+      institution: "미래에셋",
+      name: "ETF 포트폴리오",
+      type: "ETF",
+      balance: 20000000,
+    },
+  ];
+
+  const recommendedLives = [
+    "오늘 밤 9시 · “ETF로 만드는 월배당 포트폴리오”",
+    "내일 20시 · “공모주 청약, 이것만 보면 끝”",
+  ];
+
+  return (
+    <div className="screen">
+      <AppBar title="홈" />
+      <div className="screen__content">
+        {/* FR-010, FR-011 : 총 자산 / 자산 비중 */}
+
+        {/* FR-A01: AI 자산 브리핑 (요약) */}
+        <section className="card">
+          <h2>AI 자산 한 줄 요약</h2>
+          <p>
+            지난 일주일 동안 내 전체 자산은 <strong>+2.3%</strong> 변동했습니다.
+          </p>
+          <ul className="simple-list">
+            <li>주식 · ETF 비중이 65%로 다소 공격적인 편입니다.</li>
+            <li>단기 예금/현금 비중은 15% 수준입니다.</li>
+            <li>이번 주 변동성이 큰 종목 2개가 포트폴리오에 포함되어 있습니다.</li>
+          </ul>
+          <p style={{ fontSize: "12px", color: "#6b7280", marginTop: "6px" }}>
+            ※ 기획서용 더미 데이터입니다. 실제 서비스에서는 연동된 계좌 데이터를 기반으로 생성됩니다.
+          </p>
+        </section>
+
+
+        <section className="card">
+          <h2>통합 자산 현황</h2>
+          <div className="asset__total">
+            총 자산{" "}
+            <strong>{totalAsset.toLocaleString()} KRW</strong>
+          </div>
+          <ul className="asset__breakdown">
+            {breakdown.map((item) => (
+              <li key={item.label}>
+                <span>{item.label}</span>
+                <span>{item.amount.toLocaleString()}원</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* FR-012 : 계좌 요약 */}
+        <section className="card">
+          <h2>계좌별 요약</h2>
+          <ul className="account-list">
+            {accounts.map((acc) => (
+              <li key={acc.id} className="account-list__item">
+                <div className="account-list__title">
+                  {acc.institution} · {acc.name}
+                </div>
+                <div className="account-list__meta">
+                  <span>{acc.type}</span>
+                  <span className="account-list__balance">
+                    {acc.balance.toLocaleString()}원
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* FR-013 : 추천 라이브 섹션 */}
+        <section className="card">
+          <h2>추천 라이브</h2>
+          <p>지금 내 자산과 연관된 라이브 방송을 추천합니다.</p>
+          <ul className="simple-list">
+            {recommendedLives.map((text, idx) => (
+              <li key={idx}>{text}</li>
+            ))}
+          </ul>
+          <p
+            style={{
+              fontSize: "12px",
+              color: "#6b7280",
+              marginTop: "8px",
+            }}
+          >
+            자세한 내용은 <strong>라이브 탭</strong>에서 확인할 수 있습니다.
+          </p>
+        </section>
+      </div>
+
+      {/* 하단 탭 바: 홈 활성화 */}
+      <BottomNav active="홈" />
+    </div>
+  );
+}
+
+// React 18 렌더
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<HomeScreen />);
+</script>
+</body>
+</html>

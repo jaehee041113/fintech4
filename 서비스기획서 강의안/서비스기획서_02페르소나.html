@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>EasyFin V2.0 – 핀테크 자산 통합 & 라이브 금융 콘텐츠 서비스 기획서</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="header">
+    <div class="header__inner">
+        <h1 class="header__title">EasyFin V2.0 – 핀테크 자산 통합 & 라이브 금융 콘텐츠 서비스 기획서</h1>
+        <p class="header__subtitle">
+            Persona: 박지현(마케팅 에이전시 AE) 기반 요구사항 정의서 & 화면 설계 와이어프레임
+        </p>
+        <nav class="header__nav">
+            <a href="서비스기획서_01목적_목표.html">개요</a>
+            <a href="서비스기획서_02페르소나.html">페르소나</a>
+            <a href="서비스기획서_03문제정의.html">문제 정의</a>
+            <a href="서비스기획서_04핵심가치.html">핵심 가치</a>
+            <a href="서비스기획서_05고객여정맵.html">고객 여정맵</a>
+            <a href="서비스기획서_06IA정보구조도.html">IA정보구조도</a>
+            <a href="서비스기획서_07주요기능.html">주요기능</a>
+            <a href="서비스기획서_08요구사항.html">요구사항</a>
+            <a href="서비스기획서_09와이어프레임.html">와이어프레임</a>
+            <a href="서비스기획서_10구현계획.html">구현 계획</a>
+        </nav>
+    </div>
+</header>
+
+<main class="main">
+
+   <!-- --------------------------- -->
+    <!-- 1. 페르소나 이론 (데이터 기반) -->
+    <!-- --------------------------- -->
+    <section class="section theory">
+        <h2 class="section__title">1. 페르소나(Persona) 이론</h2>
+        <p>
+            페르소나는 특정 사용자 집단의 목표, 행동, 동기, 문제를 대표하는 가상의 사용자 모델이다.
+            EasyFin V2.0에서는 단순 가정이 아닌,
+            <strong>사용자 설문(312명), 군집 분석, 금융 콘텐츠 소비 패턴, 리뷰 텍스트마이닝, 정성 인터뷰</strong>를 기반으로
+            실 데이터에서 페르소나를 도출하였다.
+        </p>
+
+        <h3>데이터 기반 접근의 필요성</h3>
+        <ul class="list">
+            <li>군집 분석 결과(초보 탐색형·분산 자산형 등)에서 대표 사용자군 추출</li>
+            <li>숏폼 영상 중심 금융 정보 소비 증가 패턴을 페르소나 모델에 반영</li>
+            <li>앱 리뷰 7만 건 분석에서 “복잡·어려움·자산 정리 안 됨”이 반복적으로 확인됨</li>
+            <li>정성 인터뷰에서 “한눈에 보는 자산화면”, “믿을 수 있는 정보” 니즈 도출</li>
+        </ul>
+        <p>
+            이 데이터 기반 접근은 이후 <strong>문제 정의, IA, 요구사항, 핵심기능, 와이어프레임</strong> 설계의 기준점으로 활용된다.
+        </p>
+    </section>
+
+    <!-- --------------------------- -->
+    <!-- 2. 페르소나 #1 박지현 -->
+    <!-- --------------------------- -->
+    <section id="persona1" class="section persona">
+        <h2 class="section__title">2. 페르소나 #1 – 박지현 (마케팅 AE)</h2>
+
+        <div class="card card--grid-2">
+            <div>
+                <h3>2-1. 기본 정보</h3>
+                <ul class="list">
+                    <li>나이: 27세</li>
+                    <li>직업: 마케팅 에이전시 AE</li>
+                    <li>거주: 서울 성수동</li>
+                    <li>특징: 디지털 친숙도 매우 높음, 숏폼 금융 정보 선호</li>
+                    <li>군집: <strong>초보 탐색형 + 분산 자산형</strong></li>
+                </ul>
+            </div>
+            <div>
+                <h3>2-2. 금융 소비 성향</h3>
+                <ul class="list">
+                    <li>금융 콘텐츠는 주로 유튜브·쇼츠·릴스 등 숏폼 위주</li>
+                    <li>투자는 소액 중심, 안정적 상품 선호</li>
+                    <li>앱 온보딩과 첫인상에 매우 민감</li>
+                    <li>자산이 여러 앱에 분산되어 전체 구조 파악이 어려움</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>2-3. 니즈</h3>
+            <ul class="list">
+                <li>“복잡한 글 말고 <strong>쉽고 이해하기 쉬운 설명</strong>을 원한다.”</li>
+                <li>“내 자산을 <strong>한눈에 정리</strong>해주는 화면이 필요하다.”</li>
+                <li>“믿을 수 있는 <strong>전문가·셀러의 추천</strong>만 보고 싶다.”</li>
+                <li>“영상 기반으로 <strong>질문·답변</strong>을 실시간으로 하고 싶다.”</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- --------------------------- -->
+    <!-- 3. 페르소나 #2 김도훈 -->
+    <!-- --------------------------- -->
+    <section id="persona2" class="section persona">
+        <h2 class="section__title">3. 페르소나 #2 – 김도훈 (IT 개발자)</h2>
+
+        <div class="card card--grid-2">
+            <div>
+                <h3>3-1. 기본 정보</h3>
+                <ul class="list">
+                    <li>나이: 29세</li>
+                    <li>직업: 백엔드 개발자</li>
+                    <li>거주: 서울 역삼동</li>
+                    <li>특징: 기술 친화적, 스스로 리서치 후 투자</li>
+                    <li>군집: <strong>능동적 자산관리형 · DIY 투자자</strong></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>3-2. 금융 소비 성향</h3>
+                <ul class="list">
+                    <li>데이터 기반 ETF·국내외 주식 투자</li>
+                    <li>글 기반 리포트·커뮤니티 선호</li>
+                    <li>포트폴리오·위험지표 등 깊은 정보 탐색</li>
+                    <li>여러 앱을 사용하는 데 피로도가 높음</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>3-3. 니즈</h3>
+            <ul class="list">
+                <li>분산된 증권 계좌를 하나의 화면에서 통합 관리하고 싶다</li>
+                <li>리스크 지표·비중 분석 등 깊이 있는 분석을 AI가 제공하길 원함</li>
+                <li>“내 포트폴리오에 영향을 주는 뉴스만 보고 싶다”</li>
+                <li>직관적이고 데이터 기반의 인사이트 제공</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- --------------------------- -->
+    <!-- 4. 페르소나 #3 최수정 -->
+    <!-- --------------------------- -->
+    <section id="persona3" class="section persona">
+        <h2 class="section__title">4. 페르소나 #3 – 최수정 (워킹맘)</h2>
+
+        <div class="card card--grid-2">
+            <div>
+                <h3>4-1. 기본 정보</h3>
+                <ul class="list">
+                    <li>나이: 41세</li>
+                    <li>직업: 교육기관 행정직</li>
+                    <li>거주: 경기 광명</li>
+                    <li>특징: 지출·보험·적금 중심의 생활밀착형 금융 사용자</li>
+                    <li>군집: <strong>안정 추구형 · 생활 재무 관리형</strong></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>4-2. 금융 소비 성향</h3>
+                <ul class="list">
+                    <li>생활비·고정비 관리가 가장 중요</li>
+                    <li>금융 용어에 스트레스 → 카드뉴스·블로그 선호</li>
+                    <li>지출 흐름·납입 일정 파악에 어려움</li>
+                    <li>투자보다는 안정성 중심 (적금·보험·채권형 ETF)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>4-3. 니즈</h3>
+            <ul class="list">
+                <li>월별 지출·자동이체·납입 일정을 통합적으로 관리하고 싶다</li>
+                <li>보험/적금 등 비투자성 금융 정보를 한 번에 정리하고 싶다</li>
+                <li>생활 기반의 맞춤 조언 제공 (예: 다음달 고정비 예측)</li>
+                <li>쉬운 설명 + 카드형 정보 UI 선호</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================ -->
+<!-- 5. 세 페르소나의 전략적 기여 -->
+<!-- ============================ -->
+<section class="section">
+    <h2 class="section__title">5. 세 페르소나가 EasyFin V2.0 전체 전략에 기여하는 방식</h2>
+    <p>
+        세 페르소나는 서로 다른 금융 행동 특성과 목적을 가지고 있으며,
+        EasyFin V2.0의 KPI 설계 및 기능 우선순위 설정의 핵심 기준이 된다.
+        아래 표는 각 페르소나가 서비스 전략에 어떻게 기여하는지 요약한 것이다.
+    </p>
+
+    <div class="card">
+        <table class="table persona-table">
+            <thead>
+                <tr>
+                    <th>페르소나</th>
+                    <th>특징</th>
+                    <th>기여하는 핵심 KPI</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>박지현 (초보 탐색형)</strong></td>
+                    <td>숏폼 금융 콘텐츠 소비 중심<br>심리적 장벽 높고 온보딩 UX에 민감</td>
+                    <td>
+                        - 온보딩 완료율 향상<br>
+                        - 가입 후 7일 유지율 증가
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>김도훈 (DIY 투자형)</strong></td>
+                    <td>데이터 기반 탐색·여러 증권사 앱 사용<br>포트폴리오 분석 니즈 강함</td>
+                    <td>
+                        - 자산 연동 완료율 상승<br>
+                        - 핵심 기능(자산 분석·AI 요약) 경험률 향상
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>최수정 (생활밀착형)</strong></td>
+                    <td>지출·보험·적금 중심의 생활형 금융 사용자</td>
+                    <td>
+                        - 통합 재무 기능(지출·납입 일정) 사용률 증가<br>
+                        - 반복 방문 및 서비스 지속 이용 증가
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>
+        이 전략적 기여도는 EasyFin V2.0의 주요 KPI인
+        <strong>온보딩 → 자산 연동 → 핵심 기능 경험 → 유지율</strong>의 전체 퍼널을
+        구성하는 데 핵심 역할을 하며, 이후 IA 구성·주요 기능 선정·UI 설계의 기준점으로 활용된다.
+    </p>
+</section>
+
+
+</main>
+
+
+<footer class="footer">
+    <div class="footer__inner">
+        <p>© 2025 핀테크 자산 통합 & 라이브 콘텐츠 서비스 – 기획서 & 와이어프레임 예시</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WF-01 로그인 / 회원가입</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- React CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+
+<body>
+<div class="mobile-container">
+  <div id="root"></div>
+</div>
+
+<script type="text/babel" data-presets="react">
+
+/** --------------------------
+ *  공통 AppBar 컴포넌트
+ * -------------------------- */
+function AppBar({ title }) {
+  return (
+    <header className="appbar">
+      <div className="appbar__title">{title}</div>
+      <div className="appbar__actions">
+        {/* 온보딩 단계라 실제 검색/알림 동작은 없음 (와이어프레임용 아이콘) */}
+        <button className="icon-button">🔍</button>
+        <button className="icon-button">🔔</button>
+      </div>
+    </header>
+  );
+}
+
+/**
+ * WF-01 로그인 / 회원가입 화면
+ * - FR-001 온보딩 화면 제공
+ * - FR-002 로그인/회원가입
+ * - FR-003 약관 동의
+ * - UI-001 / UI-002 대응
+ */
+function AuthScreen() {
+  const [tab, setTab] = React.useState("login");
+  const [email, setEmail] = React.useState("");
+  const [pw, setPw] = React.useState("");
+  const [agree, setAgree] = React.useState(false);
+
+  const submitLogin = () => alert("로그인 시뮬레이션");
+  const submitSignup = () =>
+    agree
+      ? alert("회원가입 시뮬레이션")
+      : alert("약관 동의를 체크해주세요.");
+
+  return (
+    <div className="screen">
+      <AppBar title="로그인 / 회원가입" />
+
+      <div className="screen__content" style={{ padding: "16px" }}>
+        {/* 로고 / 온보딩 카피 (FR-001) */}
+        <h1>EasyFin V2.0</h1>
+        <p style={{ color: "#6b7280" }}>
+          내 모든 자산을 한눈에, 라이브로 쉽게 이해하는 금융 서비스
+        </p>
+
+        {/* 탭 (FR-002) */}
+        <div className="chip-row" style={{ marginTop: "16px" }}>
+          <button
+            className={"chip" + (tab === "login" ? " chip--active" : "")}
+            onClick={() => setTab("login")}
+          >
+            로그인
+          </button>
+          <button
+            className={"chip" + (tab === "signup" ? " chip--active" : "")}
+            onClick={() => setTab("signup")}
+          >
+            회원가입
+          </button>
+        </div>
+
+        {/* 폼 영역 */}
+        <section className="card" style={{ marginTop: "20px" }}>
+          <h2>{tab === "login" ? "로그인" : "회원가입"}</h2>
+
+          <input
+            type="email"
+            placeholder="이메일"
+            className="input"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{ marginTop: "8px" }}
+          />
+          <input
+            type="password"
+            placeholder="비밀번호"
+            className="input"
+            value={pw}
+            onChange={(e) => setPw(e.target.value)}
+            style={{ marginTop: "8px" }}
+          />
+
+          {tab === "signup" && (
+            <label style={{ marginTop: "12px", display: "block", fontSize: "13px" }}>
+              <input
+                type="checkbox"
+                checked={agree}
+                onChange={(e) => setAgree(e.target.checked)}
+                style={{ marginRight: "6px" }}
+              />
+              필수 약관에 동의합니다.
+            </label>
+          )}
+
+          <button
+            className="btn"
+            style={{ marginTop: "16px", width: "100%" }}
+            onClick={tab === "login" ? submitLogin : submitSignup}
+          >
+            {tab === "login" ? "로그인" : "회원가입"}
+          </button>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+// React 18 렌더링
+ReactDOM.createRoot(document.getElementById("root")).render(<AuthScreen />);
+
+</script>
+</body>
+</html>

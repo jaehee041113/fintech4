@@ -1,0 +1,776 @@
+/* ===============================
+   0. 기본 리셋 & 공통 설정
+   =============================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR",
+                 "Apple SD Gothic Neo", "맑은 고딕", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    background-color: #f5f7fb;
+    color: #111827;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+/* 링크 공통 */
+a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ===============================
+   1. 상단 헤더 / 내비
+   (기획서 메인 레이아웃)
+   =============================== */
+
+.header {
+    background: linear-gradient(120deg, #2563eb, #0ea5e9);
+    color: #ffffff;
+    padding: 24px 16px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.header__inner {
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.header__title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.header__subtitle {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 12px;
+}
+
+.header__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.85rem;
+}
+
+.header__nav a {
+    color: #e0f2fe;
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background-color: rgba(15,23,42,0.25);
+    border: 1px solid rgba(148,163,184,0.3);
+}
+
+.header__nav a:hover {
+    background-color: rgba(15,23,42,0.45);
+}
+
+/* 현재 페이지 표시용 (원하면 HTML에서 aria-current="page" 등과 함께 사용) */
+.header__nav a[aria-current="page"] {
+    background-color: rgba(15,23,42,0.8);
+    border-color: rgba(248,250,252,0.8);
+}
+
+/* ===============================
+   2. 페이지 공통 레이아웃
+   (메인 기획서 + 단독 페이지 공통)
+   =============================== */
+
+.main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 24px 16px 40px;
+}
+
+/* IA/요구사항 단독 문서에서 사용하는 헤더/푸터 */
+.page-header,
+.page-footer {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.page-header .subtitle {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.page-footer {
+    margin-top: 40px;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+/* ===============================
+   3. 섹션 / 카드 / 텍스트
+   =============================== */
+
+/* 공통 섹션 박스 */
+.section {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px 20px 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.06);
+}
+
+/* 메인 기획서용 섹션 타이틀 */
+.section__title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    padding-left: 4px;
+    border-left: 4px solid #2563eb;
+}
+
+/* IA/요구사항 단독 문서에서도 h2에 동일 스타일 */
+.section h2 {
+    font-size: 18px;
+    margin-bottom: 12px;
+    border-left: 4px solid #2563eb;
+    padding-left: 8px;
+}
+
+.section h3 {
+    font-size: 15px;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    color: #111827;
+}
+
+.section h4 {
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #111827;
+}
+
+/* 이론 설명 섹션에 약간 다른 톤을 주고 싶다면 */
+.section.theory {
+    background-color: #eff6ff;
+    border: 1px solid #bfdbfe;
+}
+
+/* 카드 */
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 16px 18px;
+    box-shadow: 0 10px 25px rgba(15,23,42,0.05);
+    border: 1px solid #e5e7eb;
+    margin-bottom: 12px;
+}
+
+.card h3,
+.card h4 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+/* 그리드 카드 (기획서 메인) */
+.card--grid-2 {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+}
+
+.card--grid-3 {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+}
+
+/* IA/요구사항 문서 쪽에서 사용하던 “평범한 카드 느낌”이 필요하면
+   여전히 .card 안에서 p, ul 등을 자유롭게 활용 가능 */
+
+@media (min-width: 768px) {
+    .card--grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .card--grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* 텍스트 */
+p {
+    margin-bottom: 8px;
+}
+
+/* 리스트 */
+ul, ol {
+    padding-left: 18px;
+    margin-bottom: 8px;
+}
+
+/* 공통 리스트 (기획서 메인에서 사용) */
+.list {
+    list-style: none;
+    font-size: 0.9rem;
+}
+
+.list li {
+    margin-bottom: 4px;
+    position: relative;
+    padding-left: 14px;
+}
+
+.list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #2563eb;
+    font-size: 0.9rem;
+}
+
+.list--bullet li::before {
+    content: "–";
+}
+
+.list--number {
+    counter-reset: number;
+}
+
+.list--number li {
+    padding-left: 20px;
+}
+
+.list--number li::before {
+    counter-increment: number;
+    content: counter(number) ".";
+    color: #2563eb;
+    font-weight: 600;
+}
+
+li + li {
+    margin-top: 2px;
+}
+
+/* ===============================
+   4. 테이블
+   =============================== */
+
+/* IA/요구사항 문서 공통 */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 6px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background-color: #ffffff;
+}
+
+thead {
+    background-color: #eff3fb;
+}
+
+th, td {
+    border: 1px solid #e5e7eb;
+    padding: 6px 8px;
+    vertical-align: top;
+}
+
+th {
+    font-weight: 600;
+    text-align: left;
+    color: #111827;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+table thead th:first-child,
+table tbody td:first-child {
+    white-space: nowrap;
+}
+
+/* 기획서 메인에서 사용하는 .table 클래스 */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.table th,
+.table td {
+    border: 1px solid #e5e7eb;
+    padding: 6px 8px;
+    text-align: left;
+}
+
+.table thead {
+    background-color: #eff6ff;
+}
+
+/* 고객 여정 테이블에서 1열 강조 */
+.table--journey td:nth-child(1) {
+    font-weight: 600;
+}
+
+/* ===============================
+   5. IA 전용 스타일 (트리 & 플로우)
+   =============================== */
+
+.ia-tree {
+    margin-top: 8px;
+    padding: 10px 12px;
+    background-color: #f3f4ff;
+    border-radius: 8px;
+    border: 1px dashed #c7d2fe;
+    font-size: 13px;
+}
+
+.ia-tree ul {
+    list-style: none;
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 4px;
+}
+
+.ia-tree li {
+    position: relative;
+    padding-left: 8px;
+    margin-bottom: 4px;
+}
+
+/* 세로 줄 */
+.ia-tree ul::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 4px;
+    bottom: 0;
+    width: 1px;
+    background-color: #d1d5db;
+}
+
+/* 가로 줄 + 노드 */
+.ia-tree li::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 4px;
+    width: 10px;
+    height: 1px;
+    background-color: #d1d5db;
+}
+
+/* 루트 */
+.ia-tree .ia-root > li::before {
+    display: none;
+}
+
+.ia-tree .ia-root {
+    padding-left: 0;
+}
+
+.ia-tree .ia-root::before {
+    display: none;
+}
+
+/* 플로우 카드 (번호 원형 step) */
+.flow-card ol {
+    counter-reset: flow-step;
+    list-style: none;
+    padding-left: 0;
+}
+
+.flow-card ol li {
+    counter-increment: flow-step;
+    margin: 4px 0;
+    padding-left: 26px;
+    position: relative;
+}
+
+.flow-card ol li::before {
+    content: counter(flow-step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    border: 1px solid #2563eb;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563eb;
+    background-color: #eff6ff;
+}
+
+/* ===============================
+   6. 페르소나 / 와이어프레임 전용
+   =============================== */
+
+.persona h3 {
+    margin-top: 4px;
+}
+
+/* 와이어프레임 전체 그리드 */
+.wireframe-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+}
+
+@media (min-width: 960px) {
+    .wireframe-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* 개별 와이어프레임 카드 */
+.wireframe-screen {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 12px 12px 10px;
+    border: 1px dashed #cbd5f5;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.wireframe-screen__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+/* 모바일 폰 프레임 */
+.wireframe-phone {
+    border-radius: 24px;
+    border: 2px solid #d1d5db;
+    background-color: #f9fafb;
+    width: 100%;
+    max-width: 260px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.phone-header {
+    padding: 8px 10px;
+    background: linear-gradient(120deg, #1d4ed8, #0ea5e9);
+    color: #ffffff;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.phone-body {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 180px;
+}
+
+.phone-footer {
+    padding: 6px 10px;
+    font-size: 0.7rem;
+    text-align: center;
+    background-color: #e5e7eb;
+}
+
+/* 탭 푸터 */
+.phone-footer--tabs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 0.7rem;
+}
+
+.phone-footer--tabs .tab {
+    padding: 4px 6px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+}
+
+.phone-footer--tabs .tab.active {
+    border-color: #1d4ed8;
+    background-color: #eff6ff;
+}
+
+/* 입력 푸터 */
+.phone-footer--input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4px;
+}
+
+.input-placeholder {
+    flex: 1;
+    text-align: left;
+    padding: 4px 6px;
+    border-radius: 999px;
+    background-color: #f3f4f6;
+}
+
+.btn-placeholder {
+    padding: 4px 8px;
+    border-radius: 999px;
+    background-color: #2563eb;
+    color: #ffffff;
+    font-size: 0.7rem;
+}
+
+/* 블록 요소 */
+.phone-block {
+    border-radius: 8px;
+    border: 1px dashed #cbd5f5;
+    padding: 6px;
+    font-size: 0.7rem;
+    background-color: #f9fafb;
+}
+
+.phone-block--large {
+    min-height: 64px;
+}
+
+.phone-block--graph {
+    min-height: 72px;
+}
+
+.phone-block--video {
+    min-height: 90px;
+}
+
+.phone-block--qna {
+    min-height: 40px;
+}
+
+.phone-block--chat {
+    min-height: 50px;
+}
+
+.phone-block--success {
+    background-color: #ecfdf5;
+    border-color: #6ee7b7;
+}
+
+.phone-block--summary {
+    background-color: #f9fafb;
+}
+
+.phone-block--actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.phone-block--row {
+    display: flex;
+    gap: 6px;
+}
+
+.phone-block--list {
+    min-height: 40px;
+}
+
+.phone-block--small {
+    opacity: 0.8;
+}
+
+/* 플레이스홀더 */
+.placeholder-text {
+    color: #4b5563;
+}
+
+.placeholder-pill {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: 1px dashed #9ca3af;
+    font-size: 0.7rem;
+    color: #4b5563;
+}
+
+.placeholder-chip {
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 999px;
+    border: 1px solid #93c5fd;
+    background-color: #eff6ff;
+    font-size: 0.7rem;
+}
+
+/* 와이어프레임 설명 리스트 */
+.wireframe-notes {
+    list-style: none;
+    font-size: 0.8rem;
+    margin-top: 8px;
+    padding-left: 0;
+}
+
+.wireframe-notes li {
+    margin-bottom: 3px;
+    padding-left: 12px;
+    position: relative;
+}
+
+.wireframe-notes li::before {
+    content: "※";
+    position: absolute;
+    left: 0;
+    color: #6366f1;
+}
+
+/* ===============================
+   7. 임베디드 프레임 / 화면 컨테이너
+   =============================== */
+
+/* 다른 HTML(IA/요구사항/와이어프레임)을 embed 할 때 */
+.embed-frame {
+    width: 100%;
+    min-height: 600px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+/* 와이어프레임 iframe 자체 */
+.wireframe-embed {
+    width: 420px;
+    height: 760px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: #ffffff;
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+/* 와이어프레임 내부 html에서 사용하는 컨테이너 */
+.screen {
+    padding-bottom: 64px;   /* 하단 탭바 공간 */
+    max-width: 390px;       /* 모바일 기준 폭 */
+    margin: 0 auto;         /* 가운데 정렬 */
+}
+
+/* 화면 안쪽 컨텐츠 영역 */
+.screen__content {
+    padding: 12px 12px 80px;
+    max-width: 390px;
+    margin: 0 auto;
+}
+
+/* ===============================
+   8. 푸터
+   =============================== */
+
+.footer {
+    border-top: 1px solid #e5e7eb;
+    padding: 12px 16px 20px;
+    background-color: #f9fafb;
+}
+
+.footer__inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+/* ===============================
+   9. 반응형
+   =============================== */
+
+@media (max-width: 768px) {
+    .main {
+        padding: 16px 12px 24px;
+    }
+
+    .page-header h1 {
+        font-size: 20px;
+    }
+
+    .section {
+        padding: 16px;
+    }
+
+    .header__title {
+        font-size: 1.4rem;
+    }
+}
+
+/* 와이어프레임 화면 + 메모 레이아웃 */
+.wireframe-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-top: 12px;
+}
+
+/* 기존 .wireframe-embed 가 있다면 크기만 조정 */
+.wireframe-embed {
+    flex: 2;
+    width: 100%;
+    min-height: 520px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+/* 요구사항 메모 카드 (포스트잇 느낌) */
+.wireframe-note {
+    flex: 1;
+    background: #fffbe6;              /* 연한 노랑 */
+    border-left: 4px solid #facc15;   /* 포스트잇 느낌 강조선 */
+    padding: 12px 14px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.wireframe-note h4 {
+    margin-top: 0;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+}
+
+.wireframe-note .note-caption {
+    margin: 0 0 6px;
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+.wireframe-note ul {
+    padding-left: 18px;
+    margin: 0;
+}
+
+.wireframe-note li + li {
+    margin-top: 4px;
+}

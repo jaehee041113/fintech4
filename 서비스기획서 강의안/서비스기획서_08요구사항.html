@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>EasyFin V2.0 – 핀테크 자산 통합 & 라이브 금융 콘텐츠 서비스 기획서</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="header">
+    <div class="header__inner">
+        <h1 class="header__title">EasyFin V2.0 – 핀테크 자산 통합 & 라이브 금융 콘텐츠 서비스 기획서</h1>
+        <p class="header__subtitle">
+            Persona: 박지현(마케팅 에이전시 AE) 기반 요구사항 정의서 & 화면 설계 와이어프레임
+        </p>
+        <nav class="header__nav">
+            <a href="서비스기획서_01목적_목표.html">개요</a>
+            <a href="서비스기획서_02페르소나.html">페르소나</a>
+            <a href="서비스기획서_03문제정의.html">문제 정의</a>
+            <a href="서비스기획서_04핵심가치.html">핵심 가치</a>
+            <a href="서비스기획서_05고객여정맵.html">고객 여정맵</a>
+            <a href="서비스기획서_06IA정보구조도.html">IA정보구조도</a>
+            <a href="서비스기획서_07주요기능.html">주요기능</a>
+            <a href="서비스기획서_08요구사항.html">요구사항</a>
+            <a href="서비스기획서_09와이어프레임.html">와이어프레임</a>
+            <a href="서비스기획서_10구현계획.html">구현 계획</a>
+        </nav>
+    </div>
+</header>
+
+<main class="main">
+    
+
+    <!-- 📘 요구사항 정의서의 개념 + EasyFin V2.0 확장 -->
+<section class="section theory">
+    <h2 class="section__title">요구사항 정의서(Requirement) 이론</h2>
+    <p>
+        요구사항 정의서는 서비스가 만족해야 하는 기능적·비기능적 조건을 명확히 명시하는 문서이다.
+        이 문서는 QA 테스트 기준, 개발 범위, 기능 단위 분할의 근거가 되며
+        <strong>“무엇을 만들 것인지”에 대한 공식 기준서</strong> 역할을 한다.
+        EasyFin V2.0에서는 전통적인 FR/NFR뿐 아니라,
+        <strong>AI 모델 품질, 설명 가능성, 데이터 보호</strong>까지 함께 요구사항으로 다룬다.
+    </p>
+    <ul class="list">
+        <li>기능 요구사항(Functional Requirements, FR)</li>
+        <li>비기능 요구사항(Non-functional Requirements, NFR)</li>
+        <li>AI 관련 요구사항 (성능·지연·오류 처리·설명 가능성·데이터 활용 범위)</li>
+        <li>제약조건(Constraints) 및 버전별 변경 이력 관리</li>
+    </ul>
+    <p>
+        본 문서는 <strong>서비스 목적 &amp; 목표 → 페르소나 3종 → 문제 정의 → 가치 제안 → IA → 기능 정의</strong> 흐름에서
+        도출된 내용을 요구사항 수준으로 구체화한 결과이며,  
+        이후 <strong>테스트 케이스, 개발 일정, 릴리즈 노트</strong>의 기준이 된다.
+    </p>
+</section>
+
+<!-- ================================ -->
+<!-- EasyFin V2.0 요구사항 정의서 -->
+<!-- ================================ -->
+<section id="requirements" class="section">
+    <h1 class="section__title">EasyFin V2.0 요구사항 정의서 (고도화 버전)</h1>
+    <p>
+        본 문서는 EasyFin V2.0 서비스의 기능 정의, 화면 정의, 사용자 흐름, 비기능 요구사항을 명확히 기술한 문서로,
+        <strong>IA 정보구조도 문서 및 와이어프레임 문서와 함께 세트</strong>로 버전 관리된다.
+        특히 <strong>AI 기반 자산 분석/추천 기능</strong>이 포함되므로,
+        화면·플로우뿐 아니라 데이터 처리와 응답 품질에 대한 요구사항까지 포함한다.
+    </p>
+
+    <hr/>
+
+    <!-- 1. 목적 -->
+    <div class="section">
+        <h2>1. 문서 목적</h2>
+        <p>
+            본 요구사항 정의서는 EasyFin V2.0의 MVP 및 이후 고도화 버전에 대해
+            <strong>개발·디자인·기획 단계에서 일관된 기준</strong>을 제공하기 위함이다.
+            특히 <strong>AI 기반 자산 분석/추천 기능</strong> 도입에 따라,
+            전통적인 화면·플로우 요구사항뿐 아니라
+            <strong>데이터 처리, 응답 시간, 설명 가능성, 개인정보 보호</strong>에도 명시적인 기준을 둔다.
+        </p>
+    </div>
+
+    <!-- 2. 서비스 개요 -->
+    <div class="section">
+        <h2>2. 서비스 개요</h2>
+        <ul class="list">
+            <li>서비스명: <strong>EasyFin V2.0</strong></li>
+            <li>목적: 개인 투자자를 위한 금융정보 탐색·자산 관리·커뮤니티·라이브 기반 금융 서비스</li>
+            <li>플랫폼: 모바일 앱(React Native + Expo) / 프로토타입(React Web + FastAPI 백엔드)</li>
+            <li>핵심 제공 가치:
+                <ul>
+                    <li>“내 자산을 한눈에, 금융정보를 쉽게, 콘텐츠 기반으로 탐색” (Easy · Fun)</li>
+                    <li>“AI가 먼저 읽고 정리해 주는 금융 인텔리전스” (Intelligence · Trust)</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 3. 사용자 정의 -->
+    <div class="section">
+        <h2>3. 사용자 정의</h2>
+        <p>요구사항은 3종 페르소나(초보 탐색형, DIY 투자형, 생활밀착형)를 포함하는 아래 사용자 그룹을 대상으로 한다.</p>
+        <table class="table">
+            <thead>
+                <tr><th>사용자 그룹</th><th>설명</th><th>핵심 니즈</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>초보 투자자</td>
+                    <td>
+                        금융지식이 적고, 쉬운 설명과 요약된 정보를 원하는 사용자<br>
+                        (페르소나: <strong>박지현 – 초보 탐색형</strong>)
+                    </td>
+                    <td>내 자산의 간단 요약, 기본 용어, 쉬운 상품 설명, 낮은 진입 장벽</td>
+                </tr>
+                <tr>
+                    <td>중급/DIY 투자자</td>
+                    <td>
+                        여러 금융상품을 운용하며 정보를 빠르게 비교/탐색하는 사용자<br>
+                        (페르소나: <strong>김도훈 – DIY 투자형</strong>)
+                    </td>
+                    <td>상품 리스트, 기본 수익률/위험도, 포트폴리오 관점의 인사이트</td>
+                </tr>
+                <tr>
+                    <td>생활밀착형 사용자</td>
+                    <td>
+                        지출·보험·적금 중심으로 가계 재무를 관리하는 사용자<br>
+                        (페르소나: <strong>최수정 – 생활밀착형</strong>)
+                    </td>
+                    <td>월별 현금 흐름, 자동이체/납입 일정, 간단 재무 리포트</td>
+                </tr>
+                <tr>
+                    <td>금융 전문가(향후)</td>
+                    <td>라이브 방송/게시글 제공자</td>
+                    <td>라이브/콘텐츠 업로드 및 관리 기능, 구독자/시청자 관리</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+    <h2>4. 전체 시스템 구성</h2>
+    <p>
+        EasyFin V2.0 MVP는 빠른 개발·테스트·배포를 목표로 <strong>컨테이너 기반 모듈형 아키텍처</strong>를 채택하였다.
+        각 기능은 독립된 Docker 컨테이너로 분리되어 있으며, 서비스 간 의존성과 배포 용이성을 고려한
+        <strong>3-Tier 구조(Frontend · Backend · Database)</strong>로 구성된다.
+    </p>
+</div>
+
+<div class="section">
+    <h3>4.1 주요 구성 요소 (MVP 기준 기술 스택 및 아키텍처)</h3>
+
+    <ul class="list">
+        <!-- 1. 시스템 아키텍처 -->
+        <li>
+            <strong>① 전체 아키텍처 개요</strong>
+            <p>
+                MVP는 아래 3개의 핵심 서비스로 구성되며 docker-compose를 통해 통합 관리한다.
+            </p>
+            <ul>
+                <li><strong>Frontend</strong>: 정적 웹 UI (React로 제작된 HTML/CSS를 Nginx로 서빙)</li>
+                <li><strong>Backend API</strong>: FastAPI 기반 REST API 컨테이너</li>
+                <li><strong>Database</strong>: MySQL 8.0 기반의 상태 저장(Storage) 컨테이너</li>
+            </ul>
+            <p>
+                각 서비스는 독립적으로 배포 및 재시작이 가능하며, 서비스 간 네트워크는 docker-compose 내부 브리지 네트워크를 통해 연결된다.
+            </p>
+        </li>
+
+        <!-- 2. DB -->
+        <li>
+            <strong>② Database (MySQL 8.0)</strong>
+            <ul>
+                <li>이미지: <code>mysql:8.0</code> (컨테이너명: <code>easyfin-mysql</code>)</li>
+                <li>데이터베이스명: <code>easyfin_db</code></li>
+                <li>계정 정책:
+                    <ul>
+                        <li>사용자 계정: <code>easyfin / easyfin</code></li>
+                        <li>루트 계정: <code>rootpassword</code></li>
+                    </ul>
+                </li>
+                <li>데이터 영속성: <code>mysql_data:/var/lib/mysql</code> 볼륨 사용</li>
+                <li>시간대 설정: <code>TZ=Asia/Seoul</code> (로그 및 데이터 기록 일관성 유지 목적)</li>
+                <li>헬스체크 구성:
+                    <br>
+                    <code>mysqladmin ping -h localhost -uroot -prootpassword</code>
+                    <br>
+                    → DB가 정상적으로 쿼리를 받을 수 있는지 확인 후 backend 기동
+                </li>
+                <li>보안 정책:
+                    <ul>
+                        <li>외부 포트는 기본 비공개(3306 미노출)</li>
+                        <li>백엔드 컨테이너만 접근 가능하도록 내부 네트워크 격리</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+        <!-- 3. Backend -->
+        <li>
+            <strong>③ Backend API (FastAPI + Gunicorn/Uvicorn)</strong>
+            <ul>
+                <li>컨테이너 빌드:
+                    <ul>
+                        <li>베이스 이미지: <code>python:3.10-slim</code></li>
+                        <li><code>requirements.txt</code> 기반 패키지 설치</li>
+                    </ul>
+                </li>
+                <li>애플리케이션 실행 구조:
+                    <br>
+                    <code>
+                    gunicorn main:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --workers 1
+                    </code>
+                    <br>
+                    → worker 수를 1로 제한한 이유:  
+                    <strong>초기 DB 스키마 생성(create_all) 시 레이스 컨디션 방지</strong>
+                </li>
+                <li>환경 변수:
+                    <ul>
+                        <li><code>DATABASE_URL=mysql+pymysql://easyfin:easyfin@db:3306/easyfin_db</code></li>
+                        <li><code>TZ=Asia/Seoul</code></li>
+                    </ul>
+                </li>
+                <li>포트 매핑: <strong>8000 → 8000</strong></li>
+                <li>기능 역할:
+                    <ul>
+                        <li>사용자 인증/회원가입</li>
+                        <li>마켓 데이터 제공</li>
+                        <li>커뮤니티 API 제공</li>
+                        <li>라이브 목록 반환</li>
+                        <li>향후 AI 분석/요약 API 연동 포인트</li>
+                    </ul>
+                </li>
+                <li>의존성 관리: <code>depends_on: db(service_healthy)</code> → DB 준비 후 API 실행</li>
+            </ul>
+        </li>
+
+        <!-- 4. Frontend -->
+        <li>
+            <strong>④ Frontend (Nginx 정적 웹)</strong>
+            <ul>
+                <li>베이스 이미지: <code>nginx:alpine</code> (경량 이미지로 배포 효율화)</li>
+                <li>배포 구조:
+                    <ul>
+                        <li><code>index.html</code>, <code>styles.css</code>만 제공하는 정적 SPA 형태</li>
+                        <li>React 컴포넌트 기반 UI를 HTML로 컴파일한 MVP용 구조</li>
+                    </ul>
+                </li>
+                <li>포트 매핑: <strong>3000 → 80</strong></li>
+                <li>역할:
+                    <ul>
+                        <li>MVP 기준 홈/마켓/라이브/커뮤니티/마이 페이지 정적 제공</li>
+                        <li>향후 React Native 앱 전환 시 웹 와이어프레임 역할 수행</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+        <!-- 5. 공통 운영 전략 -->
+        <li>
+            <strong>⑤ 공통 운영 · DevOps 구성</strong>
+            <ul>
+                <li><strong>재기동 정책:</strong> 모든 서비스에 <code>restart: unless-stopped</code> 적용  
+                    → 예기치 않은 장애 발생 시 자동 복구
+                </li>
+                <li><strong>서비스 간 통신:</strong> docker 내부 브리지 네트워크를 통한 서비스명 DNS 사용  
+                    예: backend → db 접속 시 <code>db:3306</code>
+                </li>
+                <li><strong>보안 정책:</strong>
+                    <ul>
+                        <li>DB 외부 포트 미노출</li>
+                        <li>환경 변수 기반 민감 정보 관리</li>
+                        <li>추후 OAuth/KMS 연동 고려 가능</li>
+                    </ul>
+                </li>
+                <li><strong>확장성 전략(MVP → 정식 버전):</strong>
+                    <ul>
+                        <li>frontend → CDN/SPA 구조로 확장 가능</li>
+                        <li>backend → Gunicorn worker 증가 및 컨테이너 수평 확장(HPA) 가능</li>
+                        <li>DB → RDS 전환 및 읽기/쓰기 분리 전략 가능</li>
+                        <li>AI 기능 → 별도 AI inference 서버/벡터DB로 분리 예정</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+
+    <!-- 5. 정보구조(IA) -->
+    <div class="section">
+        <h2>5. 정보구조(IA)</h2>
+        <p>
+            EasyFin V2.0의 최신 정보구조는
+            <strong>서비스기획서_06IA정보구조도.html</strong>에 상세히 정의되어 있으며,
+            아래는 요구사항 정의서 관점의 요약이다.
+        </p>
+
+        <h3>5.1 IA 트리 (요약)</h3>
+
+        <ul class="list">
+            <li>온보딩/가입
+                <ul>
+                    <li>ON-001: 온보딩 소개</li>
+                    <li>ON-002: 로그인/회원가입</li>
+                    <li>ON-003: 약관 동의</li>
+                    <li>ON-004: 간단 설문/초기 설정(향후)</li>
+                </ul>
+            </li>
+            <li>홈(Home)
+                <ul>
+                    <li>HM-001: 대시보드(총 자산 / 자산 비중 리스트 / 계좌 요약 / 추천 라이브)</li>
+                    <li>HM-002: 계좌 상세(향후)</li>
+                    <li>HM-A01: AI 자산 브리핑 카드(향후)</li>
+                </ul>
+            </li>
+            <li>마켓(Market) <span class="tag tag-new">신규 화면군</span>
+                <ul>
+                    <li>MK-001: 마켓 메인</li>
+                    <li>MK-002: 상품 리스트</li>
+                    <li>MK-003: 상품 상세 모달</li>
+                    <li>MK-A01: AI 상품 설명/추천(향후)</li>
+                </ul>
+            </li>
+            <li>라이브(Live)
+                <ul>
+                    <li>LV-001: 라이브 목록</li>
+                    <li>LV-002: 라이브 재생(향후)</li>
+                    <li>LV-A01: 라이브 요약 &amp; Q&amp;A 하이라이트(향후)</li>
+                </ul>
+            </li>
+            <li>커뮤니티(Community)
+                <ul>
+                    <li>CM-001: 게시글 목록</li>
+                    <li>CM-002: 게시글 작성</li>
+                    <li>CM-003: 게시글 상세(간단)</li>
+                    <li>CM-A01: AI 기반 유사 질문/답변 추천(향후)</li>
+                </ul>
+            </li>
+            <li>마이(My)
+                <ul>
+                    <li>MY-001: 마이 메인</li>
+                    <li>MY-002: 자산 연동 관리(향후)</li>
+                    <li>MY-003: 알림/보안 설정(향후)</li>
+                    <li>MY-004: 로그아웃</li>
+                    <li>MY-A01: 월간 리포트/리마인드(향후)</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 6. 기능 요구사항 -->
+    <div class="section">
+        <h2>6. 기능 요구사항(FR)</h2>
+
+        <h3>6.1 온보딩/가입</h3>
+        <table class="table">
+            <thead><tr><th>ID</th><th>요구사항</th><th>설명</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td>FR-001</td>
+                    <td>온보딩 화면 제공</td>
+                    <td>서비스 소개 문구와 EasyFin V2.0 로고, 핵심 가치 요약(Easy · Trust · Fun · Intelligence) 제공</td>
+                </tr>
+                <tr>
+                    <td>FR-002</td>
+                    <td>로그인/회원가입</td>
+                    <td>이메일·비밀번호 기반 로그인/회원가입(탭 방식), 에러 메시지 및 유효성 검사 제공</td>
+                </tr>
+                <tr>
+                    <td>FR-003</td>
+                    <td>약관 동의</td>
+                    <td>회원가입 시 필수/선택 약관을 구분해 체크하도록 하며, 필수 약관 미동의 시 가입 불가</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>6.2 홈(대시보드)</h3>
+        <table class="table">
+            <thead><tr><th>ID</th><th>요구사항</th><th>설명</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td>FR-010</td>
+                    <td>총 자산 표시</td>
+                    <td>사용자의 총 자산을 금액 숫자 + KRW로 표시</td>
+                </tr>
+                <tr>
+                    <td>FR-011</td>
+                    <td>자산 비중 표시</td>
+                    <td>예금/주식/ETF/채권/현금 등 항목별 금액 및 비중을 리스트 형태로 표시</td>
+                </tr>
+                <tr>
+                    <td>FR-012</td>
+                    <td>계좌 요약 표시</td>
+                    <td>금융사/상품명/계좌 잔액 정보를 카드 형태로 노출</td>
+                </tr>
+                <tr>
+                    <td>FR-013</td>
+                    <td>추천 라이브 섹션 표시</td>
+                    <td>라이브 탭으로 이동하는 카드/버튼을 제공하고, 일부 추천 라이브를 노출</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>6.3 마켓</h3>
+        <table class="table">
+            <thead><tr><th>ID</th><th>요구사항</th><th>설명</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td>FR-020</td>
+                    <td>상품 카테고리 탭</td>
+                    <td>공모주 / ETF / 채권 / 리츠 탭 구성으로 상품을 카테고리별로 탐색 가능</td>
+                </tr>
+                <tr>
+                    <td>FR-021</td>
+                    <td>상품 리스트 제공</td>
+                    <td>상품명, 코드, 위험도, 예상 수익률 등의 핵심 정보를 리스트로 제공</td>
+                </tr>
+                <tr>
+                    <td>FR-022</td>
+                    <td>상품 상세 모달</td>
+                    <td>상품 클릭 시 상세 정보 모달 팝업(기본 정보, 일정, 위험도 등) 제공</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>6.4 라이브</h3>
+        <table class="table">
+            <thead><tr><th>ID</th><th>요구사항</th><th>설명</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td>FR-030</td>
+                    <td>라이브 목록 제공</td>
+                    <td>진행중 / 예정 / 다시보기 탭 방식으로 라이브 목록 제공</td>
+                </tr>
+                <tr>
+                    <td>FR-031</td>
+                    <td>라이브 상세(향후)</td>
+                    <td>영상 플레이어 + 채팅 + Q&amp;A UI 제공(단계적 고도화 예정)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>6.5 커뮤니티</h3>
+        <table class="table">
+            <thead><tr><th>ID</th><th>요구사항</th><th>설명</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td>FR-040</td>
+                    <td>게시글 목록</td>
+                    <td>제목/작성자/시간/내용 일부를 리스트로 표시</td>
+                </tr>
+                <tr>
+                    <td>FR-041</td>
+                    <td>게시글 작성</td>
+                    <td>제목 + 내용 작성 후 등록할 수 있는 기능 제공</td>
+                </tr>
+                <tr>
+                    <td>FR-042</td>
+                    <td>게시글 상세(간단)</td>
+                    <td>리스트에서 항목 선택 시 본문을 펼쳐서 확인할 수 있는 수준의 상세 제공</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>6.6 마이</h3>
+        <table class="table">
+            <thead><tr><th>ID</th><th>요구사항</th><th>설명</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td>FR-050</td>
+                    <td>프로필 조회</td>
+                    <td>사용자의 닉네임/이메일을 조회할 수 있음</td>
+                </tr>
+                <tr>
+                    <td>FR-051</td>
+                    <td>연동된 금융사 조회</td>
+                    <td>향후 자산 연동 API와 연계하여 현재 연동된 금융사 리스트를 표시</td>
+                </tr>
+                <tr>
+                    <td>FR-052</td>
+                    <td>팔로우 전문가 조회</td>
+                    <td>현재 팔로우 중인 전문가/셀러 목록(초기에는 더미 데이터 기반)</td>
+                </tr>
+                <tr>
+                    <td>FR-053</td>
+                    <td>로그아웃</td>
+                    <td>세션을 초기화하고 로그인 화면으로 이동</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 6.7 AI 기능 요구사항 -->
+        <h3>6.7 AI 기능 요구사항</h3>
+        <p>
+            AI 기능은 <strong>홈, 마켓, 라이브, 커뮤니티, 마이</strong> 화면에 겹쳐지는
+            <strong>Intelligence 레이어</strong>로 정의하며, 최소 기능부터 단계적으로 확장한다.
+        </p>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>요구사항</th>
+                <th>설명</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>FR-A01</td>
+                <td>AI 자산 브리핑</td>
+                <td>홈 진입 시, 사용자의 총 자산 및 최근 변동 사항을 한 줄 요약과 3~4개의 Bullet로 설명 제공</td>
+            </tr>
+            <tr>
+                <td>FR-A02</td>
+                <td>AI 리스크 알림</td>
+                <td>자산 구성 중 특정 자산군 변동성이 급격히 커질 경우, 홈/마이에서 리스크 경고 카드 노출</td>
+            </tr>
+            <tr>
+                <td>FR-A03</td>
+                <td>마켓 AI 추천</td>
+                <td>마켓 화면에서 사용자의 관심 자산/시청 라이브를 기반으로 유사 테마 상품을 추천 리스트로 제공</td>
+            </tr>
+            <tr>
+                <td>FR-A04</td>
+                <td>라이브/커뮤니티 요약</td>
+                <td>라이브 다시보기나 인기 게시글에 대해 핵심 요약(3~5줄)과 주요 Q&amp;A 하이라이트 정리</td>
+            </tr>
+            <tr>
+                <td>FR-A05</td>
+                <td>자유 질의응답</td>
+                <td>홈/마켓/마이에서 “AI에게 물어보기” 인풋 제공, 현재 화면 맥락을 포함한 Q&amp;A 지원</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 7. 화면 요구사항 -->
+    <div class="section">
+        <h2>7. 화면 요구사항(UI)</h2>
+
+        <table class="table">
+            <thead>
+                <tr><th>화면 ID</th><th>화면명</th><th>설명</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>UI-001</td>
+                    <td>온보딩 화면</td>
+                    <td>서비스 소개 문구 및 앱 시작 버튼 제공</td>
+                </tr>
+                <tr>
+                    <td>UI-002</td>
+                    <td>로그인/회원가입 화면</td>
+                    <td>이메일/비밀번호 입력, 회원가입/로그인 탭, 에러 메시지 표시</td>
+                </tr>
+                <tr>
+                    <td>UI-003</td>
+                    <td>대시보드 화면</td>
+                    <td>총 자산, 자산 비중 리스트, 계좌 카드, 추천 라이브, (향후) AI 브리핑 카드</td>
+                </tr>
+                <tr>
+                    <td>UI-004</td>
+                    <td>마켓 화면</td>
+                    <td>카테고리 탭, 상품 리스트, 상품 상세 모달, (향후) “AI에게 물어보기” 버튼</td>
+                </tr>
+                <tr>
+                    <td>UI-005</td>
+                    <td>라이브 화면</td>
+                    <td>라이브 목록 탭 구조, (향후) 라이브 재생 및 요약 카드</td>
+                </tr>
+                <tr>
+                    <td>UI-006</td>
+                    <td>커뮤니티 화면</td>
+                    <td>게시글 작성/목록/간단 상세 UI, (향후) AI 유사 질문 추천 영역</td>
+                </tr>
+                <tr>
+                    <td>UI-007</td>
+                    <td>마이 화면</td>
+                    <td>프로필, 연동 금융사, 전문가 목록, 로그아웃, (향후) 월간 리포트 안내</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 8. 비기능 요구사항(NFR) -->
+    <section class="section">
+        <h2>8. 비기능 요구사항(NFR)</h2>
+
+        <!-- 8.1 성능 -->
+        <h3>8.1 성능</h3>
+        <ul class="list">
+            <li>홈/마켓/라이브/커뮤니티 화면은 <strong>평균 1초 이내</strong> 최초 렌더링을 목표로 한다.</li>
+            <li>네트워크 환경이 열악한 경우라도, 주요 정보(텍스트/리스트)는 <strong>3초 이내</strong>에 표시되도록 한다.</li>
+        </ul>
+
+        <!-- 8.2 보안 -->
+        <h3>8.2 보안</h3>
+        <ul class="list">
+            <li>비밀번호는 백엔드에서 <strong>단방향 암호화</strong>하여 저장한다.</li>
+            <li>회원 인증 이후 API 호출은 <strong>JWT 기반 인증</strong>을 사용한다(향후 단계 도입 가능).</li>
+            <li>민감 정보(자산/계좌 번호 등)는 전송 및 저장 시 마스킹 또는 암호화 정책을 적용한다.</li>
+        </ul>
+
+        <!-- 8.3 확장성 -->
+        <h3>8.3 확장성</h3>
+        <ul class="list">
+            <li>상품 데이터, 라이브 목록은 <strong>API 기반 확장 가능한 구조</strong>로 설계한다.</li>
+            <li>마켓 상세 정보는 차트·연결 콘텐츠(라이브/커뮤니티 글) 연계 기능을 추가할 수 있도록 확장성을 확보한다.</li>
+            <li>초기에는 단일 리전/단일 인스턴스로 시작하되, 트래픽 증가 시 수평 확장이 가능한 구조를 고려한다.</li>
+        </ul>
+
+        <!-- 8.4 상세 NFR 목록 – AI 확장 포함 -->
+        <h3>8.4 상세 NFR 목록 – AI 확장 포함</h3>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>구분</th>
+                <th>내용</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>NFR-001</td>
+                <td>성능</td>
+                <td>홈/마켓/라이브/커뮤니티 주요 화면은 평균 1초 이내 렌더링을 목표로 한다.</td>
+            </tr>
+            <tr>
+                <td>NFR-002</td>
+                <td>보안</td>
+                <td>사용자 비밀번호는 서버에서 단방향 암호화하여 저장하며, 인증된 요청은 JWT 기반 토큰으로 보호한다.</td>
+            </tr>
+            <tr>
+                <td>NFR-003</td>
+                <td>확장성</td>
+                <td>상품/라이브/커뮤니티 데이터는 API 기반으로 설계하여, 향후 데이터 소스 및 기능 추가 시 최소 변경으로 확장 가능해야 한다.</td>
+            </tr>
+
+            <!-- AI 관련 NFR -->
+            <tr>
+                <td>NFR-A01</td>
+                <td>AI 응답 시간</td>
+                <td>AI 자산 브리핑/요약 요청 시 평균 응답 시간은 5초 이내(네트워크 구간 제외)를 목표로 한다.</td>
+            </tr>
+            <tr>
+                <td>NFR-A02</td>
+                <td>AI 품질</td>
+                <td>내부 평가 기준(예: 샘플 100건)에 대해 ‘사실 오류’ 비율은 5% 이하를 유지한다.</td>
+            </tr>
+            <tr>
+                <td>NFR-A03</td>
+                <td>설명 가능성</td>
+                <td>AI가 제시하는 요약/인사이트에는 근거가 된 데이터 범주(예: “지난 30일 수익률”)를 함께 표시한다.</td>
+            </tr>
+            <tr>
+                <td>NFR-A04</td>
+                <td>보안/프라이버시</td>
+                <td>사용자 자산 데이터는 AI 요청 시 최소한의 필수 정보만 전송하며, 로그 저장 시 식별 불가능한 형태로 마스킹 처리한다.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</section>
+
+
+
+</main>
+
+<footer class="footer">
+    <div class="footer__inner">
+        <p>© 2025 핀테크 자산 통합 & 라이브 콘텐츠 서비스 – 기획서 & 와이어프레임 예시</p>
+    </div>
+</footer>
+</body>
+</html>

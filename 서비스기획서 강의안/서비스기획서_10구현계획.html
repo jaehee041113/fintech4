@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>EasyFin V2.0 – 핀테크 자산 통합 & 라이브 금융 콘텐츠 서비스 기획서</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="header">
+    <div class="header__inner">
+        <h1 class="header__title">EasyFin V2.0 – 핀테크 자산 통합 & 라이브 금융 콘텐츠 서비스 기획서</h1>
+        <p class="header__subtitle">
+            Persona: 박지현(마케팅 에이전시 AE) 기반 요구사항 정의서 & 화면 설계 와이어프레임
+        </p>
+        <nav class="header__nav">
+            <a href="서비스기획서_01목적_목표.html">개요</a>
+            <a href="서비스기획서_02페르소나.html">페르소나</a>
+            <a href="서비스기획서_03문제정의.html">문제 정의</a>
+            <a href="서비스기획서_04핵심가치.html">핵심 가치</a>
+            <a href="서비스기획서_05고객여정맵.html">고객 여정맵</a>
+            <a href="서비스기획서_06IA정보구조도.html">IA정보구조도</a>
+            <a href="서비스기획서_07주요기능.html">주요기능</a>
+            <a href="서비스기획서_08요구사항.html">요구사항</a>
+            <a href="서비스기획서_09와이어프레임.html">와이어프레임</a>
+            <a href="서비스기획서_10구현계획.html">구현 계획</a>
+        </nav>
+    </div>
+</header>
+
+<main class="main">
+    <!-- 📘 구현 계획(Implementation Plan)의 역할 -->
+<section class="section theory">
+    <h2 class="section__title">구현 계획(Implementation Roadmap) 이론</h2>
+    <p>
+        구현 계획은 서비스 개발을 단계적으로 실행하기 위한 실질적인 전략 문서이다.
+        우선순위, 일정, 기술 스택, 인프라 구성을 명확히 하여
+        MVP 개발과 운영을 <strong>리스크를 통제 가능한 범위 내에서</strong> 진행할 수 있도록 돕는다.
+    </p>
+    <ul class="list">
+        <li>MVP 범위 · 개발 우선순위 정의</li>
+        <li>기술 스택 및 인프라(컨테이너, DB, 배포 구조) 명시</li>
+        <li>단계별 마일스톤 설정을 통한 일정 관리 및 리스크 최소화</li>
+        <li>향후 고도화(버전업)와 AI 기능 확장의 기준 제공</li>
+    </ul>
+</section>
+
+<!-- 구현 로드맵 -->
+<section id="implementation" class="section">
+
+    <h2 class="section__title">9. 구현 계획</h2>
+
+    <!-- 9-1. 기술 스택 (실제 MVP 기준) -->
+    <div class="card card--grid-2">
+        <div>
+            <h3>9-1. 기술 스택 (MVP 기준)</h3>
+            <ul class="list">
+                <li>
+                    <strong>프론트엔드</strong><br>
+                    - React 기반 화면을 HTML로 구성, <strong>Nginx 컨테이너</strong>에서 정적 파일로 서빙<br>
+                    - 파일 구조: <code>index.html</code>, <code>styles.css</code>, 와이어프레임별 <code>wf_*.html</code>
+                </li>
+                <li>
+                    <strong>백엔드</strong><br>
+                    - Python <strong>FastAPI</strong> + <strong>Gunicorn(UvicornWorker)</strong><br>
+                    - 컨테이너: <code>python:3.10-slim</code> 기반, REST API 제공<br>
+                    - 실행: <code>gunicorn main:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --workers 1</code>
+                </li>
+                <li>
+                    <strong>데이터베이스(DB)</strong><br>
+                    - <strong>MySQL 8.0</strong> (컨테이너명: <code>easyfin-mysql</code>)<br>
+                    - DB명: <code>easyfin_db</code>, 계정: <code>easyfin / easyfin</code><br>
+                    - Docker 볼륨: <code>mysql_data:/var/lib/mysql</code> 를 통해 데이터 영속화
+                </li>
+                <li>
+                    <strong>인프라 · 배포</strong><br>
+                    - <strong>docker-compose</strong> 기반 3티어 구조 (frontend / backend / db)<br>
+                    - 서비스 간 통신: docker 브리지 네트워크, 서비스명 기반 DNS(<code>db:3306</code> 등)<br>
+                    - 재시작 정책: <code>restart: unless-stopped</code> (장애 시 자동 복구 목적)
+                </li>
+                <li>
+                    <strong>AI / 향후 확장</strong><br>
+                    - 초기: 더미 데이터 기반 <strong>AI 브리핑/요약 영역</strong>만 와이어프레임에 노출<br>
+                    - 이후: 외부 LLM API 또는 자체 RAG 서버 연동(별도 서비스로 분리) 계획
+                </li>
+            </ul>
+        </div>
+
+        <!-- 9-2. 단계별 구현 로드맵 -->
+        <div>
+            <h3>9-2. 단계별 구현 로드맵</h3>
+            <ol class="list list--number">
+                <li>
+                    <strong>1단계 – 기획 · 설계 정리</strong><br>
+                    - 서비스 목적·목표, 페르소나, 문제 정의 문서 확정<br>
+                    - IA 정보구조도, 고객 여정맵, 기능/요구사항 정의서(현재 문서) 완성<br>
+                    - 핵심 KPI(온보딩 완료율, 자산 연동 완료율 등) 정의
+                </li>
+                <li>
+                    <strong>2단계 – MVP 와이어프레임 & 웹 프로토타입 구현</strong><br>
+                    - React 기반 <strong>MVP 와이어프레임 화면</strong> 구현 (홈/마켓/라이브/커뮤니티/마이, 로그인/가입)<br>
+                    - 현재처럼 Nginx 정적 서빙 구조로 <strong>기획서와 1:1 대응되는 화면</strong> 구성<br>
+                    - 더미 데이터로 자산/상품/라이브/커뮤니티 동작 흐름 검증
+                </li>
+                <li>
+                    <strong>3단계 – 백엔드 API · DB 연동</strong><br>
+                    - FastAPI + MySQL 기반의 계정/프로필/콘텐츠 기본 모델 설계<br>
+                    - 핵심 기능(회원가입, 로그인, 마켓 리스트, 커뮤니티 글 조회/등록) API 구현<br>
+                    - docker-compose로 <strong>frontend · backend · db 통합 실행 환경</strong> 구축 및 테스트
+                </li>
+                <li>
+                    <strong>4단계 – AI 인사이트 1차 적용 (요약/브리핑 중심)</strong><br>
+                    - 홈 화면: <strong>AI 자산 한 줄 요약 카드(FR-A01)</strong>에 더미 또는 샘플 API 연동<br>
+                    - 마켓/라이브/커뮤니티: “AI에게 물어보기”, “핵심 요약 &amp; Q&amp;A 하이라이트” 버튼/영역에 실제 응답 연동<br>
+                    - AI 응답 시간·품질에 대한 내부 지표 정의 및 기본 로깅
+                </li>
+                <li>
+                    <strong>5단계 – 모바일 앱 전환 및 고도화</strong><br>
+                    - React Native 기반 모바일 앱으로 전환 (동일 IA/와이어프레임 재사용)<br>
+                    - 푸시 알림, 실시간 라이브 스트리밍, 자산 연동 기능 고도화<br>
+                    - 운영/지표 추적을 위한 관리자 도구(어드민 웹) 및 통계 화면 추가
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 9-3. 환경/운영 전략 (선택적으로 문서화) -->
+    <div class="card card--grid-2">
+        <div>
+            <h3>9-3. 개발 · 테스트 · 운영 환경 전략</h3>
+            <ul class="list">
+                <li><strong>개발 환경</strong> – 로컬 Docker 기반 실행 (단일 docker-compose), 더미 데이터 사용</li>
+                <li><strong>테스트 환경</strong> – 동일 docker-compose 설정을 클라우드 VM에 배포, 실제 DB 스키마 검증</li>
+                <li><strong>운영(향후)</strong> – 프론트/백엔드/DB를 개별 서비스로 분리 가능한 구조 전제</li>
+                <li>환경별 설정은 <strong>.env 파일</strong>과 docker-compose override로 분리 관리</li>
+            </ul>
+        </div>
+        <div>
+            <h3>9-4. 리스크 및 대응 방향(요약)</h3>
+            <ul class="list">
+                <li>
+                    <strong>AI 응답 지연/품질 리스크</strong><br>
+                    → 초기에는 더미/부분 기능만 노출, 핵심 플로우(로그인·탐색·커뮤니티)는
+                    AI 없이도 완주 가능하도록 설계
+                </li>
+                <li>
+                    <strong>DB 스키마 변경 리스크</strong><br>
+                    → MVP 단계에서는 <strong>단순 스키마</strong>로 시작 후, 마이그레이션 도구 도입 검토
+                </li>
+                <li>
+                    <strong>인프라 운영 리스크</strong><br>
+                    → docker-compose 기반 단일 서버 운영에서 시작, 트래픽 증가 시
+                    <strong>컨테이너 단위 확장</strong> 및 클라우드 매니지드 서비스(RDS 등) 전환
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</section>
+
+</main>
+
+<footer class="footer">
+    <div class="footer__inner">
+        <p>© 2025 핀테크 자산 통합 & 라이브 콘텐츠 서비스 – 기획서 & 와이어프레임 예시</p>
+    </div>
+</footer>
+</body>
+</html>

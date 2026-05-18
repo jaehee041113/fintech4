@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>EasyFin V2.0 – 핀테크 자산 통합 & 라이브 금융 콘텐츠 서비스 기획서</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="header">
+    <div class="header__inner">
+        <h1 class="header__title">EasyFin V2.0 – 핀테크 자산 통합 & 라이브 금융 콘텐츠 서비스 기획서</h1>
+        <p class="header__subtitle">
+            Persona: 박지현(마케팅 에이전시 AE) 기반 요구사항 정의서 & 화면 설계 와이어프레임
+        </p>
+        <nav class="header__nav">
+            <a href="서비스기획서_01목적_목표.html">개요</a>
+            <a href="서비스기획서_02페르소나.html">페르소나</a>
+            <a href="서비스기획서_03문제정의.html">문제 정의</a>
+            <a href="서비스기획서_04핵심가치.html">핵심 가치</a>
+            <a href="서비스기획서_05고객여정맵.html">고객 여정맵</a>
+            <a href="서비스기획서_06IA정보구조도.html">IA정보구조도</a>
+            <a href="서비스기획서_07주요기능.html">주요기능</a>
+            <a href="서비스기획서_08요구사항.html">요구사항</a>
+            <a href="서비스기획서_09와이어프레임.html">와이어프레임</a>
+            <a href="서비스기획서_10구현계획.html">구현 계획</a>
+        </nav>
+    </div>
+</header>
+
+<main class="main">
+
+<!-- 📘 기능 정의(Function Specification) 이론 + AI 기능 관점 -->
+<section class="section theory">
+    <h2 class="section__title">기능 정의(Function Specification) 이론</h2>
+    <p>
+        기능 정의는 사용자의 행동과 목표를 기반으로,
+        서비스가 제공해야 하는 기능을 구조적으로 정리한 문서이다.
+        이는 개발자·디자이너·기획자가 동일한 기준으로 판단할 수 있는
+        <strong>서비스의 명세서 역할</strong>을 한다.
+        EasyFin에서는 기존 금융 기능에 더해 <strong>AI 기반 분석·설명·추천</strong> 기능까지
+        하나의 세트로 정의하여, 전체 경험을 <strong>Easy · Trust · Fun · Intelligence</strong> 가치와
+        정합되도록 설계한다.
+    </p>
+    <ul class="list">
+        <li>필수 기능 / 선택 기능의 우선순위를 명확히 구분</li>
+        <li>페르소나와 User Story와 직접 연결 (예: “초보 투자자가 3분 안에 내 자산 상태를 이해한다”)</li>
+        <li>기능 단위 분해를 통해 구현 범위·일정을 통제 가능</li>
+        <li>요구사항 정의서 및 화면 설계(와이어프레임)의 기반 문서 역할</li>
+        <li>AI 기능은 <strong>“설명 가능성(Explainability)”</strong>과 데이터 출처를 고려해 정의</li>
+    </ul>
+    <p>
+        아래 주요 기능 요약은 <strong>서비스 목적 &amp; 목표, 페르소나 3종, 문제 정의, 가치 제안, 고객 여정맵</strong>에서
+        도출된 요구사항을 기능 단위로 정리한 상위 구조이며,  
+        상세한 필드/에러 처리/예외 케이스는 <strong>서비스기획서_07요구사항.html</strong>에서 정의한다.
+    </p>
+</section>
+
+<!-- 6. 주요 기능 요약 -->
+<section id="features" class="section">
+    <h2 class="section__title">6. 주요 기능 요약</h2>
+    <p>
+        이 섹션은 EasyFin 서비스의 핵심 기능을 상위 레벨에서 정리한 요약본입니다.
+        각 기능은 상세 요구사항 정의서(서비스기획서_07요구사항.html)의 FR·UI 항목과 1:1로 연결되며,
+        실제 개발·QA 시에는 요구사항 정의서를 기준 문서로 사용합니다.
+        또한 EasyFin은 동일한 화면/플로우 위에 <strong>AI 인사이트 레이어</strong>를 추가하는 전략을 채택합니다.
+    </p>
+
+    <!-- 6.1 온보딩/가입 -->
+    <article class="card">
+        <h3>6.1 온보딩/가입</h3>
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                <tr><th>ID</th><th>요구사항</th><th>설명</th></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>FR-001</td>
+                    <td>온보딩 화면 제공</td>
+                    <td>서비스 소개 문구와 EasyFin V2.0 로고, 핵심 가치(Easy · Trust · Fun · Intelligence)를 요약하여 보여줌</td>
+                </tr>
+                <tr>
+                    <td>FR-002</td>
+                    <td>로그인/회원가입</td>
+                    <td>이메일·비밀번호 기반 로그인/회원가입(탭 전환 방식) 제공</td>
+                </tr>
+                <tr>
+                    <td>FR-003</td>
+                    <td>약관 동의</td>
+                    <td>회원가입 시 필수/선택 약관을 구분하여 체크하도록 함</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="section__description">
+            → 주로 <strong>박지현(초보 탐색형)</strong>의 진입 장벽을 낮추는 기능으로,
+            <strong>온보딩 완료율, 7일차 유지율</strong> KPI와 직접 연결된다.
+        </p>
+    </article>
+
+    <!-- 6.2 홈(대시보드) -->
+    <article class="card">
+        <h3>6.2 홈(대시보드)</h3>
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                <tr><th>ID</th><th>요구사항</th><th>설명</th></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>FR-010</td>
+                    <td>총 자산 표시</td>
+                    <td>사용자의 총 자산을 금액 숫자 + KRW로 표시</td>
+                </tr>
+                <tr>
+                    <td>FR-011</td>
+                    <td>자산 비중 표시</td>
+                    <td>예금/주식/ETF/채권/현금 등 자산군별 금액 및 비중을 리스트 형태로 표시</td>
+                </tr>
+                <tr>
+                    <td>FR-012</td>
+                    <td>계좌 요약 표시</td>
+                    <td>금융사/상품명/계좌 잔액 정보를 카드 형태로 노출</td>
+                </tr>
+                <tr>
+                    <td>FR-013</td>
+                    <td>추천 라이브 섹션 표시</td>
+                    <td>사용자 관심사에 맞는 라이브·영상 일부를 보여주고, 라이브 탭으로 이동하는 링크 제공</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="section__description">
+            → <strong>자산 통합 뷰</strong>를 통해 3 페르소나 모두의 “한눈에 보는 자산” 니즈를 충족시키며,
+            <strong>핵심 기능 경험률, 자산 연동 완료율</strong> KPI에 기여한다.
+        </p>
+    </article>
+
+    <!-- 6.3 마켓 -->
+    <article class="card">
+        <h3>6.3 마켓</h3>
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                <tr><th>ID</th><th>요구사항</th><th>설명</th></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>FR-020</td>
+                    <td>상품 카테고리 탭</td>
+                    <td>공모주 / ETF / 채권 / 리츠 탭 구성으로 상품을 카테고리별로 탐색 가능</td>
+                </tr>
+                <tr>
+                    <td>FR-021</td>
+                    <td>상품 리스트 제공</td>
+                    <td>상품명, 코드, 위험도, 예상 수익률 등의 핵심 정보를 리스트로 제공</td>
+                </tr>
+                <tr>
+                    <td>FR-022</td>
+                    <td>상품 상세 모달</td>
+                    <td>상품 클릭 시 상세 정보 모달 팝업(기본 정보, 일정, 위험도 등) 제공</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="section__description">
+            → <strong>김도훈(DIY 투자형)</strong>의 정보 비교/분석 니즈를 충족시키는 핵심 영역으로,
+            이후 <strong>AI 추천·설명 기능</strong>과 결합하여 마켓 전환율을 높이는 기반이 된다.
+        </p>
+    </article>
+
+    <!-- 6.4 라이브 -->
+    <article class="card">
+        <h3>6.4 라이브</h3>
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                <tr><th>ID</th><th>요구사항</th><th>설명</th></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>FR-030</td>
+                    <td>라이브 목록 제공</td>
+                    <td>진행중 / 예정 / 다시보기 탭 방식으로 라이브 목록 제공</td>
+                </tr>
+                <tr>
+                    <td>FR-031</td>
+                    <td>라이브 상세(향후)</td>
+                    <td>영상 플레이어 + 채팅 + Q&amp;A UI 제공(단계적 고도화 예정)</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="section__description">
+            → <strong>Fun · Trust</strong> 가치를 구현하는 핵심 영역으로,
+            <strong>라이브 평균 시청 시간, 커뮤니티 참여도</strong> KPI와 연결된다.
+        </p>
+    </article>
+
+    <!-- 6.5 커뮤니티 -->
+    <article class="card">
+        <h3>6.5 커뮤니티</h3>
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                <tr><th>ID</th><th>요구사항</th><th>설명</th></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>FR-040</td>
+                    <td>게시글 목록</td>
+                    <td>제목/작성자/시간/내용 일부를 리스트로 표시</td>
+                </tr>
+                <tr>
+                    <td>FR-041</td>
+                    <td>게시글 작성</td>
+                    <td>제목 + 내용 작성 후 등록할 수 있는 기능 제공</td>
+                </tr>
+                <tr>
+                    <td>FR-042</td>
+                    <td>게시글 상세(간단)</td>
+                    <td>리스트에서 항목 선택 시 본문을 펼쳐서 확인할 수 있는 수준의 상세 제공</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="section__description">
+            → 3 페르소나 모두의 “질문/소통” 니즈를 수용하며,
+            <strong>반복 방문, 커뮤니티 활성도</strong> 지표에 기여한다.
+        </p>
+    </article>
+
+    <!-- 6.6 마이 -->
+    <article class="card">
+        <h3>6.6 마이</h3>
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                <tr><th>ID</th><th>요구사항</th><th>설명</th></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>FR-050</td>
+                    <td>프로필 조회</td>
+                    <td>사용자의 닉네임/이메일을 조회할 수 있음</td>
+                </tr>
+                <tr>
+                    <td>FR-051</td>
+                    <td>연동된 금융사 조회</td>
+                    <td>향후 자산 연동 API와 연계하여 현재 연동된 금융사 리스트를 표시</td>
+                </tr>
+                <tr>
+                    <td>FR-052</td>
+                    <td>팔로우 전문가 조회</td>
+                    <td>현재 팔로우 중인 전문가/셀러 목록(초기에는 더미 데이터 기반)</td>
+                </tr>
+                <tr>
+                    <td>FR-053</td>
+                    <td>로그아웃</td>
+                    <td>세션을 초기화하고 로그인 화면으로 이동</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="section__description">
+            → <strong>자산 연동 관리, 알림/보안 설정, 전문가 팔로우</strong>의 허브로서,
+            중장기적으로 <strong>리텐션</strong>을 담당하는 영역이다.
+        </p>
+    </article>
+
+    <!-- 6.7 AI 기능 (요약) -->
+    <article class="card">
+        <h3>6.7 AI 기능 (요약)</h3>
+        <p>
+            아래 AI 기능들은 추후 버전업 시 확장될 수 있으며,
+            우선 MVP 단계에서는 <strong>설명/요약 중심</strong>으로 최소 기능을 도입한다.
+            모든 AI 기능은 <strong>설명 가능성(Explainability)</strong>과
+            <strong>데이터 출처 명시</strong>를 고려하여 정의한다.
+        </p>
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>요구사항</th>
+                    <th>설명</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>FR-A01</td>
+                    <td>AI 자산 브리핑</td>
+                    <td>홈 진입 시, 사용자의 총 자산 및 최근 변동 사항을 한 줄 요약과 3~4개의 Bullet로 설명 제공</td>
+                </tr>
+                <tr>
+                    <td>FR-A02</td>
+                    <td>AI 리스크 알림</td>
+                    <td>자산 구성 중 특정 자산군 변동성이 급격히 커질 경우, 홈/마이에서 리스크 경고 카드 노출</td>
+                </tr>
+                <tr>
+                    <td>FR-A03</td>
+                    <td>마켓 AI 추천</td>
+                    <td>마켓 화면에서 사용자의 관심 자산/시청 라이브를 기반으로 유사 테마 상품을 추천 리스트로 제공</td>
+                </tr>
+                <tr>
+                    <td>FR-A04</td>
+                    <td>라이브/커뮤니티 요약</td>
+                    <td>라이브 다시보기나 인기 게시글에 대해 핵심 요약(3~5줄)과 주요 Q&amp;A 하이라이트 정리</td>
+                </tr>
+                <tr>
+                    <td>FR-A05</td>
+                    <td>자유 질의응답</td>
+                    <td>홈/마켓/마이에서 “AI에게 물어보기” 인풋 제공, 현재 화면 맥락을 포함한 Q&amp;A 지원</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="section__description">
+            → 주로 <strong>김도훈(DIY 투자형)</strong>과 <strong>최수정(생활밀착형)</strong>의
+            “내 상황에 맞는 인사이트” 요구를 충족시키며,<br>
+            <strong>핵심 기능 경험률, 통합 재무 기능 사용률, 반복 방문</strong> KPI 향상에 기여한다.
+        </p>
+    </article>
+
+</section>
+
+
+</main>
+
+<footer class="footer">
+    <div class="footer__inner">
+        <p>© 2025 핀테크 자산 통합 & 라이브 콘텐츠 서비스 – 기획서 & 와이어프레임 예시</p>
+    </div>
+</footer>
+</body>
+</html>

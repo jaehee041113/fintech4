@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WF-05 커뮤니티 화면</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+
+<body>
+<div class="mobile-container"><div id="root"></div></div>
+
+<script type="text/babel" data-presets="react">
+
+/** 공통 AppBar */
+function AppBar({ title }) {
+  return (
+    <header className="appbar">
+      <div className="appbar__title">{title}</div>
+      <div className="appbar__actions">
+        <button className="icon-button">🔍</button>
+        <button className="icon-button">🔔</button>
+      </div>
+    </header>
+  );
+}
+
+/** 하단 탭 바 공통 컴포넌트 */
+function BottomNav({ active }) {
+  const items = ["홈", "마켓", "라이브", "커뮤니티", "마이"];
+
+  return (
+    <nav className="bottom-nav">
+      {items.map((name) => (
+        <button
+          key={name}
+          type="button"
+          className={
+            "bottom-nav__item" +
+            (active === name ? " bottom-nav__item--active" : "")
+          }
+        >
+          <span className="bottom-nav__label">{name}</span>
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+/**
+ * WF-05 커뮤니티 화면
+ * - FR-040 게시글 목록
+ * - FR-041 게시글 작성
+ * - FR-042 게시글 간단 상세(본문 펼침)
+ * - UI-006 커뮤니티 화면 구성
+ */
+function CommunityScreen() {
+  const [posts, setPosts] = React.useState([
+    {
+      id: 1,
+      title: "ETF 초보 질문드립니다",
+      author: "지현",
+      content: "ETF는 무엇부터 공부하면 좋을까요?",
+      time: "2시간 전",
+    },
+    {
+      id: 2,
+      title: "오늘 공모주 경쟁률 보신 분?",
+      author: "투자왕",
+      content: "에코그린 경쟁률 미쳤네요ㅋㅋ",
+      time: "1시간 전",
+    },
+  ]);
+
+  const [openId, setOpenId] = React.useState(null);
+  const [newTitle, setNewTitle] = React.useState("");
+  const [newContent, setNewContent] = React.useState("");
+
+  // 글 등록 (FR-041)
+  const submit = () => {
+    if (!newTitle || !newContent) {
+      alert("제목과 내용을 입력해주세요.");
+      return;
+    }
+    setPosts((prev) => [
+      ...prev,
+      {
+        id: prev.length + 1,
+        title: newTitle,
+        author: "익명",
+        content: newContent,
+        time: "방금 전",
+      },
+    ]);
+    setNewTitle("");
+    setNewContent("");
+  };
+
+  return (
+    <div className="screen">
+      <AppBar title="커뮤니티" />
+
+      <div className="screen__content">
+        {/* FR-041: 게시글 작성 */}
+        <section className="card">
+          <h2>게시글 작성</h2>
+          <input
+            type="text"
+            placeholder="제목"
+            className="input"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+            style={{ marginTop: "8px" }}
+          />
+
+          <textarea
+            placeholder="내용을 입력하세요"
+            className="input"
+            style={{ marginTop: "8px", height: "80px" }}
+            value={newContent}
+            onChange={(e) => setNewContent(e.target.value)}
+          />
+
+          <button
+            className="btn"
+            style={{ marginTop: "12px" }}
+            onClick={submit}
+          >
+            등록하기
+          </button>
+        </section>
+
+        {/* FR-040: 게시글 목록 */}
+        <section className="card">
+          <h2>게시글 목록</h2>
+
+          <ul className="market-list">
+            {posts.map((p) => (
+              <li
+                key={p.id}
+                className="market-list__item"
+                onClick={() => setOpenId(openId === p.id ? null : p.id)}
+              >
+                <div className="market-list__title">{p.title}</div>
+                <div className="market-list__meta">
+                  <span>{p.author}</span>
+                  <span>{p.time}</span>
+                </div>
+
+                {/* FR-042: 간단 상세(본문 펼침) */}
+                {openId === p.id && (
+                  <p style={{ marginTop: "8px", color: "#374151" }}>
+                    {p.content}
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
+
+          <p
+          style={{
+            fontSize: "12px",
+            color: "#6b7280",
+            marginTop: "8px",
+          }}
+        >
+          ※ 향후 버전에서는 인기/반복 질문에 대해
+          AI가 유사 질문·답변을 추천하고, 기본 개념 설명 카드를 함께 제공합니다.
+        </p>
+
+        <button
+          className="btn btn--secondary"
+          style={{ marginTop: "8px" }}
+          onClick={() => alert("AI Q&A 추천(와이어프레임용)")}>
+          비슷한 질문 AI로 찾아보기
+        </button>
+
+        </section>
+      </div>
+
+      {/* 하단 탭: 커뮤니티 활성화 */}
+      <BottomNav active="커뮤니티" />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<CommunityScreen />);
+
+</script>
+</body>
+</html>

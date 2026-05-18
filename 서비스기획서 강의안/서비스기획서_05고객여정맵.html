@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>EasyFin V2.0 – 핀테크 자산 통합 & 라이브 금융 콘텐츠 서비스 기획서</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="header">
+    <div class="header__inner">
+        <h1 class="header__title">EasyFin V2.0 – 핀테크 자산 통합 & 라이브 금융 콘텐츠 서비스 기획서</h1>
+        <p class="header__subtitle">
+            Persona: 박지현(마케팅 에이전시 AE) 기반 요구사항 정의서 & 화면 설계 와이어프레임
+        </p>
+        <nav class="header__nav">
+            <a href="서비스기획서_01목적_목표.html">개요</a>
+            <a href="서비스기획서_02페르소나.html">페르소나</a>
+            <a href="서비스기획서_03문제정의.html">문제 정의</a>
+            <a href="서비스기획서_04핵심가치.html">핵심 가치</a>
+            <a href="서비스기획서_05고객여정맵.html">고객 여정맵</a>
+            <a href="서비스기획서_06IA정보구조도.html">IA정보구조도</a>
+            <a href="서비스기획서_07주요기능.html">주요기능</a>
+            <a href="서비스기획서_08요구사항.html">요구사항</a>
+            <a href="서비스기획서_09와이어프레임.html">와이어프레임</a>
+            <a href="서비스기획서_10구현계획.html">구현 계획</a>
+        </nav>
+    </div>
+</header>
+
+<main class="main">
+     <!-- 📘 고객 여정맵(Customer Journey Map) 이론 -->
+<section class="section theory">
+    <h2 class="section__title">고객 여정맵(Customer Journey Map) 이론</h2>
+    <p>
+        고객 여정맵은 사용자가 서비스에 접촉하고, 탐색하고, 참여하고, 유지·이탈하기까지
+        <strong>전 과정에서 겪는 경험(EQ)과 행동(BQ)을 시각화</strong>한 분석 도구이다.
+    </p>
+    <ul class="list">
+        <li>전체 사용자 흐름을 단계별로 파악하여 <strong>Pain Point → 해결 기능</strong>을 연결</li>
+        <li>페르소나별 행동·감정 패턴을 반영해 정교한 UX 전략 수립에 도움</li>
+        <li>온보딩/자산 연동/피드 추천/라이브 참여 등 핵심 전환 지점을 설계하는 기준</li>
+        <li>IA 설계, 알림 정책, 콘텐츠 전략과 직접 연결되는 핵심 문서</li>
+    </ul>
+    <p>
+        이 여정맵은 <strong>페르소나 3명(초보 탐색형·DIY 투자형·생활밀착형)</strong>의 니즈와  
+        <strong>문제 정의(초보 난이도·자산 분산·신뢰 부족·과잉 정보)</strong>를 반영하여
+        EasyFin V2.0 Full 서비스 기준으로 설계되었다.
+    </p>
+</section>
+
+<!-- 7. 고객 여정맵 -->
+<section id="journey" class="section">
+
+    <h2 class="section__title">7. 고객 여정맵 (7-1. 단계별 요약)</h2>
+    <p class="section__description">
+        본 고객 여정맵은 EasyFin V2.0의 <strong>Full 버전(정식 서비스 구조)</strong>을 기준으로 작성되었습니다.<br>
+        ※ 현재 MVP에서는 자산 연동/라이브 일부 기능이 제외될 수 있으며,<br>
+        실제 MVP 플로우는 <strong>온보딩 → 홈 대시보드 탐색 → 마켓/커뮤니티 이용</strong>에 우선 집중합니다.
+    </p>
+
+    <div class="card">
+        <h3>7-1. 단계별 요약</h3>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>단계</th>
+                    <th>행동(BQ)</th>
+                    <th>인식/감정(EQ)</th>
+                    <th>Pain Point (데이터 기반)</th>
+                    <th>기회 요소 (Value Proposition 연결)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <!-- 1) 인지 -->
+                <tr>
+                    <td>1) 인지</td>
+                    <td>SNS·콘텐츠·지인을 통해 서비스 최초 인지</td>
+                    <td>“새로운 금융 서비스? 나에게 맞을까?”</td>
+                    <td>
+                        - 광고성 금융 정보 피로 증가<br>
+                        - 신뢰 기반 정보인지 판단 어려움<br>
+                        - 숏폼 기반 소비 증가로 짧은 관심 유지
+                    </td>
+                    <td>
+                        - 전문가/셀러 검증 강조 메시지<br>
+                        - 초보자·중급자별 가치 제안 분리 노출<br>
+                        - 숏폼 중심의 3초 Hook 콘텐츠 제공
+                    </td>
+                </tr>
+
+                <!-- 2) 설치 & 가입 -->
+                <tr>
+                    <td>2) 설치 &amp; 가입</td>
+                    <td>앱 다운로드 → 간편가입 → 서비스 소개 화면 확인</td>
+                    <td>“가입이 너무 복잡하진 않겠지?”</td>
+                    <td>
+                        - 초보자: 설정·용어 부담<br>
+                        - 생활형: 개인정보 제공 불안<br>
+                        - 복잡한 온보딩/과한 입력 단계
+                    </td>
+                    <td>
+                        - 카드형 온보딩 + 쉬운 설명<br>
+                        - 용어 툴팁 지원(Easy Value)<br>
+                        - '왜 정보를 요구하는가' 투명 설명(Trust)
+                    </td>
+                </tr>
+
+                <!-- 3) 자산 연동 -->
+                <tr>
+                    <td>3) 자산 연동</td>
+                    <td>금융기관 선택 → 인증 → 계좌·자산 연결</td>
+                    <td>“보안 걱정도 되고, 실패하면 어떡하지?”</td>
+                    <td>
+                        - 연동 실패 경험(특히 중급 투자자)<br>
+                        - 개인정보 제공 불안<br>
+                        - 여러 앱을 쓰던 사용자에게 익숙하지 않은 플로우
+                    </td>
+                    <td>
+                        - 단계별 시각화·가이드(Trust)<br>
+                        - 연동 실패 자동 복구/재시도 UX<br>
+                        - 연동 완료 후 ‘내 자산 한눈에’ 즉시 경험 제공(Easy)
+                    </td>
+                </tr>
+
+                <!-- 4) 탐색 -->
+                <tr>
+                    <td>4) 탐색</td>
+                    <td>대시보드 → 마켓 → 커뮤니티 탐색</td>
+                    <td>“내 상황에 맞는 게 바로 보였으면…”</td>
+                    <td>
+                        - 정보 과다로 첫 탐색 난이도 높음<br>
+                        - 초보자: 어디서 시작해야 할지 모름<br>
+                        - 중급자: 포트폴리오 인사이트 부족
+                    </td>
+                    <td>
+                        - 개인 맞춤 피드(Intelligence)<br>
+                        - AI 기반 ‘지금 나에게 필요한 3가지’ 추천<br>
+                        - 가이드 태스크 플로 제공(Easy)
+                    </td>
+                </tr>
+
+                <!-- 5) 참여 -->
+                <tr>
+                    <td>5) 참여</td>
+                    <td>라이브 시청·채팅·질문·커뮤니티 활동</td>
+                    <td>“실시간으로 묻고 답하니 더 재미있네!”</td>
+                    <td>
+                        - 질문 미응답(일방향 방송)<br>
+                        - 커뮤니티 품질 관리 어려움<br>
+                        - 정보의 신뢰도 편차
+                    </td>
+                    <td>
+                        - Q&A 고정·답변 하이라이트(Fun)<br>
+                        - 전문가 인증 배지 시스템(Trust)<br>
+                        - 댓글 요약·하이라이트 자동 생성(Intelligence)
+                    </td>
+                </tr>
+
+                <!-- 6) 유지 -->
+                <tr>
+                    <td>6) 유지</td>
+                    <td>푸시 알림 → 반복 방문 → 서비스 루틴 형성</td>
+                    <td>“계속 쓰면 생활이 더 편해지겠는데?”</td>
+                    <td>
+                        - 유입은 되지만 루틴화 어려움<br>
+                        - 생활형 사용자의 지출·납입 관리 니즈 미충족 시 이탈<br>
+                        - 피드백 반영을 체감하기 어려움
+                    </td>
+                    <td>
+                        - 맞춤 알림(지출/포트폴리오/라이브)(Intelligence)<br>
+                        - 개선 로그 노출(Trust)<br>
+                        - 반복 방문 미션·커뮤니티 성장 요소(Fun)
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</section>
+
+</main>
+
+<footer class="footer">
+    <div class="footer__inner">
+        <p>© 2025 핀테크 자산 통합 & 라이브 콘텐츠 서비스 – 기획서 & 와이어프레임 예시</p>
+    </div>
+</footer>
+</body>
+</html>
